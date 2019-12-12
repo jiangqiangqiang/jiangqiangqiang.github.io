@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>mytest1</title>
+      <link href="/2019/12/12/mytest1/"/>
+      <url>/2019/12/12/mytest1/</url>
+      
+        <content type="html"><![CDATA[<h4 id="问题说明"><a href="#问题说明" class="headerlink" title="问题说明"></a>问题说明</h4><p>由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境</p><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="1、登录逻辑"><a href="#1、登录逻辑" class="headerlink" title="1、登录逻辑"></a>1、登录逻辑</h5>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mytest</title>
       <link href="/2019/12/12/mytest/"/>
       <url>/2019/12/12/mytest/</url>
