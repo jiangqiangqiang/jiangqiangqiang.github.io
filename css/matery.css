@@ -102,6 +102,10 @@ blockquote {
     border-right-width: 0px !important;
 }
 
+.bg-color {
+    background-image: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+}
+
 .line-numbers {
     padding: 1.5rem 1.5rem 1.5rem 3.5rem !important;
     margin: 1rem 0 !important;

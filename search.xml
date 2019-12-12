@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>mytest</title>
+      <link href="/2019/12/12/mytest/"/>
+      <url>/2019/12/12/mytest/</url>
+      
+        <content type="html"><![CDATA[<h4 id="问题说明"><a href="#问题说明" class="headerlink" title="问题说明"></a>问题说明</h4><p>由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境</p><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="1、登录逻辑"><a href="#1、登录逻辑" class="headerlink" title="1、登录逻辑"></a>1、登录逻辑</h5><ul><li>用户输入登录信息，点击登录向服务端发起请求，服务端根据前端发送的登录信息返回成功或失败，成功返回<code>token</code>字段与用户角色，<code>token</code>字段为加密字段，表明用户身份信息，并携带过期时间，供前端后续请求接口调用，前端通过判断用户角色展示相应角色权限与主题</li><li>前端拿到<code>token</code>后存储到本地<code>Storage</code>，并在请求拦截中获取并判断本地<code>token</code>存不存在，存在即证明有身份信息，可以访问用户接口，不存在即证明用户未登录或已失效删除，重新导航到登录页<h5 id="2、多角色登录"><a href="#2、多角色登录" class="headerlink" title="2、多角色登录"></a>2、多角色登录</h5></li><li>首先登录账户A，A账户的<code>tokenA</code>与<code>角色A</code>就会存储到<code>Storage</code>，A账户有权限<code>featureA1</code>、<code>featureA2</code>，主题为<code>featureRed</code>，在App.vue监听，这时重新打开一个<code>页签2</code>，输入同样路由地址，会检测到A账户<code>tokenA</code>存在并跳转到A账户对应的路由，同原有<code>页签1</code>显示相同，如果这个时候退出<code>页签2</code>账户，清除<code>tokenA</code>、<code>角色A</code>，<code>页签1</code>就会存在以下两种情况：<ul><li>1、<code>页签1</code>浏览器刷新：路由会监听到<code>token</code>不存在跳转到指定路由（登录页面）并给出相关提示</li><li>2、<code>页签1</code>浏览器不刷新，直接点击A账户权限路由：会请求服务器数据，请求拦截会判断有没有<code>token</code>，没有会导航到指定路由（登录页面）并给出相关提示</li></ul></li><li>如果退出<code>页签2</code>账户，清除<code>tokenA</code>、<code>角色A</code>，并且直接在<code>页签2</code>登录账户B，这时候本地<code>Storage</code>就会存储<code>tokenB</code>与<code>角色B</code>，<code>页签2</code>的权限为<code>featureB1</code>、<code>featureB2</code>，主题为<code>featureBlue</code>，这个时候的<code>页签1</code>就会存在以下两种情况：<ul><li>1、<code>页签1</code>浏览器刷新：这时组件全面刷新，功能权限组件重新渲染，并重新获取新的<code>tokenB</code>，重新设置功能权限为<code>featureB1</code>、<code>featureB2</code>，App.vue重新获取本地用户角色，更改主题为<code>featureBlue</code>，从而实现了角色的跳转</li><li>2、<code>页签1</code>浏览器不刷新，直接点击A账户权限路由：由于<code>Storage</code>现在存储的是账户B的信息，账户A界面就会携带账户B的身份去请求接口，这是很大的错误。所以必须还要有路由权限设置，不同角色设置不同<code>meta</code>属性，如果A账户请求B账户路由，<code>meta</code>会不一样，这样设置导航到配置好的404页面，这显然不是我们想要的结果<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5>我们在路由拦截判断<code>meta</code>角色属性，如果和获取到的<code>Storage</code>里的角色不匹配，会导航到404页面，但是我们导航到404页面的时候可以携带获取到的当前登录用户角色B参数过去，我们重新设计404页面，通过参数信息提示用户已经登录用户B，点击按钮跳转到用户B的主页，主页勾子函数调用，改变功能界面为<code>featureB1</code>、<code>featureB2</code>，主题为<code>featureBlue</code><h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5>我们可以通过判断用户身份信息的更新来强制跳转页面：比如观察<code>token</code>，当当前用户的<code>tokenB</code>与之前存储的<code>tokenA</code>不同的时候，强制刷新页面，让路由回到<code>&#39;/&#39;</code>，导航到首页，具体如下：</li><li>用户登录成功，存储相应<code>token</code>信息到本地</li><li>在<code>vuex</code>中加<code>token</code>字段用以存储用户信息</li><li>在App.vue中观察<code>vuex</code>中的<code>token</code>，如果不存在，获取本地<code>Storage</code>的值并赋值给<code>vuex</code>的<code>token</code>，如果存在，拿<code>vuex</code>中的<code>token</code>和<code>Storage</code>中的<code>token</code>比较，如果相同什么都不用做，如果不相同，说明新的登录存在了，获取当前路径信息并去除掉路由部分，赋值给<code>window.location.href</code>，这样就实现了强制刷新跳转到<code>&#39;/&#39;</code></li></ul></li></ul><p>实际情况可能会遇到各种各样的问题，通过思考可能会有很多种方法，如果大家有什么好的方法或者指正，欢迎交流</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>first note</title>
       <link href="/2019/12/11/first-note/"/>
       <url>/2019/12/11/first-note/</url>
