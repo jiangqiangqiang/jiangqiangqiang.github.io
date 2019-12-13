@@ -954,7 +954,6 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
     <footer class="page-footer bg-color">
     <div class="container row center-align">
-        <span id="sitetime">载入运行时间...</span>
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             <span id="year">年份</span>
@@ -968,6 +967,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
             
             
+            <span id="sitetime">载入运行时间...</span>
             <span id="busuanzi_container_site_pv">
                 |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
                     class="white-color"></span>&nbsp;次
@@ -1067,8 +1067,8 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 <script> 
     $(document).ready(function () {
     var int = setInterval(fixCount, 50); // 50ms周期检测函数 
-    var pvcountOffset = 80000; // 初始化首次数据 
-    var uvcountOffset = 20000;
+    var pvcountOffset = 0; // 初始化首次数据 
+    var uvcountOffset = 0;
 
     function fixCount() {
         if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
