@@ -507,46 +507,40 @@
 <p><strong><code>putty</code>和<code>Xftp</code>可在网上自行下载安装</strong></p>
 <h3 id="putty连接服务器"><a href="#putty连接服务器" class="headerlink" title="putty连接服务器"></a>putty连接服务器</h3><p>1、打开putty<br><img src="https://img-blog.csdnimg.cn/2019062116323943.png" alt="在这里插入图片描述"><br>2、根据图中设置ip<br><img src="https://img-blog.csdnimg.cn/20190621163620697.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>3、出现下面界面，设置登录名，为root，登录密码为注册服务时设置的密码（输入密码不会出现字符，放心输入完了按回车就是了）<br><img src="https://img-blog.csdnimg.cn/20190621163855163.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、登录成功后，就进入到<code>Linux</code>系统了<br><img src="https://img-blog.csdnimg.cn/2019062116411241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h3 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h3><p>1、先把yum更新到最新版本</p>
-<pre><code class="Shell">yum -y update</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y update</span><br></pre></td></tr></table></figure>
 <p>2、我们将使用最新源代码构建Node.js，要进行软件的安装，需要一组用来编译源代码的开发工具</p>
-<pre><code class="Shell">yum -y groupinstall &quot;Development Tools&quot;</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y groupinstall "Development Tools"</span><br></pre></td></tr></table></figure>
 <p>3、进入/usr/src文件夹，这个文件夹通常用来存放软件源代码</p>
-<pre><code class="Shell">cd /usr/src</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/src</span><br></pre></td></tr></table></figure>
 <p>4、从 <code>Node.js</code>的站点 中获取压缩档源代码, 我选择的版本为<code>v10.13.0</code></p>
-<pre><code class="Shell">wget http://nodejs.org/dist/v10.13.0/node-v10.13.0.tar.gz </code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://nodejs.org/dist/v10.13.0/node-v10.13.0.tar.gz</span><br></pre></td></tr></table></figure>
 <p>5、解压文件，并进入文件夹</p>
-<pre><code class="Shell">tar zxf node-v10.13.0.tar.gz
-cd node-v6.9.1</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxf node-v10.13.0.tar.gz</span><br><span class="line">cd node-v6.9.1</span><br></pre></td></tr></table></figure>
 <p>6、设置全局环境变量，为了能够在全局使用node命令</p>
-<pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/node /usr/local/bin/node
-ln -s /usr/src/node-v10.13.0/bin/npm /usr/local/bin/npm</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/src/node-v10.13.0/bin/node /usr/local/bin/node</span><br><span class="line">ln -s /usr/src/node-v10.13.0/bin/npm /usr/local/bin/npm</span><br></pre></td></tr></table></figure>
 <p>7、查看是否成功设置</p>
-<pre><code class="Shell">node -v
-npm -v</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
 <p>8、 安装pm2<br><strong><code>pm2</code>用于启动程序并在需要时重启非常有用的模块，可以随时查看服务的运行状态</strong></p>
-<pre><code class="Shell">npm -g install pm2 </code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm -g install pm2</span><br></pre></td></tr></table></figure>
 <p>9、设置全局变量</p>
-<pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/pm2 /usr/local/bin/</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/src/node-v10.13.0/bin/pm2 /usr/local/bin/</span><br></pre></td></tr></table></figure>
 <p>接下来就可以用<code>pm2</code>命令了</p>
 <h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>1、寻找社区源安装到<code>tmp</code>中</p>
-<pre><code class="Shell">cd /tmp
-wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm  
-rpm -ivh mysql-community-release-el7-5.noarch.rpm  </code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm  </span><br><span class="line">rpm -ivh mysql-community-release-el7-5.noarch.rpm</span><br></pre></td></tr></table></figure>
 <p>2、通过yum安装</p>
-<pre><code class="Shell">yum install mysql mysql-server mysql-devel -y</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql mysql-server mysql-devel -y</span><br></pre></td></tr></table></figure>
 <p><img src="https://img-blog.csdnimg.cn/20190621181031112.png" alt="在这里插入图片描述"><br>3、启动mysql</p>
-<pre><code class="Shell">systemctl start mysql.service</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysql.service</span><br></pre></td></tr></table></figure>
 <p>4、设置用户和密码<br><code>通过yum安装的是没有用户名和密码的，所以得设置</code></p>
-<pre><code class="Shell">mysqladmin -u root password admin</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password admin</span><br></pre></td></tr></table></figure>
 <p>用户名为<code>root</code>，密码为<code>admin</code><br>5、设置好后就可以登录了</p>
-<pre><code class="Shell">mysql -uroot -padmin</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -padmin</span><br></pre></td></tr></table></figure>
 <p>查看数据库</p>
-<pre><code class="Shell">show databases;</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
 <p><img src="https://img-blog.csdnimg.cn/20190621181945585.png" alt="在这里插入图片描述"><br>自此，数据库配置完毕</p>
 <h3 id="Xftp上传代码"><a href="#Xftp上传代码" class="headerlink" title="Xftp上传代码"></a>Xftp上传代码</h3><p>1、打开下载的<code>Xftp</code><br><img src="https://img-blog.csdnimg.cn/20190621182402956.png" alt="在这里插入图片描述"><br>2、点击新建<br><img src="https://img-blog.csdnimg.cn/20190621182637762.png" alt="在这里插入图片描述"><br>出现<br><img src="https://img-blog.csdnimg.cn/20190621182723796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>名称自己取一个项目名称。主机，填写阿里云服务器的公网<code>IP</code>，协议选择<code>SFTP</code>，端口使用<code>22</code>，用户名<code>root</code>，密码为购买阿里云的时候要你记住的密码。最后点击确定。</strong><br>3、双击下面图标，进入 <code>root</code>文件夹<br><img src="https://img-blog.csdnimg.cn/20190621182945604.png" alt="在这里插入图片描述"><br>如图：左边为本地电脑，右边为服务端文件夹<br><img src="https://img-blog.csdnimg.cn/201906211832036.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们把自己的<code>node项目</code>通过右键传输传进<code>home/自定义文件夹/</code>里,当然数据库文件也要一同传上去以便初始化<br><img src="https://img-blog.csdnimg.cn/20190621183423798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、<strong><code>服务代码传到服务器上后要进入服务器 node 根目录通过 putty 进行 npm install 安装相关依赖</code></strong></p>
 <h3 id="启动node应用"><a href="#启动node应用" class="headerlink" title="启动node应用"></a>启动node应用</h3><p><strong>上传完代码后，再回到putty，进入项目目录，利用pm2启动应用</strong></p>
-<pre><code class="Shell">cd /home/jqq
-pm2 start server.js --name test</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home/jqq</span><br><span class="line">pm2 start server.js --name test</span><br></pre></td></tr></table></figure>
 <p>后面<code>--name</code>可以不写，重命名的意思<br>当出现下面表格说明成功启动了<br><img src="https://img-blog.csdnimg.cn/20190621184108984.png" alt="在这里插入图片描述"></p>
 <ul>
 <li>通过<code>pm2 list</code>检视运行中的应用</li>
@@ -556,59 +550,26 @@ pm2 start server.js --name test</code></pre>
 </ul>
 <p>到这里node启动就完成了</p>
 <h3 id="配置mysql"><a href="#配置mysql" class="headerlink" title="配置mysql"></a>配置mysql</h3><p>为避免大小写识别失败，对大小写进行配置<br>1、打开配置文件</p>
-<pre><code class="Shell">vi /etc/my.cnf</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/my.cnf</span><br></pre></td></tr></table></figure>
 <p>按 <code>i</code> 键进行编辑，如图在<code>[mysqld]</code>后添加<code>lower_case_table_names=1</code>，按 <code>esc</code> 键，再输入 <code>:wq</code> 保存退出<br><img src="https://img-blog.csdnimg.cn/20190621185154866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2、重启<code>mysql</code></p>
-<pre><code class="Shell">systemctl restart mysqld.service</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart mysqld.service</span><br></pre></td></tr></table></figure>
 <p>3、连接数据库</p>
-<pre><code class="Shell">mysql -uroot -padmin</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -padmin</span><br></pre></td></tr></table></figure>
 <p>4、创建test数据库</p>
-<pre><code class="Shell">CREATE DATABASE test DEFAULT CHARACTER SET utf8;</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE test DEFAULT CHARACTER SET utf8;</span><br></pre></td></tr></table></figure>
 <p>通过<code>show databases;</code>查看数据库已经存在了<br>4、导入数据</p>
 <ul>
-<li><p>接着上个步骤，先用组合键 ctrl+c退出mysql控制台，然后在linux的环境下输入如下命令导入数据</p>
-<pre><code class="Shell">mysql -u root -padmin --default-character-set=utf8 test &lt; /home/jqq/web.sql</code></pre>
-<p>5、验证数据</p>
-<pre><code class="Shell">mysql -uroot -padmin
-use test;
-show tables;
-select count(*) from product;</code></pre>
-<p>6、配置登录权限</p>
-<pre><code class="Shell">grant all privileges on `test`.* to &#39;root&#39;@&#39;%&#39; identified by &#39;admin&#39; with grant option;
-mysql&gt; FLUSH PRIVILEGES;</code></pre>
-<p><code>test为数据库，root为用户，admin为密码，下面命令为让配置生效</code><br>这样数据就设置完成可以启动了</p>
-<h2 id="三、安装配置tomcat"><a href="#三、安装配置tomcat" class="headerlink" title="三、安装配置tomcat"></a>三、安装配置tomcat</h2><p>1、安装<br><code>yum</code>上没有<code>tomcat</code>的源，可以到官网去下载最新的通过<code>Xftp</code>传到<code>tmp</code>里，并使用如下方式下载解压，通过<code>mv</code>命令移动文件夹</p>
-<pre><code class="Shell">cd /tmp
-wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.92/bin/apache-tomcat-7.0.92.tar.gz
-tar xzf apache-tomcat-7.0.92.tar.gz
-mv apache-tomcat-7.0.92 /usr/local/tomcat7</code></pre>
-<p>2、启动tomcat</p>
-<pre><code class="Shell">/usr/local/tomcat7/bin/startup.sh</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621192706921.png" alt="在这里插入图片描述"><br>3、验证</p>
-<pre><code class="Shell">netstat -anp|grep 8080</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621192822610.png" alt="在这里插入图片描述"><br>4、安全组开放端口<br><img src="https://img-blog.csdnimg.cn/20190621192930313.png" alt="在这里插入图片描述"><br>5、再vue的router中如下配置，完了打包上传<br><img src="https://img-blog.csdnimg.cn/20190621193405506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>6、通过Xftp把vue打包好的文件传送到tomcat中，如图：我在webapps中新建了个文件夹，这样将来访问路径就会多出二级路径jqqzz，当然大家都可以放到根目录不必创建二级路径<br><img src="https://img-blog.csdnimg.cn/20190621193109445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>7、在<code>jqqzz</code>项目中新建文件夹<code>WEB-INF</code>，再里面新建文件<code>web.xml</code><br>编辑文件，把如下插入到文件中，处理<code>404</code>返回<code>index.html</code>页面,并且处理<code>history</code>模式</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
-&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;
-xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee
-                   http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;
-version=&quot;3.0&quot;
-metadata-complete=&quot;true&quot;&gt;
-
-&lt;display-name&gt;webapp&lt;/display-name&gt;
-&lt;description&gt;
-  webapp
-&lt;/description&gt;
-&lt;error-page&gt;  
-&lt;error-code&gt;404&lt;/error-code&gt;  
-&lt;location&gt;/index.html&lt;/location&gt;  
-&lt;/error-page&gt;  
-&lt;/web-app&gt;</code></pre>
-<p>这样访问 <code>ip:8080/jqqzz</code>就可以进到自己的项目啦</p>
-</li>
+<li>接着上个步骤，先用组合键 ctrl+c退出mysql控制台，然后在linux的环境下输入如下命令导入数据<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -padmin --default-character-set=utf8 test &lt; /home/jqq/web.sql</span><br></pre></td></tr></table></figure>
+5、验证数据<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -padmin</span><br><span class="line">use test;</span><br><span class="line">show tables;</span><br><span class="line">select count(*) from product;</span><br></pre></td></tr></table></figure>
+6、配置登录权限<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on `test`.* to 'root'@'%' identified by 'admin' with grant option;</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> FLUSH PRIVILEGES;</span></span><br></pre></td></tr></table></figure>
+<code>test为数据库，root为用户，admin为密码，下面命令为让配置生效</code><br>这样数据就设置完成可以启动了<h2 id="三、安装配置tomcat"><a href="#三、安装配置tomcat" class="headerlink" title="三、安装配置tomcat"></a>三、安装配置tomcat</h2>1、安装<br><code>yum</code>上没有<code>tomcat</code>的源，可以到官网去下载最新的通过<code>Xftp</code>传到<code>tmp</code>里，并使用如下方式下载解压，通过<code>mv</code>命令移动文件夹<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.92/bin/apache-tomcat-7.0.92.tar.gz</span><br><span class="line">tar xzf apache-tomcat-7.0.92.tar.gz</span><br><span class="line">mv apache-tomcat-7.0.92 /usr/local/tomcat7</span><br></pre></td></tr></table></figure>
+2、启动tomcat<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/tomcat7/bin/startup.sh</span><br></pre></td></tr></table></figure>
+<img src="https://img-blog.csdnimg.cn/20190621192706921.png" alt="在这里插入图片描述"><br>3、验证<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp|grep 8080</span><br></pre></td></tr></table></figure>
+<img src="https://img-blog.csdnimg.cn/20190621192822610.png" alt="在这里插入图片描述"><br>4、安全组开放端口<br><img src="https://img-blog.csdnimg.cn/20190621192930313.png" alt="在这里插入图片描述"><br>5、再vue的router中如下配置，完了打包上传<br><img src="https://img-blog.csdnimg.cn/20190621193405506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>6、通过Xftp把vue打包好的文件传送到tomcat中，如图：我在webapps中新建了个文件夹，这样将来访问路径就会多出二级路径jqqzz，当然大家都可以放到根目录不必创建二级路径<br><img src="https://img-blog.csdnimg.cn/20190621193109445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>7、在<code>jqqzz</code>项目中新建文件夹<code>WEB-INF</code>，再里面新建文件<code>web.xml</code><br>编辑文件，把如下插入到文件中，处理<code>404</code>返回<code>index.html</code>页面,并且处理<code>history</code>模式<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee</span></span></span><br><span class="line"><span class="tag"><span class="string">                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">version</span>=<span class="string">"3.0"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">metadata-complete</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>webapp<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span></span><br><span class="line">     webapp</span><br><span class="line">  <span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">error-page</span>&gt;</span>  </span><br><span class="line">   <span class="tag">&lt;<span class="name">error-code</span>&gt;</span>404<span class="tag">&lt;/<span class="name">error-code</span>&gt;</span>  </span><br><span class="line">   <span class="tag">&lt;<span class="name">location</span>&gt;</span>/index.html<span class="tag">&lt;/<span class="name">location</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">error-page</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+这样访问 <code>ip:8080/jqqzz</code>就可以进到自己的项目啦</li>
 </ul>
 <p><strong><code>注意：在某些时候，一些命令操作文件的时候会没有权限导致失败，这时使用一下命令给予文件或文件夹权限，777为所有用户拥有最高权限，R表示允许其目录下的子目录的文件及文件夹</code></strong></p>
-<pre><code class="Shell">chmod 777 文件夹或文件名
-chmod 777 *.文件类型</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 文件夹或文件名</span><br><span class="line">chmod 777 *.文件类型</span><br></pre></td></tr></table></figure>
 <p>这样所有工作就都大功告成了</p>
 
             </div>
@@ -635,7 +596,7 @@ chmod 777 *.文件类型</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zzqz.github.io/2019/06/21/deploy/">http://zzqz.github.io/2019/06/21/deploy/</a>
+                    <a href="http://zzqz.github.io/deploy/">http://zzqz.github.io/deploy/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -878,7 +839,7 @@ chmod 777 *.文件类型</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/12/12/loginissure/">
+                <a href="/loginissure/">
                     <div class="card-image">
                         
                         
@@ -933,7 +894,7 @@ chmod 777 *.文件类型</code></pre>
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2019/06/21/deploy/">
+                <a href="/deploy/">
                     <div class="card-image">
                         
                         
