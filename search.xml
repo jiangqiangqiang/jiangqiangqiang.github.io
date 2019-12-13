@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>test</title>
+      <link href="/test/"/>
+      <url>/test/</url>
+      
+        <content type="html"><![CDATA[<pre><code class="javascript">var a =0;function aa () {    var ab = 0;}</code></pre>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>about</title>
       <link href="/about/"/>
       <url>/about/</url>
