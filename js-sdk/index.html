@@ -497,10 +497,9 @@
 <h1 id="微信JS-SDK"><a href="#微信JS-SDK" class="headerlink" title="微信JS-SDK"></a>微信JS-SDK</h1><p>前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍</p>
 <h2 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1.前期准备"></a>1.前期准备</h2><p>因为是第一次开发，看了很多文档，包括官方文档，看了很多遍，仍然是一头雾水，那些东西该前端配，哪些东西该后端做，没有一点概念。经过了一番与后端的尝试与合作，终于调用成功！<br>企业微信里有个应用与小程序，里面的自建应用开发同公众号开发，<strong>后端设置略微有些不同</strong><br><img src="https://img-blog.csdn.net/20180927113024399?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这个是企业微信里的目录"><br><strong>后端</strong>：根据企业微信里我的企业选项最下面的企业id和应用与小程序里的自建应用的Secret获取token，并计算签名等一系列操作，具体官方文档网上都很详细，这里就不多说；<br><strong>配置</strong><br>需要在企业微信的自建程序里设置域名：此域名为前端写代码的外网网页域名，也就是最后呈现的网页域名（前端写完代码给后端，后端根据项目地址<code>我的是gitLab</code>配置外网域名），第一次配置需要启动，所以要和后端配合好，启动时有一个txt文件，前端需要打包给后端，后端配置到根目录并确保可以访问到txt文件<br><img src="https://img-blog.csdn.net/20180927113801817?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br><code>说明：</code>此域名的配置是必要的，只有配置此域名才可以使用此域名调用JS-SDK，可以使用<strong>微信开发者工具</strong>的公众号开发选项进行在线调试域名，<code>注意：</code>只可以调试你打包到线上的外网ip</p>
 <h2 id="前端代码撰写"><a href="#前端代码撰写" class="headerlink" title="前端代码撰写"></a>前端代码撰写</h2><p>安装并在组建里引入wx</p>
-<pre><code class="javascript">import wx from &#39;weixin-js-sdk&#39;;
-const _this = wx;</code></pre>
-<p>要想在一个组件使用在当前组件引入就行，引入完成就是使用，在页面调用接口之前必须完成注册等逻辑，因为录音功能是手动触发执行，所以在vue中可以写个函数在mounted钩子函数中执行完成注册，代码如下：</p>
-<pre><code class="javascript">methods: {
+<pre><code>import wx from &#39;weixin-js-sdk&#39;;
+const _this = wx;</code></pre><p>要想在一个组件使用在当前组件引入就行，引入完成就是使用，在页面调用接口之前必须完成注册等逻辑，因为录音功能是手动触发执行，所以在vue中可以写个函数在mounted钩子函数中执行完成注册，代码如下：</p>
+<pre><code>methods: {
       getConfig() {
         const self=this;
         const data=self.qs.stringify({url: location.href.split(&#39;#&#39;)[0]});//需要传的地址为#前面的地址
@@ -695,8 +694,7 @@ const _this = wx;</code></pre>
       //       // error
       //     })
       // }
-    },</code></pre>
-<p><strong>这里样式代码根据需要进行编写就行，哪个按钮需要调用录音开始，哪个按钮调用录音结束，哪个需要翻译，需要用到哪个功能，直接调用methods里面的对应方法即可，（如果调用其它JS-SDK，原理等同，注册时给jsApiList数组添加你需要的功能字段<code>微信公众号API文档可查</code>就可以引用了）， 需要对应方法执行成功后做的事情在对应方法里写就ok啦</strong></p>
+    },</code></pre><p><strong>这里样式代码根据需要进行编写就行，哪个按钮需要调用录音开始，哪个按钮调用录音结束，哪个需要翻译，需要用到哪个功能，直接调用methods里面的对应方法即可，（如果调用其它JS-SDK，原理等同，注册时给jsApiList数组添加你需要的功能字段<code>微信公众号API文档可查</code>就可以引用了）， 需要对应方法执行成功后做的事情在对应方法里写就ok啦</strong></p>
 <p>是不是很简单呢，代码撰写完毕就是打包代码提交代码了，后台更新代码到线上，就可以看到效果了。<code>注意：</code>由于微信开发者工具是模拟调试，所以只能有一条模拟的录音结果返回，真正的语音及翻译结果还得发送网址到微信里打开查看</p>
 <p>好了，微信JS-SDK接口调用就介绍到这里了，新手初写，希望能帮助到大家，也请大家多多指导</p>
 
