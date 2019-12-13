@@ -107,7 +107,7 @@ blockquote {
 }
 
 .line-numbers {
-    padding: 1.5rem 1.5rem 1.5rem 3.3rem !important;
+    padding: 1.5rem 1.5rem 1.5rem 3.5rem !important;
     margin: 1rem 0 !important;
     background: #272822;
     overflow: auto;
@@ -116,7 +116,7 @@ blockquote {
 }
 
 pre {
-    padding: 2.5rem 1.5rem 1.5rem 1.5rem !important;
+    padding: 1.5rem 1.5rem 1.5rem 3.3rem !important;
     margin: 1rem 0 !important;
     background: #272822;
     overflow: auto;
