@@ -4,8 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, 我的博客">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）, 我的博客">
+    <meta name="description" content="@TOC
+微信JS-SDK前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍
+1.前期准备因为是第一次开发，看了很多文档，包括官方文档">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +15,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hello World | hi zzqz !</title>
+    <title>前端基于vue企业微信JS-SDK语音识别功能开发（同公众号） | hi zzqz !</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/myIcon.ico">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -303,13 +305,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hello World
+                        前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）
                     </div>
                 </div>
             </div>
@@ -425,9 +427,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
+                                <span class="chip bg-color">微信开发</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -435,8 +441,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E4%BB%8B%E7%BB%8D/" class="post-category">
-                                介绍
+                            <a href="/categories/%E6%89%8B%E6%9C%BA%E7%AB%AF%E5%BC%80%E5%8F%91/" class="post-category">
+                                手机端开发
                             </a>
                         
                     </div>
@@ -448,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-12-11
+                    2018-09-27
                 </div>
                 
 
@@ -459,7 +465,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    7 分
                 </div>
                 
 				
@@ -475,15 +481,212 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <p>@<a href="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）">TOC</a></p>
+<h1 id="微信JS-SDK"><a href="#微信JS-SDK" class="headerlink" title="微信JS-SDK"></a>微信JS-SDK</h1><p>前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍</p>
+<h2 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1.前期准备"></a>1.前期准备</h2><p>因为是第一次开发，看了很多文档，包括官方文档，看了很多遍，仍然是一头雾水，那些东西该前端配，哪些东西该后端做，没有一点概念。经过了一番与后端的尝试与合作，终于调用成功！<br>企业微信里有个应用与小程序，里面的自建应用开发同公众号开发，<strong>后端设置略微有些不同</strong><br><img src="https://img-blog.csdn.net/20180927113024399?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这个是企业微信里的目录"><br><strong>后端</strong>：根据企业微信里我的企业选项最下面的企业id和应用与小程序里的自建应用的Secret获取token，并计算签名等一系列操作，具体官方文档网上都很详细，这里就不多说；<br><strong>配置</strong><br>需要在企业微信的自建程序里设置域名：此域名为前端写代码的外网网页域名，也就是最后呈现的网页域名（前端写完代码给后端，后端根据项目地址<code>我的是gitLab</code>配置外网域名），第一次配置需要启动，所以要和后端配合好，启动时有一个txt文件，前端需要打包给后端，后端配置到根目录并确保可以访问到txt文件<br><img src="https://img-blog.csdn.net/20180927113801817?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br><code>说明：</code>此域名的配置是必要的，只有配置此域名才可以使用此域名调用JS-SDK，可以使用<strong>微信开发者工具</strong>的公众号开发选项进行在线调试域名，<code>注意：</code>只可以调试你打包到线上的外网ip</p>
+<h2 id="前端代码撰写"><a href="#前端代码撰写" class="headerlink" title="前端代码撰写"></a>前端代码撰写</h2><p>安装并在组建里引入wx</p>
+<pre><code class="javascript">import wx from &#39;weixin-js-sdk&#39;;
+const _this = wx;</code></pre>
+<p>要想在一个组件使用在当前组件引入就行，引入完成就是使用，在页面调用接口之前必须完成注册等逻辑，因为录音功能是手动触发执行，所以在vue中可以写个函数在mounted钩子函数中执行完成注册，代码如下：</p>
+<pre><code class="javascript">methods: {
+      getConfig() {
+        const self=this;
+        const data=self.qs.stringify({url: location.href.split(&#39;#&#39;)[0]});//需要传的地址为#前面的地址
+        self.axios({
+          method: &#39;post&#39;,
+          url: &#39;&#39;,//获取签名等信息的地址
+          headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+          data:data  //向服务端提供授权url参数，并且不需要#后面的部分
+        }).then((res) =&gt; {
+           let list = res.data.data;
+              _this.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: list.appId, // 必填，公众号的唯一标识
+            timestamp: list.timestamp, // 必填，生成签名的时间戳
+            nonceStr: list.noncestr, // 必填，生成签名的随机串
+            signature: list.signature, // 必填，签名
+            jsApiList: [
+              &#39;startRecord&#39;, //开始录音接口
+              &#39;stopRecord&#39;,// 停止录音接口
+              &#39;playVoice&#39;, //播放语音接口
+              &#39;pauseVoice&#39;,//暂停播放接口
+              &#39;stopVoice&#39;, //停止播放接口
+              &#39;uploadVoice&#39;,//上传语音接口
+              &#39;downloadVoice&#39;, //下载语音接口
+              &#39;onVoicePlayEnd&#39;, // 监听语音播放完毕api
+              &#39;translateVoice&#39;
+            ] // 必填，需要使用的JS接口列表
+          });
+          _this.ready(() =&gt; {
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个
+            // 客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调
+            // 用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+          })
+          _this.error((res) =&gt; {
+            // 这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+          })
+        }).catch((error) =&gt; {
+          // error
+        })
+      },
+      // 开始录音
+      start(e) {
+        let that = this;
+        that.stop();
+        that.time = 0;
+        if(!localStorage.rainAllowRecord || localStorage.rainAllowRecord !== &#39;true&#39;){
+          _this.startRecord({
+            success: function () {
+                   that.timer = setInterval(() =&gt; {
+                that.time++
+              }, 1000)
+              that.vicoeEnd()
+            },
+            fail: function () {
+              // 开始录音失败
+            },
+            cancel: function () {
+              // 用户拒绝授权录音
+            }
+          })
+        }
+      },
+      // 停止录音
+      stop() {
+        let that = this
+          _this.stopRecord({
+          success: function (res) {
+            if(that.time&lt;0.5){
+              return
+            }
+            // 暂停成功
+            clearInterval(that.timer)
+            that.localId = res.localId
+          },
+          fail: function (error) {
+            // 停止失败
+          }
+        })
+      },
+      //取消录音判断
+      isCancel(e) {
+          this.cancel()
+      },
+      // 取消录音
+      cancel() {
+        _this.stopRecord({
+          success: (res) =&gt; {
+            // 取消录音成功
+          },
+          fail:function (error) {
+            // 取消录音失败
+          }
+        })
+      },
+      // 60秒监听
+      vicoeEnd() {
+        let that = this
+        _this.onVoiceRecordEnd({
+          // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+          complete: function (res) {
+            // 60秒停止录音
+            that.localId = res.localId
+            clearInterval(that.timer);
+          }
+        })
+      },
+      // 合并
+      merge() {
+        let that = this
+        this.axios({
+          method: &#39;post&#39;,
+          url: &#39;&#39;,
+          headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+          data: {url: location.href.split(&#39;#&#39;)[0]}
+        }).then((ser) =&gt; {
+            that.$refs.allRecord.src = ser.data
+        }).catch((error) =&gt; {
+          // error
+        })
+      },
+      // 结束录音并识别语音
+      translate () {
+        const that = this;
+        _this.stopRecord({
+          success: function (res) {
+            // 翻译前停止录音
+            that.localId = res.localId;
+            _this.translateVoice({
+              localId: that.localId,
+              complete: function (res) {
+                // 调用翻译完成时
+              }
+            });
+          },
+          fail: function (res) {
+            // 调用停止失败
+          }
+        });
+      },
+      // 上传语音
+      upVoice() {
+        let that = this
+        _this.uploadVoice({
+          localId: that.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: function (res) {
+            var apiUrl = window.location.href
+            // 上传成功
+            that.serverId = res.serverId // 返回音频的服务器端ID
+            that.axios({
+              method: &#39;post&#39;,
+              url: &#39;http://my.service.com/index.php/opcode/6002&#39;,
+              headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+              data: {
+                serverId: res.serverId,
+                url: location.href.split(&#39;#&#39;)[0]
+              }
+            }).then((data) =&gt; {
+                that.$refs.player.src = data.data
+            }).catch((error) =&gt; {
+              // error
+            })
+          }
+        })
+      }
+      // 下载语音
+      // downVoice () {
+      //   let that = this
+      //   _this.downloadVoice({
+      //     serverId: that.serverId, // 需要下载的音频的服务器端ID，由uploadVoice接口获得
+      //     isShowProgressTips: 1, // 默认为1，显示进度提示
+      //     success: function (res) {
+      //       // 下载成功
+      //       that.downLoadId = res.localId // 返回音频的本地ID
+      //     }
+      //   })
+      // },
+      // 模拟上传语音
+      // fake () {
+      //   var apiUrl = window.location.href
+      //   this.axios({
+      //     method: &#39;post&#39;,
+      //     url: &#39;api&#39;,
+      //     headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+      //     data: {
+      //       serverId: &#39;&#39;,
+      //       url: apiUrl
+      //     }
+      //   }).then((res) =&gt; {
+      //       this.$refs.player.src = res.data
+      //     }).catch((error) =&gt; {
+      //       // error
+      //     })
+      // }
+    },</code></pre>
+<p><strong>这里样式代码根据需要进行编写就行，哪个按钮需要调用录音开始，哪个按钮调用录音结束，哪个需要翻译，需要用到哪个功能，直接调用methods里面的对应方法即可，（如果调用其它JS-SDK，原理等同，注册时给jsApiList数组添加你需要的功能字段<code>微信公众号API文档可查</code>就可以引用了）， 需要对应方法执行成功后做的事情在对应方法里写就ok啦</strong></p>
+<p>是不是很简单呢，代码撰写完毕就是打包代码提交代码了，后台更新代码到线上，就可以看到效果了。<code>注意：</code>由于微信开发者工具是模拟调试，所以只能有一条模拟的录音结果返回，真正的语音及翻译结果还得发送网址到微信里打开查看</p>
+<p>好了，微信JS-SDK接口调用就介绍到这里了，新手初写，希望能帮助到大家，也请大家多多指导</p>
 
             </div>
             <hr/>
@@ -509,7 +712,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zzqz.github.io/2019/12/11/hello-world/">http://zzqz.github.io/2019/12/11/hello-world/</a>
+                    <a href="http://zzqz.github.io/2018/09/27/js-sdk/">http://zzqz.github.io/2018/09/27/js-sdk/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -546,7 +749,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
+                                    <span class="chip bg-color">微信开发</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -715,7 +922,7 @@
         repo: 'jiangqiangqiang.github.io',
         owner: 'jiangqiangqiang',
         admin: "jiangqiangqiang",
-        id: '2019-12-11T16-25-49',
+        id: '2018-09-27T16-22-10',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -740,33 +947,35 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/12/12/mytest/">
+                <a href="/2019/06/21/deploy/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="mytest">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="vue+node(express)+mysql部署阿里云服务器">
                         
-                        <span class="card-title">mytest</span>
+                        <span class="card-title">vue+node(express)+mysql部署阿里云服务器</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            问题说明由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境
-分析1、登录逻辑
-用户输入登录信息，点击登录向服务端发起请求，服务端根据前端发送的登录信息返
+                            @[toc]
+一、购买服务器
+1 、进入阿里云官网，选择服务器ECS，我买的是学生的，当然你要是学生，可以通过身份购买学生专用优惠服务器，9.5一个月
+2、接下来会有个密码设置，这个密码会从始至终会用到哦
+3、购买成功后，实例就创建成功了，
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-12
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-21
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%8A%9F%E8%83%BD%E6%96%B9%E9%9D%A2/" class="post-category">
-                                    功能方面
+                            <a href="/categories/%E9%83%A8%E7%BD%B2/" class="post-category">
+                                    部署
                                 </a>
                             
                             
@@ -776,8 +985,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%88%91%E7%9A%84%E6%A0%87%E7%AD%BE/">
-                        <span class="chip bg-color">我的标签</span>
+                    <a href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="chip bg-color">部署</span>
                     </a>
                     
                 </div>
@@ -791,31 +1000,33 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/11/hello-world/">
+                <a href="/2018/09/27/js-sdk/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            @TOC
+微信JS-SDK前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍
+1.前期准备因为是第一次开发，看了很多文档，包括官方文档
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-09-27
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BB%8B%E7%BB%8D/" class="post-category">
-                                    介绍
+                            <a href="/categories/%E6%89%8B%E6%9C%BA%E7%AB%AF%E5%BC%80%E5%8F%91/" class="post-category">
+                                    手机端开发
                                 </a>
                             
                             
@@ -823,6 +1034,14 @@
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
+                        <span class="chip bg-color">微信开发</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
