@@ -1,7 +1,7 @@
 'use strict';
 var cheerio = require('cheerio'); 
   
-function lazyloadImg(source) {
+function lazyload(source) {
     var LZ= cheerio.load(source, {
         decodeEntities: false
     });
@@ -20,4 +20,4 @@ function lazyloadImg(source) {
     return LZ.html();
 }
 //在渲染之前，更改 img 标签
-hexo.extend.filter.register('after_render:html', lazyloadImg);
+hexo.extend.filter.register('after_render:html', lazyload);
