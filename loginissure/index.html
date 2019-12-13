@@ -4,10 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）, 我的博客">
-    <meta name="description" content="@TOC
-微信JS-SDK前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍
-1.前期准备因为是第一次开发，看了很多文档，包括官方文档">
+    <meta name="keywords" content="前端多角色权限页面（同浏览器同时登录）权限互串, 我的博客">
+    <meta name="description" content="问题说明由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境
+分析1、登录逻辑
+用户输入登录信息，点击登录向服务端发起请求，服务端根据前端发送的登录信息返">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -15,7 +15,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>前端基于vue企业微信JS-SDK语音识别功能开发（同公众号） | hi zzqz !</title>
+    <title>前端多角色权限页面（同浏览器同时登录）权限互串 | hi zzqz !</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/myIcon.ico">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -305,13 +305,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）
+                        前端多角色权限页面（同浏览器同时登录）权限互串
                     </div>
                 </div>
             </div>
@@ -429,8 +429,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
-                                <span class="chip bg-color">微信开发</span>
+                            <a href="/tags/%E7%99%BB%E5%BD%95%E4%BA%92%E4%B8%B2/">
+                                <span class="chip bg-color">登录互串</span>
                             </a>
                         
                     </div>
@@ -441,8 +441,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%89%8B%E6%9C%BA%E7%AB%AF%E5%BC%80%E5%8F%91/" class="post-category">
-                                手机端开发
+                            <a href="/categories/%E5%8A%9F%E8%83%BD%E7%B1%BB/" class="post-category">
+                                功能类
                             </a>
                         
                     </div>
@@ -454,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2018-09-27
+                    2019-12-12
                 </div>
                 
 
@@ -465,7 +465,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    3 分
                 </div>
                 
 				
@@ -481,212 +481,25 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>@<a href="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）">TOC</a></p>
-<h1 id="微信JS-SDK"><a href="#微信JS-SDK" class="headerlink" title="微信JS-SDK"></a>微信JS-SDK</h1><p>前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍</p>
-<h2 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1.前期准备"></a>1.前期准备</h2><p>因为是第一次开发，看了很多文档，包括官方文档，看了很多遍，仍然是一头雾水，那些东西该前端配，哪些东西该后端做，没有一点概念。经过了一番与后端的尝试与合作，终于调用成功！<br>企业微信里有个应用与小程序，里面的自建应用开发同公众号开发，<strong>后端设置略微有些不同</strong><br><img src="https://img-blog.csdn.net/20180927113024399?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这个是企业微信里的目录"><br><strong>后端</strong>：根据企业微信里我的企业选项最下面的企业id和应用与小程序里的自建应用的Secret获取token，并计算签名等一系列操作，具体官方文档网上都很详细，这里就不多说；<br><strong>配置</strong><br>需要在企业微信的自建程序里设置域名：此域名为前端写代码的外网网页域名，也就是最后呈现的网页域名（前端写完代码给后端，后端根据项目地址<code>我的是gitLab</code>配置外网域名），第一次配置需要启动，所以要和后端配合好，启动时有一个txt文件，前端需要打包给后端，后端配置到根目录并确保可以访问到txt文件<br><img src="https://img-blog.csdn.net/20180927113801817?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br><code>说明：</code>此域名的配置是必要的，只有配置此域名才可以使用此域名调用JS-SDK，可以使用<strong>微信开发者工具</strong>的公众号开发选项进行在线调试域名，<code>注意：</code>只可以调试你打包到线上的外网ip</p>
-<h2 id="前端代码撰写"><a href="#前端代码撰写" class="headerlink" title="前端代码撰写"></a>前端代码撰写</h2><p>安装并在组建里引入wx</p>
-<pre><code class="javascript">import wx from &#39;weixin-js-sdk&#39;;
-const _this = wx;</code></pre>
-<p>要想在一个组件使用在当前组件引入就行，引入完成就是使用，在页面调用接口之前必须完成注册等逻辑，因为录音功能是手动触发执行，所以在vue中可以写个函数在mounted钩子函数中执行完成注册，代码如下：</p>
-<pre><code class="javascript">methods: {
-      getConfig() {
-        const self=this;
-        const data=self.qs.stringify({url: location.href.split(&#39;#&#39;)[0]});//需要传的地址为#前面的地址
-        self.axios({
-          method: &#39;post&#39;,
-          url: &#39;&#39;,//获取签名等信息的地址
-          headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
-          data:data  //向服务端提供授权url参数，并且不需要#后面的部分
-        }).then((res) =&gt; {
-           let list = res.data.data;
-              _this.config({
-            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: list.appId, // 必填，公众号的唯一标识
-            timestamp: list.timestamp, // 必填，生成签名的时间戳
-            nonceStr: list.noncestr, // 必填，生成签名的随机串
-            signature: list.signature, // 必填，签名
-            jsApiList: [
-              &#39;startRecord&#39;, //开始录音接口
-              &#39;stopRecord&#39;,// 停止录音接口
-              &#39;playVoice&#39;, //播放语音接口
-              &#39;pauseVoice&#39;,//暂停播放接口
-              &#39;stopVoice&#39;, //停止播放接口
-              &#39;uploadVoice&#39;,//上传语音接口
-              &#39;downloadVoice&#39;, //下载语音接口
-              &#39;onVoicePlayEnd&#39;, // 监听语音播放完毕api
-              &#39;translateVoice&#39;
-            ] // 必填，需要使用的JS接口列表
-          });
-          _this.ready(() =&gt; {
-            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个
-            // 客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调
-            // 用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-          })
-          _this.error((res) =&gt; {
-            // 这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
-          })
-        }).catch((error) =&gt; {
-          // error
-        })
-      },
-      // 开始录音
-      start(e) {
-        let that = this;
-        that.stop();
-        that.time = 0;
-        if(!localStorage.rainAllowRecord || localStorage.rainAllowRecord !== &#39;true&#39;){
-          _this.startRecord({
-            success: function () {
-                   that.timer = setInterval(() =&gt; {
-                that.time++
-              }, 1000)
-              that.vicoeEnd()
-            },
-            fail: function () {
-              // 开始录音失败
-            },
-            cancel: function () {
-              // 用户拒绝授权录音
-            }
-          })
-        }
-      },
-      // 停止录音
-      stop() {
-        let that = this
-          _this.stopRecord({
-          success: function (res) {
-            if(that.time&lt;0.5){
-              return
-            }
-            // 暂停成功
-            clearInterval(that.timer)
-            that.localId = res.localId
-          },
-          fail: function (error) {
-            // 停止失败
-          }
-        })
-      },
-      //取消录音判断
-      isCancel(e) {
-          this.cancel()
-      },
-      // 取消录音
-      cancel() {
-        _this.stopRecord({
-          success: (res) =&gt; {
-            // 取消录音成功
-          },
-          fail:function (error) {
-            // 取消录音失败
-          }
-        })
-      },
-      // 60秒监听
-      vicoeEnd() {
-        let that = this
-        _this.onVoiceRecordEnd({
-          // 录音时间超过一分钟没有停止的时候会执行 complete 回调
-          complete: function (res) {
-            // 60秒停止录音
-            that.localId = res.localId
-            clearInterval(that.timer);
-          }
-        })
-      },
-      // 合并
-      merge() {
-        let that = this
-        this.axios({
-          method: &#39;post&#39;,
-          url: &#39;&#39;,
-          headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
-          data: {url: location.href.split(&#39;#&#39;)[0]}
-        }).then((ser) =&gt; {
-            that.$refs.allRecord.src = ser.data
-        }).catch((error) =&gt; {
-          // error
-        })
-      },
-      // 结束录音并识别语音
-      translate () {
-        const that = this;
-        _this.stopRecord({
-          success: function (res) {
-            // 翻译前停止录音
-            that.localId = res.localId;
-            _this.translateVoice({
-              localId: that.localId,
-              complete: function (res) {
-                // 调用翻译完成时
-              }
-            });
-          },
-          fail: function (res) {
-            // 调用停止失败
-          }
-        });
-      },
-      // 上传语音
-      upVoice() {
-        let that = this
-        _this.uploadVoice({
-          localId: that.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
-          isShowProgressTips: 1, // 默认为1，显示进度提示
-          success: function (res) {
-            var apiUrl = window.location.href
-            // 上传成功
-            that.serverId = res.serverId // 返回音频的服务器端ID
-            that.axios({
-              method: &#39;post&#39;,
-              url: &#39;http://my.service.com/index.php/opcode/6002&#39;,
-              headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
-              data: {
-                serverId: res.serverId,
-                url: location.href.split(&#39;#&#39;)[0]
-              }
-            }).then((data) =&gt; {
-                that.$refs.player.src = data.data
-            }).catch((error) =&gt; {
-              // error
-            })
-          }
-        })
-      }
-      // 下载语音
-      // downVoice () {
-      //   let that = this
-      //   _this.downloadVoice({
-      //     serverId: that.serverId, // 需要下载的音频的服务器端ID，由uploadVoice接口获得
-      //     isShowProgressTips: 1, // 默认为1，显示进度提示
-      //     success: function (res) {
-      //       // 下载成功
-      //       that.downLoadId = res.localId // 返回音频的本地ID
-      //     }
-      //   })
-      // },
-      // 模拟上传语音
-      // fake () {
-      //   var apiUrl = window.location.href
-      //   this.axios({
-      //     method: &#39;post&#39;,
-      //     url: &#39;api&#39;,
-      //     headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
-      //     data: {
-      //       serverId: &#39;&#39;,
-      //       url: apiUrl
-      //     }
-      //   }).then((res) =&gt; {
-      //       this.$refs.player.src = res.data
-      //     }).catch((error) =&gt; {
-      //       // error
-      //     })
-      // }
-    },</code></pre>
-<p><strong>这里样式代码根据需要进行编写就行，哪个按钮需要调用录音开始，哪个按钮调用录音结束，哪个需要翻译，需要用到哪个功能，直接调用methods里面的对应方法即可，（如果调用其它JS-SDK，原理等同，注册时给jsApiList数组添加你需要的功能字段<code>微信公众号API文档可查</code>就可以引用了）， 需要对应方法执行成功后做的事情在对应方法里写就ok啦</strong></p>
-<p>是不是很简单呢，代码撰写完毕就是打包代码提交代码了，后台更新代码到线上，就可以看到效果了。<code>注意：</code>由于微信开发者工具是模拟调试，所以只能有一条模拟的录音结果返回，真正的语音及翻译结果还得发送网址到微信里打开查看</p>
-<p>好了，微信JS-SDK接口调用就介绍到这里了，新手初写，希望能帮助到大家，也请大家多多指导</p>
+                <h4 id="问题说明"><a href="#问题说明" class="headerlink" title="问题说明"></a>问题说明</h4><p>由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境</p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="1、登录逻辑"><a href="#1、登录逻辑" class="headerlink" title="1、登录逻辑"></a>1、登录逻辑</h5><ul>
+<li>用户输入登录信息，点击登录向服务端发起请求，服务端根据前端发送的登录信息返回成功或失败，成功返回<code>token</code>字段与用户角色，<code>token</code>字段为加密字段，表明用户身份信息，并携带过期时间，供前端后续请求接口调用，前端通过判断用户角色展示相应角色权限与主题</li>
+<li>前端拿到<code>token</code>后存储到本地<code>Storage</code>，并在请求拦截中获取并判断本地<code>token</code>存不存在，存在即证明有身份信息，可以访问用户接口，不存在即证明用户未登录或已失效删除，重新导航到登录页<h5 id="2、多角色登录"><a href="#2、多角色登录" class="headerlink" title="2、多角色登录"></a>2、多角色登录</h5></li>
+<li>首先登录账户A，A账户的<code>tokenA</code>与<code>角色A</code>就会存储到<code>Storage</code>，A账户有权限<code>featureA1</code>、<code>featureA2</code>，主题为<code>featureRed</code>，在App.vue监听，这时重新打开一个<code>页签2</code>，输入同样路由地址，会检测到A账户<code>tokenA</code>存在并跳转到A账户对应的路由，同原有<code>页签1</code>显示相同，如果这个时候退出<code>页签2</code>账户，清除<code>tokenA</code>、<code>角色A</code>，<code>页签1</code>就会存在以下两种情况：<ul>
+<li>1、<code>页签1</code>浏览器刷新：路由会监听到<code>token</code>不存在跳转到指定路由（登录页面）并给出相关提示</li>
+<li>2、<code>页签1</code>浏览器不刷新，直接点击A账户权限路由：会请求服务器数据，请求拦截会判断有没有<code>token</code>，没有会导航到指定路由（登录页面）并给出相关提示</li>
+</ul>
+</li>
+<li>如果退出<code>页签2</code>账户，清除<code>tokenA</code>、<code>角色A</code>，并且直接在<code>页签2</code>登录账户B，这时候本地<code>Storage</code>就会存储<code>tokenB</code>与<code>角色B</code>，<code>页签2</code>的权限为<code>featureB1</code>、<code>featureB2</code>，主题为<code>featureBlue</code>，这个时候的<code>页签1</code>就会存在以下两种情况：<ul>
+<li>1、<code>页签1</code>浏览器刷新：这时组件全面刷新，功能权限组件重新渲染，并重新获取新的<code>tokenB</code>，重新设置功能权限为<code>featureB1</code>、<code>featureB2</code>，App.vue重新获取本地用户角色，更改主题为<code>featureBlue</code>，从而实现了角色的跳转</li>
+<li>2、<code>页签1</code>浏览器不刷新，直接点击A账户权限路由：由于<code>Storage</code>现在存储的是账户B的信息，账户A界面就会携带账户B的身份去请求接口，这是很大的错误。所以必须还要有路由权限设置，不同角色设置不同<code>meta</code>属性，如果A账户请求B账户路由，<code>meta</code>会不一样，这样设置导航到配置好的404页面，这显然不是我们想要的结果<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5>我们在路由拦截判断<code>meta</code>角色属性，如果和获取到的<code>Storage</code>里的角色不匹配，会导航到404页面，但是我们导航到404页面的时候可以携带获取到的当前登录用户角色B参数过去，我们重新设计404页面，通过参数信息提示用户已经登录用户B，点击按钮跳转到用户B的主页，主页勾子函数调用，改变功能界面为<code>featureB1</code>、<code>featureB2</code>，主题为<code>featureBlue</code><h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5>我们可以通过判断用户身份信息的更新来强制跳转页面：比如观察<code>token</code>，当当前用户的<code>tokenB</code>与之前存储的<code>tokenA</code>不同的时候，强制刷新页面，让路由回到<code>&#39;/&#39;</code>，导航到首页，具体如下：</li>
+<li>用户登录成功，存储相应<code>token</code>信息到本地</li>
+<li>在<code>vuex</code>中加<code>token</code>字段用以存储用户信息</li>
+<li>在App.vue中观察<code>vuex</code>中的<code>token</code>，如果不存在，获取本地<code>Storage</code>的值并赋值给<code>vuex</code>的<code>token</code>，如果存在，拿<code>vuex</code>中的<code>token</code>和<code>Storage</code>中的<code>token</code>比较，如果相同什么都不用做，如果不相同，说明新的登录存在了，获取当前路径信息并去除掉路由部分，赋值给<code>window.location.href</code>，这样就实现了强制刷新跳转到<code>&#39;/&#39;</code></li>
+</ul>
+</li>
+</ul>
+<p>实际情况可能会遇到各种各样的问题，通过思考可能会有很多种方法，如果大家有什么好的方法或者指正，欢迎交流</p>
 
             </div>
             <hr/>
@@ -712,7 +525,7 @@ const _this = wx;</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zzqz.github.io/2018/09/27/js-sdk/">http://zzqz.github.io/2018/09/27/js-sdk/</a>
+                    <a href="http://zzqz.github.io/loginissure/">http://zzqz.github.io/loginissure/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -750,8 +563,8 @@ const _this = wx;</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
-                                    <span class="chip bg-color">微信开发</span>
+                                <a href="/tags/%E7%99%BB%E5%BD%95%E4%BA%92%E4%B8%B2/">
+                                    <span class="chip bg-color">登录互串</span>
                                 </a>
                             
                         </div>
@@ -922,7 +735,7 @@ const _this = wx;</code></pre>
         repo: 'jiangqiangqiang.github.io',
         owner: 'jiangqiangqiang',
         admin: "jiangqiangqiang",
-        id: '2018-09-27T16-22-10',
+        id: '2019-12-12T15-30-18',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -943,11 +756,64 @@ const _this = wx;</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/06/21/deploy/">
+                <a href="/loginissure/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="前端多角色权限页面（同浏览器同时登录）权限互串">
+                        
+                        <span class="card-title">前端多角色权限页面（同浏览器同时登录）权限互串</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            问题说明由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境
+分析1、登录逻辑
+用户输入登录信息，点击登录向服务端发起请求，服务端根据前端发送的登录信息返
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%8A%9F%E8%83%BD%E7%B1%BB/" class="post-category">
+                                    功能类
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%99%BB%E5%BD%95%E4%BA%92%E4%B8%B2/">
+                        <span class="chip bg-color">登录互串</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/deploy/">
                     <div class="card-image">
                         
                         
@@ -967,9 +833,9 @@ const _this = wx;</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -987,58 +853,6 @@ const _this = wx;</code></pre>
                     
                     <a href="/tags/%E9%83%A8%E7%BD%B2/">
                         <span class="chip bg-color">部署</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2018/09/27/js-sdk/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）">
-                        
-                        <span class="card-title">前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            @TOC
-微信JS-SDK前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍
-1.前期准备因为是第一次开发，看了很多文档，包括官方文档
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-09-27
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%89%8B%E6%9C%BA%E7%AB%AF%E5%BC%80%E5%8F%91/" class="post-category">
-                                    手机端开发
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
-                        <span class="chip bg-color">微信开发</span>
                     </a>
                     
                 </div>

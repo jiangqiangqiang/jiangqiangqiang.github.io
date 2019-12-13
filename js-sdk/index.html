@@ -4,12 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="vue+node(express)+mysql部署阿里云服务器, 我的博客">
-    <meta name="description" content="@[toc]
-一、购买服务器
-1 、进入阿里云官网，选择服务器ECS，我买的是学生的，当然你要是学生，可以通过身份购买学生专用优惠服务器，9.5一个月
-2、接下来会有个密码设置，这个密码会从始至终会用到哦
-3、购买成功后，实例就创建成功了，">
+    <meta name="keywords" content="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）, 我的博客">
+    <meta name="description" content="@TOC
+微信JS-SDK前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍
+1.前期准备因为是第一次开发，看了很多文档，包括官方文档">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +15,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>vue+node(express)+mysql部署阿里云服务器 | hi zzqz !</title>
+    <title>前端基于vue企业微信JS-SDK语音识别功能开发（同公众号） | hi zzqz !</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/myIcon.ico">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,13 +305,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        vue+node(express)+mysql部署阿里云服务器
+                        前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）
                     </div>
                 </div>
             </div>
@@ -431,8 +429,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%83%A8%E7%BD%B2/">
-                                <span class="chip bg-color">部署</span>
+                            <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
+                                <span class="chip bg-color">微信开发</span>
                             </a>
                         
                     </div>
@@ -443,8 +441,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E9%83%A8%E7%BD%B2/" class="post-category">
-                                部署
+                            <a href="/categories/%E6%89%8B%E6%9C%BA%E7%AB%AF%E5%BC%80%E5%8F%91/" class="post-category">
+                                手机端开发
                             </a>
                         
                     </div>
@@ -456,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-06-21
+                    2018-09-27
                 </div>
                 
 
@@ -483,125 +481,212 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>@[toc]</p>
-<h2 id="一、购买服务器"><a href="#一、购买服务器" class="headerlink" title="一、购买服务器"></a>一、购买服务器</h2><ul>
-<li>1 、进入阿里云官网，选择服务器ECS，我买的是学生的，当然你要是学生，可以通过身份购买学生专用优惠服务器，9.5一个月<br><img src="https://img-blog.csdnimg.cn/20190621161723782.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
-<li>2、接下来会有个密码设置，这个密码会从始至终会用到哦<br><img src="https://img-blog.csdnimg.cn/20190621161941708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
-<li>3、购买成功后，实例就创建成功了，也就会有自己的服务器了<br><img src="https://img-blog.csdnimg.cn/20190621162535950.png" alt="在这里插入图片描述"></li>
-<li>4、在控制台中可以查看自己的实例，里面会有你所买的服务器的ip地址，且显示运行中，到此，就可以开始部署准备工作了</li>
-</ul>
-<h2 id="二、下载安装putty和Xftp"><a href="#二、下载安装putty和Xftp" class="headerlink" title="二、下载安装putty和Xftp"></a>二、下载安装putty和Xftp</h2><p><strong><code>注意：此教程针对windows系统，mac可根据如下参考本教程</code></strong></p>
-<ul>
-<li><strong>连接服务器方面：</strong><code>windows</code> 通过 <code>putty</code> ，<code>mac</code> 中 不用 <code>putty</code>，命令行直接通过<code>ssh root@xxx.xx.xxx.xx -p 22</code>连接服务器，因为后面都是在 <code>linux</code> 中执行命令，所以命令同 <code>windows</code> 相同</li>
-<li><strong>传输文件方面：</strong><code>mac</code> 下下载 <code>FileZilla</code>，<code>FileZilla</code> 同 <code>Xftp</code> ，设置好 ip 和端口连接即可，使用方式基本相同</li>
-</ul>
-<hr>
-<p><strong><code>putty</code>和<code>Xftp</code>可在网上自行下载安装</strong></p>
-<h3 id="putty连接服务器"><a href="#putty连接服务器" class="headerlink" title="putty连接服务器"></a>putty连接服务器</h3><p>1、打开putty<br><img src="https://img-blog.csdnimg.cn/2019062116323943.png" alt="在这里插入图片描述"><br>2、根据图中设置ip<br><img src="https://img-blog.csdnimg.cn/20190621163620697.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>3、出现下面界面，设置登录名，为root，登录密码为注册服务时设置的密码（输入密码不会出现字符，放心输入完了按回车就是了）<br><img src="https://img-blog.csdnimg.cn/20190621163855163.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、登录成功后，就进入到<code>Linux</code>系统了<br><img src="https://img-blog.csdnimg.cn/2019062116411241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h3 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h3><p>1、先把yum更新到最新版本</p>
-<pre><code class="Shell">yum -y update</code></pre>
-<p>2、我们将使用最新源代码构建Node.js，要进行软件的安装，需要一组用来编译源代码的开发工具</p>
-<pre><code class="Shell">yum -y groupinstall &quot;Development Tools&quot;</code></pre>
-<p>3、进入/usr/src文件夹，这个文件夹通常用来存放软件源代码</p>
-<pre><code class="Shell">cd /usr/src</code></pre>
-<p>4、从 <code>Node.js</code>的站点 中获取压缩档源代码, 我选择的版本为<code>v10.13.0</code></p>
-<pre><code class="Shell">wget http://nodejs.org/dist/v10.13.0/node-v10.13.0.tar.gz </code></pre>
-<p>5、解压文件，并进入文件夹</p>
-<pre><code class="Shell">tar zxf node-v10.13.0.tar.gz
-cd node-v6.9.1</code></pre>
-<p>6、设置全局环境变量，为了能够在全局使用node命令</p>
-<pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/node /usr/local/bin/node
-ln -s /usr/src/node-v10.13.0/bin/npm /usr/local/bin/npm</code></pre>
-<p>7、查看是否成功设置</p>
-<pre><code class="Shell">node -v
-npm -v</code></pre>
-<p>8、 安装pm2<br><strong><code>pm2</code>用于启动程序并在需要时重启非常有用的模块，可以随时查看服务的运行状态</strong></p>
-<pre><code class="Shell">npm -g install pm2 </code></pre>
-<p>9、设置全局变量</p>
-<pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/pm2 /usr/local/bin/</code></pre>
-<p>接下来就可以用<code>pm2</code>命令了</p>
-<h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>1、寻找社区源安装到<code>tmp</code>中</p>
-<pre><code class="Shell">cd /tmp
-wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm  
-rpm -ivh mysql-community-release-el7-5.noarch.rpm  </code></pre>
-<p>2、通过yum安装</p>
-<pre><code class="Shell">yum install mysql mysql-server mysql-devel -y</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621181031112.png" alt="在这里插入图片描述"><br>3、启动mysql</p>
-<pre><code class="Shell">systemctl start mysql.service</code></pre>
-<p>4、设置用户和密码<br><code>通过yum安装的是没有用户名和密码的，所以得设置</code></p>
-<pre><code class="Shell">mysqladmin -u root password admin</code></pre>
-<p>用户名为<code>root</code>，密码为<code>admin</code><br>5、设置好后就可以登录了</p>
-<pre><code class="Shell">mysql -uroot -padmin</code></pre>
-<p>查看数据库</p>
-<pre><code class="Shell">show databases;</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621181945585.png" alt="在这里插入图片描述"><br>自此，数据库配置完毕</p>
-<h3 id="Xftp上传代码"><a href="#Xftp上传代码" class="headerlink" title="Xftp上传代码"></a>Xftp上传代码</h3><p>1、打开下载的<code>Xftp</code><br><img src="https://img-blog.csdnimg.cn/20190621182402956.png" alt="在这里插入图片描述"><br>2、点击新建<br><img src="https://img-blog.csdnimg.cn/20190621182637762.png" alt="在这里插入图片描述"><br>出现<br><img src="https://img-blog.csdnimg.cn/20190621182723796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>名称自己取一个项目名称。主机，填写阿里云服务器的公网<code>IP</code>，协议选择<code>SFTP</code>，端口使用<code>22</code>，用户名<code>root</code>，密码为购买阿里云的时候要你记住的密码。最后点击确定。</strong><br>3、双击下面图标，进入 <code>root</code>文件夹<br><img src="https://img-blog.csdnimg.cn/20190621182945604.png" alt="在这里插入图片描述"><br>如图：左边为本地电脑，右边为服务端文件夹<br><img src="https://img-blog.csdnimg.cn/201906211832036.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们把自己的<code>node项目</code>通过右键传输传进<code>home/自定义文件夹/</code>里,当然数据库文件也要一同传上去以便初始化<br><img src="https://img-blog.csdnimg.cn/20190621183423798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、<strong><code>服务代码传到服务器上后要进入服务器 node 根目录通过 putty 进行 npm install 安装相关依赖</code></strong></p>
-<h3 id="启动node应用"><a href="#启动node应用" class="headerlink" title="启动node应用"></a>启动node应用</h3><p><strong>上传完代码后，再回到putty，进入项目目录，利用pm2启动应用</strong></p>
-<pre><code class="Shell">cd /home/jqq
-pm2 start server.js --name test</code></pre>
-<p>后面<code>--name</code>可以不写，重命名的意思<br>当出现下面表格说明成功启动了<br><img src="https://img-blog.csdnimg.cn/20190621184108984.png" alt="在这里插入图片描述"></p>
-<ul>
-<li>通过<code>pm2 list</code>检视运行中的应用</li>
-<li>通过<code>pm2 stop test</code>停止应用</li>
-<li>通过<code>pm2 delete test</code>删除应用</li>
-<li>通过<code>pm2 log app</code>查看应用日志</li>
-</ul>
-<p>到这里node启动就完成了</p>
-<h3 id="配置mysql"><a href="#配置mysql" class="headerlink" title="配置mysql"></a>配置mysql</h3><p>为避免大小写识别失败，对大小写进行配置<br>1、打开配置文件</p>
-<pre><code class="Shell">vi /etc/my.cnf</code></pre>
-<p>按 <code>i</code> 键进行编辑，如图在<code>[mysqld]</code>后添加<code>lower_case_table_names=1</code>，按 <code>esc</code> 键，再输入 <code>:wq</code> 保存退出<br><img src="https://img-blog.csdnimg.cn/20190621185154866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2、重启<code>mysql</code></p>
-<pre><code class="Shell">systemctl restart mysqld.service</code></pre>
-<p>3、连接数据库</p>
-<pre><code class="Shell">mysql -uroot -padmin</code></pre>
-<p>4、创建test数据库</p>
-<pre><code class="Shell">CREATE DATABASE test DEFAULT CHARACTER SET utf8;</code></pre>
-<p>通过<code>show databases;</code>查看数据库已经存在了<br>4、导入数据</p>
-<ul>
-<li><p>接着上个步骤，先用组合键 ctrl+c退出mysql控制台，然后在linux的环境下输入如下命令导入数据</p>
-<pre><code class="Shell">mysql -u root -padmin --default-character-set=utf8 test &lt; /home/jqq/web.sql</code></pre>
-<p>5、验证数据</p>
-<pre><code class="Shell">mysql -uroot -padmin
-use test;
-show tables;
-select count(*) from product;</code></pre>
-<p>6、配置登录权限</p>
-<pre><code class="Shell">grant all privileges on `test`.* to &#39;root&#39;@&#39;%&#39; identified by &#39;admin&#39; with grant option;
-mysql&gt; FLUSH PRIVILEGES;</code></pre>
-<p><code>test为数据库，root为用户，admin为密码，下面命令为让配置生效</code><br>这样数据就设置完成可以启动了</p>
-<h2 id="三、安装配置tomcat"><a href="#三、安装配置tomcat" class="headerlink" title="三、安装配置tomcat"></a>三、安装配置tomcat</h2><p>1、安装<br><code>yum</code>上没有<code>tomcat</code>的源，可以到官网去下载最新的通过<code>Xftp</code>传到<code>tmp</code>里，并使用如下方式下载解压，通过<code>mv</code>命令移动文件夹</p>
-<pre><code class="Shell">cd /tmp
-wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.92/bin/apache-tomcat-7.0.92.tar.gz
-tar xzf apache-tomcat-7.0.92.tar.gz
-mv apache-tomcat-7.0.92 /usr/local/tomcat7</code></pre>
-<p>2、启动tomcat</p>
-<pre><code class="Shell">/usr/local/tomcat7/bin/startup.sh</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621192706921.png" alt="在这里插入图片描述"><br>3、验证</p>
-<pre><code class="Shell">netstat -anp|grep 8080</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621192822610.png" alt="在这里插入图片描述"><br>4、安全组开放端口<br><img src="https://img-blog.csdnimg.cn/20190621192930313.png" alt="在这里插入图片描述"><br>5、再vue的router中如下配置，完了打包上传<br><img src="https://img-blog.csdnimg.cn/20190621193405506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>6、通过Xftp把vue打包好的文件传送到tomcat中，如图：我在webapps中新建了个文件夹，这样将来访问路径就会多出二级路径jqqzz，当然大家都可以放到根目录不必创建二级路径<br><img src="https://img-blog.csdnimg.cn/20190621193109445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>7、在<code>jqqzz</code>项目中新建文件夹<code>WEB-INF</code>，再里面新建文件<code>web.xml</code><br>编辑文件，把如下插入到文件中，处理<code>404</code>返回<code>index.html</code>页面,并且处理<code>history</code>模式</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
-&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;
-xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee
-                   http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;
-version=&quot;3.0&quot;
-metadata-complete=&quot;true&quot;&gt;
-
-&lt;display-name&gt;webapp&lt;/display-name&gt;
-&lt;description&gt;
-  webapp
-&lt;/description&gt;
-&lt;error-page&gt;  
-&lt;error-code&gt;404&lt;/error-code&gt;  
-&lt;location&gt;/index.html&lt;/location&gt;  
-&lt;/error-page&gt;  
-&lt;/web-app&gt;</code></pre>
-<p>这样访问 <code>ip:8080/jqqzz</code>就可以进到自己的项目啦</p>
-</li>
-</ul>
-<p><strong><code>注意：在某些时候，一些命令操作文件的时候会没有权限导致失败，这时使用一下命令给予文件或文件夹权限，777为所有用户拥有最高权限，R表示允许其目录下的子目录的文件及文件夹</code></strong></p>
-<pre><code class="Shell">chmod 777 文件夹或文件名
-chmod 777 *.文件类型</code></pre>
-<p>这样所有工作就都大功告成了</p>
+                <p>@<a href="前端基于vue企业微信JS-SDK语音识别功能开发（同公众号）">TOC</a></p>
+<h1 id="微信JS-SDK"><a href="#微信JS-SDK" class="headerlink" title="微信JS-SDK"></a>微信JS-SDK</h1><p>前端需要实现一个功能，如录音，拍照，分享，地理位置等，前端想要实现这些功能的调用，必须要通过调用JS-SDK的方式来实现，那么如何使用呢，本文进行简单的介绍</p>
+<h2 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1.前期准备"></a>1.前期准备</h2><p>因为是第一次开发，看了很多文档，包括官方文档，看了很多遍，仍然是一头雾水，那些东西该前端配，哪些东西该后端做，没有一点概念。经过了一番与后端的尝试与合作，终于调用成功！<br>企业微信里有个应用与小程序，里面的自建应用开发同公众号开发，<strong>后端设置略微有些不同</strong><br><img src="https://img-blog.csdn.net/20180927113024399?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这个是企业微信里的目录"><br><strong>后端</strong>：根据企业微信里我的企业选项最下面的企业id和应用与小程序里的自建应用的Secret获取token，并计算签名等一系列操作，具体官方文档网上都很详细，这里就不多说；<br><strong>配置</strong><br>需要在企业微信的自建程序里设置域名：此域名为前端写代码的外网网页域名，也就是最后呈现的网页域名（前端写完代码给后端，后端根据项目地址<code>我的是gitLab</code>配置外网域名），第一次配置需要启动，所以要和后端配合好，启动时有一个txt文件，前端需要打包给后端，后端配置到根目录并确保可以访问到txt文件<br><img src="https://img-blog.csdn.net/20180927113801817?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br><code>说明：</code>此域名的配置是必要的，只有配置此域名才可以使用此域名调用JS-SDK，可以使用<strong>微信开发者工具</strong>的公众号开发选项进行在线调试域名，<code>注意：</code>只可以调试你打包到线上的外网ip</p>
+<h2 id="前端代码撰写"><a href="#前端代码撰写" class="headerlink" title="前端代码撰写"></a>前端代码撰写</h2><p>安装并在组建里引入wx</p>
+<pre><code class="javascript">import wx from &#39;weixin-js-sdk&#39;;
+const _this = wx;</code></pre>
+<p>要想在一个组件使用在当前组件引入就行，引入完成就是使用，在页面调用接口之前必须完成注册等逻辑，因为录音功能是手动触发执行，所以在vue中可以写个函数在mounted钩子函数中执行完成注册，代码如下：</p>
+<pre><code class="javascript">methods: {
+      getConfig() {
+        const self=this;
+        const data=self.qs.stringify({url: location.href.split(&#39;#&#39;)[0]});//需要传的地址为#前面的地址
+        self.axios({
+          method: &#39;post&#39;,
+          url: &#39;&#39;,//获取签名等信息的地址
+          headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+          data:data  //向服务端提供授权url参数，并且不需要#后面的部分
+        }).then((res) =&gt; {
+           let list = res.data.data;
+              _this.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: list.appId, // 必填，公众号的唯一标识
+            timestamp: list.timestamp, // 必填，生成签名的时间戳
+            nonceStr: list.noncestr, // 必填，生成签名的随机串
+            signature: list.signature, // 必填，签名
+            jsApiList: [
+              &#39;startRecord&#39;, //开始录音接口
+              &#39;stopRecord&#39;,// 停止录音接口
+              &#39;playVoice&#39;, //播放语音接口
+              &#39;pauseVoice&#39;,//暂停播放接口
+              &#39;stopVoice&#39;, //停止播放接口
+              &#39;uploadVoice&#39;,//上传语音接口
+              &#39;downloadVoice&#39;, //下载语音接口
+              &#39;onVoicePlayEnd&#39;, // 监听语音播放完毕api
+              &#39;translateVoice&#39;
+            ] // 必填，需要使用的JS接口列表
+          });
+          _this.ready(() =&gt; {
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个
+            // 客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调
+            // 用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+          })
+          _this.error((res) =&gt; {
+            // 这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+          })
+        }).catch((error) =&gt; {
+          // error
+        })
+      },
+      // 开始录音
+      start(e) {
+        let that = this;
+        that.stop();
+        that.time = 0;
+        if(!localStorage.rainAllowRecord || localStorage.rainAllowRecord !== &#39;true&#39;){
+          _this.startRecord({
+            success: function () {
+                   that.timer = setInterval(() =&gt; {
+                that.time++
+              }, 1000)
+              that.vicoeEnd()
+            },
+            fail: function () {
+              // 开始录音失败
+            },
+            cancel: function () {
+              // 用户拒绝授权录音
+            }
+          })
+        }
+      },
+      // 停止录音
+      stop() {
+        let that = this
+          _this.stopRecord({
+          success: function (res) {
+            if(that.time&lt;0.5){
+              return
+            }
+            // 暂停成功
+            clearInterval(that.timer)
+            that.localId = res.localId
+          },
+          fail: function (error) {
+            // 停止失败
+          }
+        })
+      },
+      //取消录音判断
+      isCancel(e) {
+          this.cancel()
+      },
+      // 取消录音
+      cancel() {
+        _this.stopRecord({
+          success: (res) =&gt; {
+            // 取消录音成功
+          },
+          fail:function (error) {
+            // 取消录音失败
+          }
+        })
+      },
+      // 60秒监听
+      vicoeEnd() {
+        let that = this
+        _this.onVoiceRecordEnd({
+          // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+          complete: function (res) {
+            // 60秒停止录音
+            that.localId = res.localId
+            clearInterval(that.timer);
+          }
+        })
+      },
+      // 合并
+      merge() {
+        let that = this
+        this.axios({
+          method: &#39;post&#39;,
+          url: &#39;&#39;,
+          headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+          data: {url: location.href.split(&#39;#&#39;)[0]}
+        }).then((ser) =&gt; {
+            that.$refs.allRecord.src = ser.data
+        }).catch((error) =&gt; {
+          // error
+        })
+      },
+      // 结束录音并识别语音
+      translate () {
+        const that = this;
+        _this.stopRecord({
+          success: function (res) {
+            // 翻译前停止录音
+            that.localId = res.localId;
+            _this.translateVoice({
+              localId: that.localId,
+              complete: function (res) {
+                // 调用翻译完成时
+              }
+            });
+          },
+          fail: function (res) {
+            // 调用停止失败
+          }
+        });
+      },
+      // 上传语音
+      upVoice() {
+        let that = this
+        _this.uploadVoice({
+          localId: that.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: function (res) {
+            var apiUrl = window.location.href
+            // 上传成功
+            that.serverId = res.serverId // 返回音频的服务器端ID
+            that.axios({
+              method: &#39;post&#39;,
+              url: &#39;http://my.service.com/index.php/opcode/6002&#39;,
+              headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+              data: {
+                serverId: res.serverId,
+                url: location.href.split(&#39;#&#39;)[0]
+              }
+            }).then((data) =&gt; {
+                that.$refs.player.src = data.data
+            }).catch((error) =&gt; {
+              // error
+            })
+          }
+        })
+      }
+      // 下载语音
+      // downVoice () {
+      //   let that = this
+      //   _this.downloadVoice({
+      //     serverId: that.serverId, // 需要下载的音频的服务器端ID，由uploadVoice接口获得
+      //     isShowProgressTips: 1, // 默认为1，显示进度提示
+      //     success: function (res) {
+      //       // 下载成功
+      //       that.downLoadId = res.localId // 返回音频的本地ID
+      //     }
+      //   })
+      // },
+      // 模拟上传语音
+      // fake () {
+      //   var apiUrl = window.location.href
+      //   this.axios({
+      //     method: &#39;post&#39;,
+      //     url: &#39;api&#39;,
+      //     headers: {&#39;Content-Type&#39;: &#39;application/json&#39;},
+      //     data: {
+      //       serverId: &#39;&#39;,
+      //       url: apiUrl
+      //     }
+      //   }).then((res) =&gt; {
+      //       this.$refs.player.src = res.data
+      //     }).catch((error) =&gt; {
+      //       // error
+      //     })
+      // }
+    },</code></pre>
+<p><strong>这里样式代码根据需要进行编写就行，哪个按钮需要调用录音开始，哪个按钮调用录音结束，哪个需要翻译，需要用到哪个功能，直接调用methods里面的对应方法即可，（如果调用其它JS-SDK，原理等同，注册时给jsApiList数组添加你需要的功能字段<code>微信公众号API文档可查</code>就可以引用了）， 需要对应方法执行成功后做的事情在对应方法里写就ok啦</strong></p>
+<p>是不是很简单呢，代码撰写完毕就是打包代码提交代码了，后台更新代码到线上，就可以看到效果了。<code>注意：</code>由于微信开发者工具是模拟调试，所以只能有一条模拟的录音结果返回，真正的语音及翻译结果还得发送网址到微信里打开查看</p>
+<p>好了，微信JS-SDK接口调用就介绍到这里了，新手初写，希望能帮助到大家，也请大家多多指导</p>
 
             </div>
             <hr/>
@@ -627,7 +712,7 @@ chmod 777 *.文件类型</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zzqz.github.io/2019/06/21/deploy/">http://zzqz.github.io/2019/06/21/deploy/</a>
+                    <a href="http://zzqz.github.io/js-sdk/">http://zzqz.github.io/js-sdk/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -665,8 +750,8 @@ chmod 777 *.文件类型</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%83%A8%E7%BD%B2/">
-                                    <span class="chip bg-color">部署</span>
+                                <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">
+                                    <span class="chip bg-color">微信开发</span>
                                 </a>
                             
                         </div>
@@ -837,7 +922,7 @@ chmod 777 *.文件类型</code></pre>
         repo: 'jiangqiangqiang.github.io',
         owner: 'jiangqiangqiang',
         admin: "jiangqiangqiang",
-        id: '2019-06-21T16-22-10',
+        id: '2018-09-27T16-22-10',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -862,33 +947,35 @@ chmod 777 *.文件类型</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/12/12/loginissure/">
+                <a href="/deploy/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="前端多角色权限页面（同浏览器同时登录）权限互串">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="vue+node(express)+mysql部署阿里云服务器">
                         
-                        <span class="card-title">前端多角色权限页面（同浏览器同时登录）权限互串</span>
+                        <span class="card-title">vue+node(express)+mysql部署阿里云服务器</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            问题说明由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境
-分析1、登录逻辑
-用户输入登录信息，点击登录向服务端发起请求，服务端根据前端发送的登录信息返
+                            @[toc]
+一、购买服务器
+1 、进入阿里云官网，选择服务器ECS，我买的是学生的，当然你要是学生，可以通过身份购买学生专用优惠服务器，9.5一个月
+2、接下来会有个密码设置，这个密码会从始至终会用到哦
+3、购买成功后，实例就创建成功了，
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-12
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-21
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%8A%9F%E8%83%BD%E7%B1%BB/" class="post-category">
-                                    功能类
+                            <a href="/categories/%E9%83%A8%E7%BD%B2/" class="post-category">
+                                    部署
                                 </a>
                             
                             
@@ -898,8 +985,8 @@ chmod 777 *.文件类型</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%99%BB%E5%BD%95%E4%BA%92%E4%B8%B2/">
-                        <span class="chip bg-color">登录互串</span>
+                    <a href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="chip bg-color">部署</span>
                     </a>
                     
                 </div>
@@ -910,10 +997,10 @@ chmod 777 *.文件类型</code></pre>
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2018/09/27/js-sdk/">
+                <a href="/js-sdk/">
                     <div class="card-image">
                         
                         
@@ -946,6 +1033,7 @@ chmod 777 *.文件类型</code></pre>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
