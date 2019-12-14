@@ -4,11 +4,142 @@
   
     
     <entry>
+      <title>element联级选择器（获取省市地区）后台动态获取</title>
+      <link href="/elementlianji/"/>
+      <url>/elementlianji/</url>
+      
+        <content type="html"><![CDATA[<ul><li>如何根据后台接口数据动态展示联级选择器，本文章以获取省市地区为例进行说明</li><li><strong>通过点击省地区动态获取市地区</strong></li><li>首先，看一下<code>element</code>联级选择器长啥样：<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&lt;el-cascader :options=&quot;options&quot; v-model=&quot;value&quot; clearable&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  export default {    data() {      return {        value: &#39;&#39;,        options: [{          value: &#39;zhinan&#39;,          label: &#39;指南&#39;,          children: [{            value: &#39;shejiyuanze&#39;,            label: &#39;设计原则&#39;,            children: [{              value: &#39;yizhi&#39;,              label: &#39;一致&#39;            }, {              value: &#39;fankui&#39;,              label: &#39;反馈&#39;            }, {              value: &#39;xiaolv&#39;,              label: &#39;效率&#39;            }, {              value: &#39;kekong&#39;,              label: &#39;可控&#39;            }]          }]        }]      }    }  }&lt;&#x2F;script&gt;</code></pre></li></ul><p><strong>可以清楚的看到，<code>value</code>为选择后的动态结果，<code>options</code>属性控制着联级菜单的内容，每一级都有<code>value</code> 和 <code>lable</code>属性，控制着展示的内容，<code>children</code>属性控制着是否含有子集菜单</strong></p><ul><li>了解到结构后我们就可以动态获取了：</li></ul><ol><li><p>根据<code>props</code>属性设置后台对应参数</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&lt;el-cascader v-model=&quot;adress&quot; :options=&quot;optionsAdress&quot; :props=&quot;props&quot; clearable placeholder=&quot;请选择地区&quot;&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  data () {    &#x2F;&#x2F; 选择结果以数组方式展示    adress: [],    &#x2F;&#x2F; 选择器结果数据长下面这样    optionsAdress: [{ code: &#39;111&#39;, name: &#39;北京&#39;, cities: [{ code: &#39;112&#39;, name: &#39;海淀区&#39; }]}],    &#x2F;&#x2F; props设置参数对应属性    props: {      value: &#39;code&#39;,      label: &#39;name&#39;,      children: &#39;cities&#39;    },  }&lt;&#x2F;script&gt;</code></pre></li><li><p>在初始化获取省列表数据赋值给<code>optionsAdress</code>进行展示</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data () {  optionsAdress: [],  &#x2F;&#x2F; ...},created () {  this.getProvice()},methods: {  getProvice () {    this.axios.get(&#39;proviceUrl&#39;).then(data =&gt; {      this.optionsAdress = data.data      &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},{ code: &#39;222&#39;, name: &#39;河北省&#39; }]并能在联级菜单进行显示    }).catch(err =&gt; {      console.log(err.msg)    })  }}</code></pre></li><li><p>我们通过点击省获取对应省的市地区，所以就得动态的给<code>optionsAdress</code>的对应项加<code>cities</code>子属性，看代码：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; 用active-item-change监听省地区的变化&lt;el-cascader v-model=&quot;adress&quot; :options=&quot;optionsAdress&quot; :props=&quot;props&quot; clearable placeholder=&quot;请选择地区&quot;  @active-item-change=&quot;handleItemChange&quot;&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  data () {    adress: [],    optionsAdress: [],    props: {      value: &#39;code&#39;,      label: &#39;name&#39;,      children: &#39;cities&#39;    },  }  created () {    this.getProvice()  },  methods: {    getProvice () {      this.axios.get(&#39;proviceUrl&#39;).then(data =&gt; {        this.optionsAdress = data.data        &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},{ code: &#39;222&#39;, name: &#39;河北省&#39; }]并能在联级菜单进行显示      }).catch(err =&gt; {        console.log(err.msg)      })    },    handleItemChange (val) {      &#x2F;&#x2F; 根据省的code获取市的列表并添加到对应省的数据里      const that = this      that.optionsAdress.forEach(item =&gt; {        if (item.code === val[0]) {          that.axios.get(&#39;cityUrl&#39; + &#39;?proviceCode=&#39; + val[0]).then(data =&gt; {            item.cities = data.data            &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},            &#x2F;&#x2F; { code: &#39;222&#39;, name: &#39;河北省&#39;, cities: [{ code: &#39;223&#39;, name: &#39;石家庄&#39; }]}]          }).catch(data =&gt; {            console.log(err.msg)          })        }      })    },  }&lt;&#x2F;script&gt;</code></pre></li></ol><p>以上即为获取省市的全部代码，<code>adress</code>的值即为最后选取的省市信息，也可以通过<code>change</code>事件监听值的变化，希望能帮到 大家</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> element </tag>
+            
+            <tag> 联级选择器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue 下载pdf文件</title>
+      <link href="/vuexiazai/"/>
+      <url>/vuexiazai/</url>
+      
+        <content type="html"><![CDATA[<ol><li><p>首先安装依赖<code>npm install html2canvas jspdf --save</code></p></li><li><p>封装方法：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; pdfMethod.jsimport html2canvas from &#39;html2canvas&#39;import JsPDF from &#39;jspdf&#39;const generateResume = (el, name) =&gt; {  html2canvas(el).then(canvas =&gt; {    let contentWidth = canvas.width    let contentHeight = canvas.height    &#x2F;&#x2F;一页pdf显示html页面生成的canvas高度;    let pageHeight = (contentWidth &#x2F; 592.28) * 841.89    &#x2F;&#x2F;未生成pdf的html页面高度    let leftHeight = contentHeight    &#x2F;&#x2F;页面偏移    let position = 0    &#x2F;&#x2F;a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高    let imgWidth = 595.28    let imgHeight = (592.28 &#x2F; contentWidth) * contentHeight    let pageData = canvas.toDataURL(&#39;image&#x2F;jpeg&#39;, 1.0)    let pdf = new JsPDF(&#39;&#39;, &#39;pt&#39;, &#39;a4&#39;)    &#x2F;&#x2F;有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)    &#x2F;&#x2F;当内容未超过pdf一页显示的范围，无需分页    if (leftHeight &lt; pageHeight) {      pdf.addImage(pageData, &#39;JPEG&#39;, 0, 0, imgWidth, imgHeight)    } else {      while (leftHeight &gt; 0) {        &#x2F;&#x2F;arg3--&gt;距离左边距;arg4--&gt;距离上边距;arg5--&gt;宽度;arg6--&gt;高度        pdf.addImage(pageData, &#39;JPEG&#39;, 0, position, imgWidth, imgHeight)        leftHeight -= pageHeight        position -= 841.89        &#x2F;&#x2F;避免添加空白页        if (leftHeight &gt; 0) {          &#x2F;&#x2F;添加新页          pdf.addPage()        }      }    }    pdf.save(`${name}.pdf`)  })}export default generateResume</code></pre></li><li><p>开始使用：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;template&gt;  &lt;div class=&quot;priview_resume_container&quot;&gt;    &lt;div style=&quot;font-size: 30px&quot; @click=&quot;getResume&quot;&gt;点这里下载&lt;&#x2F;div&gt;  &lt;&#x2F;div&gt;&lt;&#x2F;template&gt;&lt;script&gt;  export default {    name: &#39;priviewResume&#39;,    methods: {      getResume() {        generateResume(        document.getElementsByClassName(&#39;priview_resume_container&#39;)[0],        &#39;测试&#39;        )      }    },    components: {}  }&lt;&#x2F;script&gt;</code></pre></li></ol><p><code>这里用class类名包裹的所有html样式都会按照vue展现的样式被canvas绘出来并以pdf文件输出</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 下载 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>设置transform导致弹窗字体模糊问题</title>
+      <link href="/shezhitrans/"/>
+      <url>/shezhitrans/</url>
+      
+        <content type="html"><![CDATA[<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ul><li><p>项目中，设置弹出框居中的时候遇到字体变模糊的情况，查阅资料后发现是<code>transform</code>的问题，下面具体看看：</p><h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4></li><li><p>项目中弹出框的样式居中是这样写的：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-css">.box {  position: absolute;  top: 50%;  left: 50%;  transform: translate(-50%, -50%);}</code></pre></li><li><p>比如盒子的宽度为300px，高度为401.5px，这样transform计算出的50%是150px，和200.75px，这种情况下就会出现了字体模糊的现象</p></li><li><p>后来看网上也是说到如果宽度和高度为奇数，translate为百分比，计算出为小数的时候会出现字体模糊的现象</p><h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4></li><li><p>将盒子的高度或者宽度改为偶数可以解决此问题</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> transform </tag>
+            
+            <tag> 字体模糊 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>网易云音乐mp3外链、真实地址下载方法</title>
+      <link href="/musiconline/"/>
+      <url>/musiconline/</url>
+      
+        <content type="html"><![CDATA[<p>一个网易音乐外链地址长期有效，很简单的方法：</p><p>第一步打开网易云音乐，随便找到一首歌，播放，复制网址的ID，</p><p>例如：杨钰莹的心雨，网址是：</p><p><code>http://music.163.com/#/song?id=317151</code></p><p>很明显，ID是317151</p><p>那么，这首歌的真实地址就是：</p><p><code>http://music.163.com/song/media/outer/url?id=317151.mp3</code></p><p>这个地址不会失效的；</p><p>这就得到一个下载公式：</p><p><code>http://music.163.com/song/media/outer/url?id=ID数字.mp3</code></p><p>把上面红色部分ID数字换成网易云播放页面的id即可。</p><p>实例：</p><p>潘美辰：我曾用心爱着你</p><p><code>http://music.163.com/#/song?id=281951</code></p><p>mp3下载、外链地址：</p><p><code>http://music.163.com/song/media/outer/url?id=281951.mp3</code></p><p>本文参考<a href="https://www.cnblogs.com/MirageFox/p/7995929.html" target="_blank" rel="noopener">MirageFox的博客</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技巧 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> mp3外链 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>hexo代码高亮不起作用</title>
+      <link href="/hexoissue/"/>
+      <url>/hexoissue/</url>
+      
+        <content type="html"><![CDATA[<ul><li>具体来说是在3.8.0的hexo下无法正确地加载hexo-prism-plus，debug了很久没有结果，特地发邮件向你请教。</li><li>我在安装了hexo 3.8.0 、hexo-prism-plus 1.1.0后，通过 hexo server –debug 命令启动服务，控制台可以看到插件已经被加载，除此之外没有任何报错信息。打开网页，博客文章中代码部分并没有被高亮，打开开发者工具查看HTML元素，本应该被inject进来的prism.js和prism.css都没有在html找到，Network中也没有找到相关文件的http请求。我怀疑是Inject没有正确执行，查看了hexo-prism-plus的源码，发现依赖了 hexo-inject 包，这个包在npm网站上已经被标记为deprecated，并且也发现了github上有一个关于 hexo-inject 是否还兼容 hexo 3.8.0 的Issue</li></ul><p><code>将 hexo-inject 加到 package.json 后，正确工作了。</code><br>看来用户初次安装时得先运行一下 <code>npm install hexo-inject -s</code>才行。<br>文章参考自<a href="https://github.com/Aetf/hexo-prism-plus/issues/1" target="_blank" rel="noopener">这里</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo代码高亮 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>test</title>
       <link href="/test/"/>
       <url>/test/</url>
       
-        <content type="html"><![CDATA[<pre><code class="javascript">var a =0;function aa () {    var ab = 0;}</code></pre>]]></content>
+        <content type="html"><![CDATA[<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">var a =0;function aa () {    var ab = 0;}</code></pre>]]></content>
       
       
       
@@ -69,11 +200,489 @@
     
     
     <entry>
+      <title>vue实现自定义步骤条</title>
+      <link href="/vueshixian/"/>
+      <url>/vueshixian/</url>
+      
+        <content type="html"><![CDATA[<ul><li>首先看一下实现的效果：<br><img src="https://img-blog.csdnimg.cn/20191119170608527.png" alt="在这里插入图片描述"></li><li>来看看实现过程：</li></ul><p><strong>公共插件</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;!-- Step.vue  --&gt;&lt;template&gt;  &lt;div class=&quot;stepOut&quot;&gt;    &lt;ul&gt;      &lt;li class=&quot;stepItem&quot; v-for=&quot;(stepItem, index) in stepInfo.list&quot; :key=&quot;index&quot;&gt;        &lt;!-- 模拟步骤条的节点，此处为圆圈 --&gt;        &lt;div :class=&quot;stepInfo.step &gt;= index+1 ? &#39;icon active&#39;:&#39;icon&#39;&quot;&gt;&lt;&#x2F;div&gt;        &lt;!-- 模拟步骤条连接线，动态显示  --&gt;        &lt;div :class=&quot;stepInfo.step &gt;= index+2 ? &#39;line lineActive&#39;:&#39;line&#39;&quot; v-show=&quot;index!==stepInfo.list.length-1&quot;&gt;&lt;&#x2F;div&gt;        &lt;!-- 步骤名称  --&gt;        &lt;p class=&quot;stepStatus&quot;&gt;{{stepItem.status}}&lt;&#x2F;p&gt;        &lt;!-- 步骤时间  --&gt;        &lt;p class=&quot;statusTime&quot;&gt;{{stepItem.statusTime}}&lt;&#x2F;p&gt;      &lt;&#x2F;li&gt;    &lt;&#x2F;ul&gt;  &lt;&#x2F;div&gt;&lt;&#x2F;template&gt;&lt;script&gt;export default {  name: &#39;steps&#39;,  props: {    &#x2F;&#x2F; 传递步骤参数    stepInfo: {      type: Object,      default: function () {        return {          list: [],          step: 0        }      }    }  }}&lt;&#x2F;script&gt;&lt;style lang=&quot;less&quot; scoped&gt;.stepOut {  width: 100%;  height: 70px;  display: flex;  justify-content: center;  .stepItem {    width: 260px;    height: 70px;    float: left;    font-family: SimSun;    font-size: 16px;    text-align: center;    position: relative;    .icon {      width: 13px;      height: 13px;      border-radius: 50%;      background: rgba(226, 226, 226, 1);      margin: 0 auto;      position: relative;      z-index: 888;    }    .active {      background-color: green;    }    .line {      position: absolute;      top: 6px;      left: 50%;      border-bottom: 1px dashed rgba(3, 2, 2, 0.7);      width: 260px;      z-index: 111;    }    .lineActive {      border-bottom: 1px solid green;    }    .stepStatus {      color: rgba(87, 87, 87, 1);      line-height: 36px;    }    .statusTime {      color: rgba(87, 87, 87, 1);      opacity: 0.5;    }  }}&lt;&#x2F;style&gt;</code></pre><p><strong>使用</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;template&gt;  &lt;div class=&quot;main&quot;&gt;    &lt;Steps :stepInfo=&quot;stepInfo&quot;&gt;&lt;&#x2F;Steps&gt;  &lt;&#x2F;div&gt;&lt;&#x2F;template&gt;&lt;script&gt;import Steps from &#39;@&#x2F;components&#x2F;Steps&#39;export default {  components: { Steps },  data () {    return {      stepInfo: {        list: [{ status: &#39;提现申请提交成功，令额冻结&#39;, statusTime: &#39;2019-11-8 12:12:12&#39; },...],        step: 2      }    }  }}&lt;&#x2F;script&gt;</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 步骤条 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue自定义走马灯，类似弹幕</title>
+      <link href="/vuezidingyi/"/>
+      <url>/vuezidingyi/</url>
+      
+        <content type="html"><![CDATA[<p>效果：<br><img src="https://img-blog.csdnimg.cn/20191113113850719.gif" alt="在这里插入图片描述"><br>公共组件</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&#x2F;&#x2F; Race.vue&lt;template&gt;  &lt;div ref=&quot;wrap&quot; class=&quot;wrap&quot;&gt;    &lt;div ref=&quot;content&quot; class=&quot;content&quot; :class=&quot;animationClass&quot; :style=&quot;contentStyle&quot; @animationend=&quot;onAnimationEnd&quot;      @webkitAnimationEnd=&quot;onAnimationEnd&quot;&gt;      &lt;slot&gt;&lt;&#x2F;slot&gt;    &lt;&#x2F;div&gt;  &lt;&#x2F;div&gt;&lt;&#x2F;template&gt;&lt;script&gt;export default {  props: {    content: {      default: &#39;&#39;    },    delay: {      type: Number,      default: 0.5    },    speed: {      type: Number,      default: 100    }  },  mounted () { },  data () {    return {      wrapWidth: 0,      &#x2F;&#x2F; 父盒子宽度      firstRound: true,      &#x2F;&#x2F; 判断是否      duration: 0,      &#x2F;&#x2F; css3一次动画需要的时间      offsetWidth: 0,      &#x2F;&#x2F; 子盒子的宽度      animationClass: &#39;&#39;      &#x2F;&#x2F; 添加animate动画    }  },  computed: {    contentStyle () {      return {        &#x2F;&#x2F; 第一次从头开始,第二次动画的时候需要从最右边出来所以宽度需要多出父盒子的宽度        paddingLeft: (this.firstRound ? 0 : this.wrapWidth) + &#39;px&#39;,        &#x2F;&#x2F; 只有第一次的时候需要延迟        animationDelay: (this.firstRound ? this.delay : 0) + &#39;s&#39;,        animationDuration: this.duration + &#39;s&#39;      }    }  },  watch: {    content: {      &#x2F;&#x2F; 监听到有内容,从后台获取到数据了,开始计算宽度,并计算时间,添加动画      handler () {        this.$nextTick(() =&gt; {          const { wrap, content } = this.$refs          const wrapWidth = wrap.getBoundingClientRect().width          const offsetWidth = content.getBoundingClientRect().width          this.wrapWidth = wrapWidth          this.offsetWidth = offsetWidth          this.duration = offsetWidth &#x2F; this.speed          this.animationClass = &#39;animate&#39;        })      }    }  },  methods: {    &#x2F;&#x2F; 这个函数是第一次动画结束的时候,第一次没有使用infinite,第一次动画执行完成后开始使用添加animate-infinite动画    onAnimationEnd () {      this.firstRound = false      this.$refs.content.style.opacity = 0      setTimeout(() =&gt; {        this.$refs.content.style.opacity = 1      }, 20)      &#x2F;&#x2F; 这是时候样式多出了padding-left:this.wrapWidth;所以要想速度一样需要重新计算时间      this.duration = (this.offsetWidth + this.wrapWidth) &#x2F; this.speed      this.animationClass = &#39;animate-infinite&#39;    }  }}&lt;&#x2F;script&gt;&lt;style scoped&gt;.wrap {  width: 100%;  height: 24px;  overflow: hidden;  position: relative;  background: rgba(211, 125, 066, 1);  position: relative;  padding: 0;}.wrap .content {  position: absolute;  white-space: nowrap;}.animate {  animation: paomadeng linear;}.animate-infinite {  animation: paomadeng-infinite linear infinite;}@keyframes paomadeng {  to {    transform: translate3d(-100%, 0, 0);  }}@keyframes paomadeng-infinite {  to {    transform: translate3d(-100%, 0, 0);  }}&lt;&#x2F;style&gt;</code></pre><p>使用</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">    &lt;div style=&quot;width:300px;margin:0 auto&quot;&gt;      &lt;Race :delay=&quot;0.5&quot; :speed=&quot;100&quot; :content=&quot;listC&quot;&gt;        &lt;span v-for=&quot;(item, index) in listA&quot; :key=&quot;index&quot; style=&quot;marginRight:10px&quot;&gt;          &lt;img :src=&quot;item.img&quot; alt=&quot;&quot; style=&quot;width:20px;height:20px;borderRadius:50%&quot;&gt;          &lt;span style=&quot;color:green&quot;&gt;{{item.name}}&lt;&#x2F;span&gt;{{item.text}}        &lt;&#x2F;span&gt;      &lt;&#x2F;Race&gt;      &lt;Race :delay=&quot;0.9&quot; :speed=&quot;100&quot; :content=&quot;listC&quot;&gt;        &lt;span v-for=&quot;(item, index) in listB&quot; :key=&quot;index&quot; style=&quot;marginRight:10px&quot;&gt;          &lt;img :src=&quot;item.img&quot; alt=&quot;&quot; style=&quot;width:20px;height:20px;borderRadius:50%&quot;&gt;          &lt;span style=&quot;color:green&quot;&gt;{{item.name}}&lt;&#x2F;span&gt;{{item.text}}        &lt;&#x2F;span&gt;      &lt;&#x2F;Race&gt;    &lt;&#x2F;div&gt;</code></pre><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">import Race from &#39;@&#x2F;components&#x2F;Race&#39;components: { Race },data () {  return {    lists: []  }},mounted () {  this.lists = [      { text: &#39;连雨不知春去&#39;, name: &#39;张三&#39;, img: &#39;https:&#x2F;&#x2F;pic2.zhimg.com&#x2F;80&#x2F;v2-8df0e1ada7af09d3c62f2ba5ec4e4266_hd.jpg&#39; },      { text: &#39;一晴方觉夏深&#39;, name: &#39;李四&#39;, img: &#39;https:&#x2F;&#x2F;pic2.zhimg.com&#x2F;80&#x2F;v2-8df0e1ada7af09d3c62f2ba5ec4e4266_hd.jpg&#39; },      { text: &#39;连雨不知春去&#39;, name: &#39;张三&#39;, img: &#39;https:&#x2F;&#x2F;pic2.zhimg.com&#x2F;80&#x2F;v2-8df0e1ada7af09d3c62f2ba5ec4e4266_hd.jpg&#39; },      { text: &#39;一晴方觉夏深&#39;, name: &#39;李四&#39;, img: &#39;https:&#x2F;&#x2F;pic2.zhimg.com&#x2F;80&#x2F;v2-8df0e1ada7af09d3c62f2ba5ec4e4266_hd.jpg&#39; }    ]},computed () {  listA () {      return this.lists.slice(0, Math.floor(this.lists.length &#x2F; 2))    },    listB () {      return this.lists.slice(Math.floor(this.lists.length &#x2F; 2), this.lists.length)    },    listC () {      console.log(this.lists.map(item =&gt; {        return item.name + item.name + item.text      }))      return this.lists.map(item =&gt; {        return item.name + item.name + item.text      })    }}</code></pre><p><strong>本文参考自<a href="https://github.com/heyushuo/vue-marquee" target="_blank" rel="noopener">Vue版跑马灯效果，Vue无缝滚动效果</a></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 走马灯 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue支付密码插件实现（可解决浏览器记住密码行为）</title>
+      <link href="/vuezhifu/"/>
+      <url>/vuezhifu/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p><strong>浏览器自动填充和记住密码行为是前端遇到最为头疼的问题之一，浏览器只要检查到<code>password</code> input框，就会匹配离他最近的<code>text</code> input框，<code>autocomplete</code>属性虽能解决自动填充的问题，但是也是支持有限，不能解决浏览器记住密码行为和提示密码行为</strong></p></li><li><p>要解决这种问题，可以从<code>password</code> input框入手，只要改变 input框的类型为<code>text</code>就可以解决此问题</p><h4 id="第一种：设置样式"><a href="#第一种：设置样式" class="headerlink" title="第一种：设置样式"></a>第一种：设置样式</h4><p>设置input 类型为<code>text</code>后，给此input设置样式<code>-webkit-text-security:disc</code>即可，但是，这种样式兼容性不好，只支持以下浏览器版本<br><img src="https://img-blog.csdnimg.cn/20191111110326861.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><h4 id="第二种：模拟密码框"><a href="#第二种：模拟密码框" class="headerlink" title="第二种：模拟密码框"></a>第二种：模拟密码框</h4><p>思路很简单，真实input为<code>text</code>的框输入并隐藏，相同位置展示密码圆点<br><img src="https://img-blog.csdnimg.cn/201911111116306.png" alt="在这里插入图片描述"><br>看代码：<br><strong>html</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;div class=&quot;input&quot;&gt;    &lt;span class=&quot;password1&quot; @click=&quot;setTimer&quot;&gt;        &lt;span class=&quot;iconfont&quot; v-for=&quot;i in password.length&quot; :key=&quot;i&quot;&gt;&lt;&#x2F;span&gt;        &lt;!-- 模拟光标 --&gt;        &lt;span v-show=&quot;isFocus&quot; class=&quot;focusIcon&quot;&gt;&lt;&#x2F;span&gt;    &lt;&#x2F;span&gt;    &lt;input type=&quot;text&quot; class=&quot;password&quot; ID=&quot;txtPassword&quot; MaxLength=&quot;26&quot; v-model=&quot;password&quot; autofocus      @click=&quot;setTimer&quot;&gt;    &lt;!-- 光标之外点击蒙层 --&gt;    &lt;div class=&quot;maskClick&quot; @click=&quot;clearFocus&quot;&gt;&lt;&#x2F;div&gt;  &lt;&#x2F;div&gt;</code></pre><p><strong>css</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-css">.iconfont {  display: inline-block;  height: 7px;  width: 7px;  margin-right: 2px;  border-radius: 50%;  background-color: #333;}#txtPassword {  opacity: 0;}input {  width: 220px;  padding-left: 10px;  padding-top: 3px;  background: #fcfcfc;  height: 38px;  line-height: 43px;  font-size: 18px;  border: 1px solid #e1e1e1;  border-radius: 4px;}div.input {  position: relative;}div.input input {  position: absolute;  left: 0;  z-index: 22;}.maskClick {  width: 500px;  height: 500px;  position: absolute;  top: -125px;  left: -125px;  z-index: 1;}.password1 {  position: absolute;  left: 0;  z-index: 22;  width: 220px;  height: 38px;  line-height: 33px;  padding-left: 10px;  background: #fcfcfc;  border: 1px solid #e1e1e1;  border-radius: 4px;}.focusIcon {  display: inline-block;  width: 1.5px;  height: 20px;  background: #606266;  vertical-align: middle;}</code></pre><p><strong>js：因为真实的input被隐藏，光标被隐藏，所以在这里模拟了光标的实现，不需要的可以省略光标部分代码</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data () {    return {      password: &#39;&#39;,      isFocus: true,      timer: null,      timerOut: null    }  },  methods: {    setTimer (tag) {      const that = this      that.clearFocus()      setTimeout(() =&gt; {        that.isFocus = true      }, 400)      that.timer = setInterval(() =&gt; {        this.isFocus = false        that.timerOut = setTimeout(() =&gt; {          this.isFocus = true        }, 1200)      }, 800)    },    clearFocus () {      window.clearInterval(this.timer)      this.timer = null      window.clearTimeout(this.timerOut)      this.timerOut = null      setTimeout(() =&gt; {        this.isFocus = false      }, 20)    }  },  mounted () {    this.setTimer()  },  beforeDestroy () {    window.clearInterval(this.timer)  }</code></pre></li></ul><p>这样就简单实现了input密码框的模拟，当然密码显示样式可以根据自己需要随时更改，大家有什么好的实现方式欢迎讨论学习</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 密码 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>js 常见字符串检验规则封装总结</title>
+      <link href="/jschangjian/"/>
+      <url>/jschangjian/</url>
+      
+        <content type="html"><![CDATA[<h4 id="1、检验手机号"><a href="#1、检验手机号" class="headerlink" title="1、检验手机号"></a>1、检验手机号</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; 检验手机号    function checkPhones (val) {      let number = &#x2F;^[1][3,4,5,6,9,7,8][0-9]{9}$&#x2F;      if (!number.test(val)) {        return true      } else {        return false      }    },</code></pre><h4 id="2、检验是否为汉字"><a href="#2、检验是否为汉字" class="headerlink" title="2、检验是否为汉字"></a>2、检验是否为汉字</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">    &#x2F;&#x2F; 检验文字    function checkNames (val) {      let NameReg = &#x2F;^[\u4E00-\u9FA5]{2,20}$&#x2F;      if (!NameReg.test(val)) {        return true      } else {        return false      }    }</code></pre><h4 id="3、检验邮箱"><a href="#3、检验邮箱" class="headerlink" title="3、检验邮箱"></a>3、检验邮箱</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">    &#x2F;&#x2F; 检验邮箱    function checkEmails (val) {      if (val.length &gt; 40) {        return true      }      let EmailReg = &#x2F;^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$&#x2F;i      if (val &amp;&amp; !EmailReg.test(val)) {        return true      } else {        return false      }    }</code></pre><h4 id="4、检验身份证号"><a href="#4、检验身份证号" class="headerlink" title="4、检验身份证号"></a>4、检验身份证号</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">    &#x2F;&#x2F; 检验身份证号    function checkCodes (id) {      &#x2F;&#x2F; 1 &quot;验证通过!&quot;, 0 &#x2F;&#x2F;校验不通过 &#x2F;&#x2F; id为身份证号码      var format = &#x2F;^(([1][1-5])|([2][1-3])|([3][1-7])|([4][1-6])|([5][0-4])|([6][1-5])|([7][1])|([8][1-2]))\d{4}(([1][9]\d{2})|([2]\d{3}))(([0][1-9])|([1][0-2]))(([0][1-9])|([1-2][0-9])|([3][0-1]))\d{3}[0-9xX]$&#x2F;      &#x2F;&#x2F; 号码规则校验      if (!format.test(id)) {        return true      }      &#x2F;&#x2F; 区位码校验      &#x2F;&#x2F; 出生年月日校验  前正则限制起始年份为1900;      var year = id.substr(6, 4) &#x2F;&#x2F; 身份证年      var month = id.substr(10, 2) &#x2F;&#x2F; 身份证月      var date = id.substr(12, 2) &#x2F;&#x2F; 身份证日      var time = Date.parse(month + &#39;-&#39; + date + &#39;-&#39; + year) &#x2F;&#x2F; 身份证日期时间戳date      var nowTime = Date.parse(new Date()) &#x2F;&#x2F; 当前时间戳      var dates = new Date(year, month, 0).getDate() &#x2F;&#x2F; 身份证当月天数      if (time &gt; nowTime || date &gt; dates) {        return true      }      &#x2F;&#x2F; 校验码判断      var c = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2] &#x2F;&#x2F; 系数      var b = [&#39;1&#39;, &#39;0&#39;, &#39;X&#39;, &#39;9&#39;, &#39;8&#39;, &#39;7&#39;, &#39;6&#39;, &#39;5&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39;] &#x2F;&#x2F; 校验码对照表      var idArray = id.split(&#39;&#39;)      var sum = 0      for (var k = 0; k &lt; 17; k++) {        sum += parseInt(idArray[k]) * parseInt(c[k])      }      if (idArray[17].toUpperCase() !== b[sum % 11].toUpperCase()) {        return true      }      return false    }</code></pre><h4 id="5、检验信用代码"><a href="#5、检验信用代码" class="headerlink" title="5、检验信用代码"></a>5、检验信用代码</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">    &#x2F;&#x2F; 检验信用代码    function checkCredits (val) {      let region = &#x2F;(^[A-Z0-9]{18}$)&#x2F;      if (!region.test(val)) {        return true      } else {        return false      }    }</code></pre><h4 id="6、检验银行账号"><a href="#6、检验银行账号" class="headerlink" title="6、检验银行账号"></a>6、检验银行账号</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">    &#x2F;&#x2F; 检验银行账号    function checkBankCode (val) {      let BankCode = &#x2F;^\d{12,32}$&#x2F;      if (!BankCode.test(val)) {        return true      } else {        return false      }    }</code></pre><h4 id="7、检验密码"><a href="#7、检验密码" class="headerlink" title="7、检验密码"></a>7、检验密码</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">    &#x2F;&#x2F; 检验密码(6~20位非空字符)    function checkPassword (val) {      let pwdCode = &#x2F;\S{6,20}&#x2F;      if (!pwdCode.test(val)) {        return true      } else {        return false      }    }</code></pre><h4 id="8、检验字符串字节长度"><a href="#8、检验字符串字节长度" class="headerlink" title="8、检验字符串字节长度"></a>8、检验字符串字节长度</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">    &#x2F;&#x2F; 检验字符串字节长度    checkStrByte (str) {      return new Blob([str]).size    }</code></pre><h4 id="9、其它证件类型检验正则"><a href="#9、其它证件类型检验正则" class="headerlink" title="9、其它证件类型检验正则"></a>9、其它证件类型检验正则</h4><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-text">    护照号: &#x2F;(^[a-zA-Z0-9]{20}$)&#x2F;    军官证号: &#x2F;(^[0-9]{7}$)&#x2F;    士兵证号: &#x2F;(^[0-9]{7}$)&#x2F;    回乡证号: &#x2F;(^[a-zA-Z][0-9]{10}$)&#x2F;    警官证号: &#x2F;(^[0-9]{1,7}$)&#x2F;    台胞证号: &#x2F;(^[a-zA-Z0-9]\d{0,7}$)&#x2F;</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+            <tag> 验证规则 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>js检查字符串字节长度</title>
+      <link href="/jsjiancha/"/>
+      <url>/jsjiancha/</url>
+      
+        <content type="html"><![CDATA[<ul><li>Blob对象有size属性，返回字节长度，看官方说明<br><img src="https://img-blog.csdnimg.cn/20191025102617993.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li><li>要获得字符串的字节长度，看下Blob函数<br><img src="https://img-blog.csdnimg.cn/2019102510273457.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>首先要说明的是 js 中的<code>DOMString</code>通过<code>Blob</code>函数会被编译成<code>UTF-8</code></li><li>来看下实现例子：<br><img src="https://img-blog.csdnimg.cn/20191025103127819.png" alt="在这里插入图片描述"></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+            <tag> 字符串 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>字体图标在ie兼容问题（element低版本icon）（图标在ie浏览器不显示）</title>
+      <link href="/zititubiao/"/>
+      <url>/zititubiao/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p><strong>在项目开发过程中，项目用到的是<code>element</code>组件，版本号是<code>2.4.7</code>，遇到了图标字体在<code>ie</code>浏览器不显示的问题，这是在同事电脑出现的bug，我电脑同样是<code>ie</code>，11版本和10版本都没有问题，但是在同事电脑哪个版本都显示不出来，纠结了半天</strong></p></li><li><p><strong>看到ie里报的错误是这样的</strong><br><code>CSS3114: @font-face 未能完成 OpenType 嵌入权限检查。权限必须是可安装的。</code></p></li><li><p><strong>在网上搜都是千篇一律的答案，像这样的：</strong><br><img src="https://img-blog.csdnimg.cn/20191018183544950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p></li><li><p><strong>核心就是ie不支持eot字体，需要特定转换：<code>url(&#39;fonts/webfont.eot?#iefix&#39;) format(&#39;embedded-opentype&#39;)</code></strong></p></li><li><p><strong>可是我用的是<code>element</code>，上哪去转换这个字体图标？当然得去<code>element</code>里了，一种方式是直接修改里面的源码，可是我的项目是线上打包，所以在本地修改源码是部署不到线上去的，故我采取了第二种方式：样式覆盖</strong></p></li><li><p><strong>1、首先看<code>element</code>与<code>icon</code>相关的样式或者说需要修改的部分：</strong><br>在<code>node-modules</code>文件夹下找到组件位置<br><img src="https://img-blog.csdnimg.cn/2019101818461585.png" alt="在这里插入图片描述"></p><ul><li><strong>2、找到<code>fonts</code>文件夹，<code>eot</code>文件初始是不存在的，为兼容<code>ie</code>，你需要把<code>woff</code>文件或者ttf文件在网上找个在线转换器转换成<code>eot</code>文件以便后面使用</strong></li><li><strong>3、按照上图箭头方向找到<code>index.css</code>，打开并找到设置<code>icon</code>图标的样式</strong><br><img src="https://img-blog.csdnimg.cn/2019101818541645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如图：红色框内就是需要修改的位置，黄色框内就是需要添加的内容，下面看看怎么覆盖它们：</li></ul></li><li><p><strong>4、首先把第一张图的<code>fonts</code>文件夹下的三种类型图标复制到项目静态文件夹下</strong><br><img src="https://img-blog.csdnimg.cn/20191018185858993.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p></li><li><p><strong>5、然后在项目公共样式部分填写样式覆盖<code>element</code>中图标设置样式，让兼容<code>eot</code>生效</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-css">&#x2F;*common.css*&#x2F;@font-face {  font-family: element-icons;  src: url(&#39;fonts&#x2F;element-icons.woff&#39;) format(&quot;woff&quot;),    url(&#39;fonts&#x2F;element-icons.ttf&#39;) format(&quot;truetype&quot;),    url(&#39;fonts&#x2F;element-icons.eot?#iefix&#39;) format(&quot;embedded-opentype&quot;);  font-weight: 400;  font-style: normal;}</code></pre></li></ul><p>这样就完全实现了在<code>ie</code>中兼容图标的写法，欢迎指正与补充</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 字体图标 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>位运算 让js更简洁</title>
+      <link href="/weiyunsuan/"/>
+      <url>/weiyunsuan/</url>
+      
+        <content type="html"><![CDATA[<p>废话不说，直接看例子，来看看它的好处</p><h5 id="用-“-”-取整"><a href="#用-“-”-取整" class="headerlink" title="用 “|” 取整"></a>用 “|” 取整</h5><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">let num=1.5num=num|0; &#x2F;&#x2F; 1​</code></pre><h5 id="用-“-gt-gt-”-取半"><a href="#用-“-gt-gt-”-取半" class="headerlink" title="用 “&gt;&gt;” 取半"></a>用 “&gt;&gt;” 取半</h5><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">let num=4;num=num&gt;&gt;1; &#x2F;&#x2F; 2</code></pre><h5 id="用-“-lt-lt-”-加倍"><a href="#用-“-lt-lt-”-加倍" class="headerlink" title="用 “&lt;&lt;” 加倍"></a>用 “&lt;&lt;” 加倍</h5><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">let num=2;num=num&lt;&lt;1; &#x2F; &#x2F; 4</code></pre><h5 id="用-“-”-两值交换"><a href="#用-“-”-两值交换" class="headerlink" title="用 “^” 两值交换"></a>用 “^” 两值交换</h5><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">let a=1;let b=2;a^=b;b^=a;a^=b;&#x2F;&#x2F; a===2,b===1</code></pre><h5 id="用-“-amp-”-判断奇数"><a href="#用-“-amp-”-判断奇数" class="headerlink" title="用 “&amp;” 判断奇数"></a>用 “&amp;” 判断奇数</h5><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">let n=3;let m=4;n&amp;1===1; &#x2F;&#x2F; true 奇数m&amp;1===1; &#x2F;&#x2F; false 偶数</code></pre><h5 id="用-“-”-判断项是否存在"><a href="#用-“-”-判断项是否存在" class="headerlink" title="用 “~” 判断项是否存在"></a>用 “~” 判断项是否存在</h5><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">let firstname=&quot;Ma&quot;;let fullname=&quot;Jack Ma&quot;;let isExist=!!~fullname.indexOf(firstname); &#x2F;&#x2F; true</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+            <tag> 位运算 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue根据后台字段动态显示图片</title>
+      <link href="/vuegenju/"/>
+      <url>/vuegenju/</url>
+      
+        <content type="html"><![CDATA[<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ul><li>之前搜了很多，有通过把每个图片展示通过状态控制显示的<br>有通过<code>require</code>每个图片通过状态控制显示的<br>要是数量少还好说，数量多了这种方法肯定是要放弃的</li><li>本事例就以银行图标显示为例，根据后台返回银行类型字段显示本地对应银行图标<h4 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h4>1、首先在模板写上图片标签，当然只写一个动态的就足够了<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;img :src=&quot;imgSrc&quot; alt=&quot;银行图标&quot;&gt;</code></pre></li></ul><p>2、后台返回及其相关逻辑</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data () {  imgSrc: &#39;&#39;},created () {  this.getImg()}methods: {  getImg () {    this.axios.get(&#39;xxxx&#39;).then(data =&gt; {      &#x2F;&#x2F; 后台返回银行类型      let bankType = data.bankType      &#x2F;&#x2F; 在定义银行类型列表找到对应图片地址赋值给src      &#x2F;&#x2F; 注意：动态添加的字符串路径会被webpack识别为字符串，不会去require相关图片，      &#x2F;&#x2F; 只有当图片路径在static目录下才会加载图片      this.imgSrc = `&#x2F;static&#x2F;img&#x2F;${bankType}.png`    }).catch(err =&gt; {      &#x2F;&#x2F; error    })  }}</code></pre><p>这样就实现了图片的动态加载，欢迎指正~</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 图片 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>怎样优雅的更改element中的样式</title>
+      <link href="/zenyangyouya/"/>
+      <url>/zenyangyouya/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p><strong>相信大家在写<code>vue</code>项目的时候大多都会用到<code>element</code>组件，这样修改组件自带默认样式也就成了前端工程师的主要任务之一了，这篇文章就怎样修改<code>element</code>中的默认<code>ui</code>样式进行说明</strong></p></blockquote><ul><li>以<code>input</code>输入框为例<br>无论要修改哪种样式，都要先熟知或查看<code>element</code>自带的修改样式方式，如果<code>element</code>本身就自带了修改样式的属性，直接用即可，大部分标签也支持利用<code>class</code>命名更改标签样式，本文主要对没有提供更改样式属性的标签进行修改<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;el-input v-model=&quot;input&quot; placeholder=&quot;请输入内容&quot; class=&quot;myInput&quot;&gt;&lt;&#x2F;el-input&gt;&lt;script&gt;export default {  data() {    return {      input: &#39;&#39;    }  }}&lt;&#x2F;script&gt;&lt;style scoped&gt;.myInput {  width: 300px;  height: 50px;  margin: 50px 100px;}&lt;&#x2F;style&gt;</code></pre></li></ul><h5 id="1、通过class更改通用样式"><a href="#1、通过class更改通用样式" class="headerlink" title="1、通过class更改通用样式"></a>1、通过<code>class</code>更改通用样式</h5><p><img src="https://img-blog.csdnimg.cn/2019093010530543.png" alt="输入框"></p><ul><li><p>这样设置后发现通过<code>class</code>更改的高度没有起作用<br>这时候打开控制台看到是这样的结构<br><img src="https://img-blog.csdnimg.cn/20190930110059638.png" alt="输入框结构"></p></li><li><p>我们加的样式被放到外层的<code>div</code>里了同<code>el-input</code>类名同级，真正起高度作用的是<code>el-input__inner</code><br>所以我们就有了结论：只要更改<code>el-input__inner</code>的高度值就可以了</p></li><li><p><code>说明：</code> <code>el-input__inner</code>类名直接写到<code>style</code>里是不起作用的，因为此<code>style</code>为组件私有<code>style</code>，伴有<code>scope</code>唯一性，而原本样式是直接注册到全局的，故可以这样写：</p><h5 id="2、通过全局样式标签修改"><a href="#2、通过全局样式标签修改" class="headerlink" title="2、通过全局样式标签修改"></a>2、通过全局样式标签修改</h5><p>可以将 </p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-css">.el-input__inner {  height: 50px;}</code></pre><p>直接写到公共样式里即可以更改，但是这样会导致全局的<code>input</code>框都会变成此样式的，显然这不是我们要的结果，你可以这样写：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;style scoped&gt;.myInput {  width: 300px;  height: 50px;  margin: 50px 100px;}&lt;&#x2F;style&gt;&lt;style&gt;.outCompoment .el-input__inner {  height: 50px;}&lt;&#x2F;style&gt;</code></pre></li><li><p><code>.outCompoment</code>即为组件最外层样式，保证每个组件最外层样式的唯一性，就可以解决此问题<br>但是这样写不仅不美观，而且也不能保证每一个组件最外层样式不出错出现重复的现象，下面看第三种方法：</p><h5 id="3、通过deep深度修改标签样式"><a href="#3、通过deep深度修改标签样式" class="headerlink" title="3、通过deep深度修改标签样式"></a>3、通过<code>deep</code>深度修改标签样式</h5><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;style scoped&gt;.myInput {  width: 300px;  height: 50px;  margin: 50px 100px;}.outCompoment &#x2F;deep&#x2F; .el-input__inner {  height: 50px;}&lt;&#x2F;style&gt;</code></pre></li></ul><p>这样就会被编译成<br><img src="https://img-blog.csdnimg.cn/20190930112455942.png" alt="在这里插入图片描述"><br>也就实现了输入框高度的更改，这样改不仅美观，也不会出现之前的样式冲突问题</p><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p><code>element</code>里面的样式都可以用第三种方法去更改，不推荐第一二种，保证不了样式的唯一性，很容易出现全局样式污染的情况，大家还有什么好的方式，欢迎补充修正~</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> element </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>前端解决宽度设置百分比和边框后样式超出的问题</title>
+      <link href="/qianduanjiejuek/"/>
+      <url>/qianduanjiejuek/</url>
+      
+        <content type="html"><![CDATA[<ul><li>项目中经常会遇到一类问题：就是设置宽度百分比后再加<code>border</code>边框出现边框溢出显示不出的问题</li><li>原因很简单，就是宽度已经是百分百了，再设边框，实际内容就是百分百再加上边框的宽度，肯定就溢出了</li><li>这个问题很好解决，一个属性就搞定：<code>calc</code><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-css">div {  width: calc(~&quot;100% - 2px&quot;);  border: 1px solid #eee;}</code></pre></li></ul><p>注意： 以上代码即可实现，但是必须规范书写格式，加减号两边必须空格隔开，引号外边加上<code>~</code></p><ul><li>兼容性<br><img src="https://img-blog.csdnimg.cn/20190930115730114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li></ul><p>此方法已支持大多浏览器版本，要想得到更多低版本的兼容，请自行查阅相关兼容写法</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> calc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue 文件下载</title>
+      <link href="/vuewenjianx/"/>
+      <url>/vuewenjianx/</url>
+      
+        <content type="html"><![CDATA[<h4 id="文件下载流程"><a href="#文件下载流程" class="headerlink" title="文件下载流程"></a>文件下载流程</h4><p>本文章针对于前端基于Blob对象创建文件实现文件下载<br>直奔代码：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; 首先创建数据对象const data = {hello: &quot;world&quot;};&#x2F;&#x2F; 创建Blob并指定mine类型const blob = new Blob([JSON.stringify(data)], {type: &quot;text&#x2F;plain&quot;});&#x2F;&#x2F; 文件名命名const fileName = `${new Date().valueOf()}.doc`;&#x2F;&#x2F; 创建a标签，指定标签通过createObjectURL关联blob对象const link = document.createElement(&#39;a&#39;);link.href = window.URL.createObjectURL(blob);&#x2F;&#x2F; 通过download属性规定下载文件名link.download = fileName;&#x2F;&#x2F; click触发下载link.click();&#x2F;&#x2F; 通过revokeObjectURL释放url对象window.URL.revokeObjectURL(link.href);</code></pre><h4 id="通过接口下载"><a href="#通过接口下载" class="headerlink" title="通过接口下载"></a>通过接口下载</h4><p>真实项目中往往会通过接口实现文件的下载，以下下载结合vue实现：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;a href=&quot;#&quot; @click=&quot;fileDownload&quot;&gt;文件下载&lt;&#x2F;a&gt;&lt;el-progress :text-inside=&quot;true&quot; :percentage=&quot;precent&quot;&gt;&lt;&#x2F;el-progress&gt;</code></pre><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data () {  precent: 0,  data: {    id: &#39;xxxx&#39;  }},methods: {  fileDownload () {    &#x2F;&#x2F; 先获取后台下载文件需要的数据    this.axios.get(&#39;getCodeUrl&#39;).then(data =&gt; {      let token = data.token      &#x2F;&#x2F; 将token放到头中，设置下载进度、请求参数、返回类型      this.axios({        url: &#39;downloadUrl&#39;,        method: &#39;post&#39;,        data: this.data,        headers: { &#39;FileToken&#39;: token },        onDownloadProgress: p =&gt; {          this.precent = Math.floor(100 * (p.loaded &#x2F; p.total))        },        responseType: &#39;blob&#39;      }).then(data =&gt; {        &#x2F;&#x2F; 如果后端用encodeURI对文件名进行了编码，前端需用decodeURI进行解码（主要为处理特殊字符）        let fileName = decodeURI(data.headers.filename)        &#x2F;&#x2F; 由于ie不支持download属性，故需要做兼容判断        if (navigator.appVersion.toString().indexOf(&#39;.NET&#39;) &gt; 0) {          &#x2F;&#x2F; ie独有的msSaveBlob属性，data.data为Blob文件流          window.navigator.msSaveBlob(data.data, fileName)        } else {          &#x2F;&#x2F; 以下流程即为文章开始的下载流程          let url = window.URL.createObjectURL(data.data)          let link = document.createElement(&#39;a&#39;)          link.style.display = &#39;none&#39;          link.href = url          link.download = fileName          document.body.appendChild(link)          link.click()          window.URL.revokeObjectURL(link.href);        }      })    })  }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 下载 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>element 表格排序之远程排序去除默认排序</title>
+      <link href="/elementbiaoge/"/>
+      <url>/elementbiaoge/</url>
+      
+        <content type="html"><![CDATA[<ul><li>element表格提供了三种数据的排序方法：<ul><li>升序排序 <code>ascending</code></li><li>降序排序 <code>descending</code></li><li>默认排序 <code>null</code><blockquote><p>如果是前端本地排序 可设置 <code>sort-doders</code> 属性为 <code>[&#39;ascending&#39;, &#39;descending&#39;]</code> 去除默认排序具体可参考 <a href="https://element.eleme.cn/#/zh-CN/component/table" target="_blank" rel="noopener">element文档</a></p></blockquote></li></ul></li><li>远程排序即为后端排序，后端可按照前端参数（升序、降序、页码、数量）返回所有数据中的相应数据，看代码：<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;el-table :data=&quot;listData&quot; stripe border @sort-change=&quot;sortChange&quot; :default-sort=&quot;{prop:&#39;createdOn&#39;, order: &#39;descending&#39;}&quot;&gt;    &lt;el-table-column prop=&quot;txCode&quot; label=&quot;序号&quot;&gt;&lt;&#x2F;el-table-column&gt;    &lt;el-table-column prop=&quot;createdOn&quot; label=&quot;时间&quot; sortable=&quot;custom&quot; width=&quot;180&quot;&gt;&lt;&#x2F;el-table-column&gt; &lt;&#x2F;el-table&gt;</code></pre></li></ul><p><code>注：远程排序需有列设置 sortable=&quot;custom&quot; ，sort-change 监听点击排序的变化</code><br>本例需求为对于时间列进行排序，默认排序为倒序，要求点击排序不是升序就是降序，也就是去除element中的默认排序</p><ul><li>思路：<br>排序变化会触发 <code>sortChange</code> 函数，并且会传进一个参数，如下：<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">sortChange (obj) {  console.log(obj)}</code></pre></li></ul><p>由于在上面设置 <code>default-sort</code> 故初始化表格的时候得到的obj为  <code>default-sort</code>（升降序<code>order</code>和需要升降序的列的属性名称<code>prop</code>） 设置后的obj，但下次点击就会触发element内部默认排序，如下图：全为 <code>null</code> 的即为默认排序<br><img src="https://img-blog.csdnimg.cn/20190909175925218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>colum 为点击升降序列的信息，里面包含列的属性（如宽度、排序方式、lable 等）<br><strong>要想去除默认排序，只需改变obj中的值为上次相反的值即可</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data () {  filtrate: {    sequence: &#39;&#39;,    sequenceOrder: &#39;&#39;  },  sortColumn: &#39;&#39;},sortChange (obj) {  if (obj.order === null) {    &#x2F;&#x2F; 后面点击会进入默认排序，给obj赋相反的值，然后根据新值请求数据，再返回obj，界面就会按照设置发生变化    this.filtrate.sequence === &#39;descending&#39; ? obj.order = &#39;ascending&#39; : obj.order = &#39;descending&#39;    obj.prop = this.filtrate.sequenceOrder    obj.column = this.sortColumn    &#x2F;&#x2F; 注意：还要改变column里面的排列方式order    obj.column.order = obj.order    &#x2F;&#x2F; 以下两行即为请求后台接口，把obj里的信息传递进去即可    this.pageNo = 1    this.getBuyList()    return obj  }  &#x2F;&#x2F; 初始化第一次进来就会走这里，给sortColumn、filtrate.sequence、filtrate.sequenceOrder赋值再请求数据  this.sortColumn = &#39;&#39;  this.sortColumn = obj.column  this.filtrate.sequence = obj.order  this.filtrate.sequenceOrder= obj.prop  this.pageNo = 1  this.getBuyList()}</code></pre><p><strong>总结</strong>：我们知道 <code>sort-change</code> 返回一个对象，里面包含三个参数，分别为 <code>order</code> <code>prop</code> <code>column</code> 点击默认这三个值全部为 <code>null</code> ，所以我们只需改变点击列的相应值的排列方式 <code>order</code> 即可，因为 <code>column</code> 里也包含了 <code>order</code> 故也要改变里面的 <code>order</code> 为上次排序相反的排序 ，这样就实现了升序和降序的切换</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> element </tag>
+            
+            <tag> 表格 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>前端请求接口   token登录验证</title>
+      <link href="/qianduanqing/"/>
+      <url>/qianduanqing/</url>
+      
+        <content type="html"><![CDATA[<p>在登录组件登录函数</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">methods: {  userLogin () {this.axios({  method: &#39;post&#39;,  url: &#39;userLogin&#39;,  data: this.loginData    }).then(res =&gt; {      console.log(&#39;登录成功&#39;)      &#x2F;&#x2F; 登录成功存储用户信息到本地存储，用户信息包含token验证字段      &#x2F;&#x2F; Setitem为封装localStorage本地存储      Setitem(&#39;userData&#39;, JSON.stringify(data.data))      &#x2F;&#x2F; ...    }).catch(data =&gt; {      &#x2F;&#x2F; 登录失败处理    })  }}</code></pre><p>一般情况，在 <code>main.js</code> 中做请求拦截处理</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; 通过环境设置相应请求路径if (process.env.NODE_ENV == &#39;development&#39;) {      axios.defaults.baseURL = &#39;&#x2F;api&#39;;} else if (process.env.NODE_ENV == &#39;debug&#39;) {      axios.defaults.baseURL = &#39;xxx&#39;;} else if (process.env.NODE_ENV == &#39;production&#39;) {      axios.defaults.baseURL = &#39;xxx&#39;;}&#x2F;&#x2F; 请求拦截axios.interceptors.request.use((config) =&gt; {  &#x2F;&#x2F; 这里获取登录成功种植的token赋予axios  const userData= Getitem(&#39;userData&#39;)  if (userData &amp;&amp; userData !== &#39;{}&#39;) {    config.headers.Authorization = `Bearer ${JSON.parse(userData).token}`  } else {    Removeitem(&#39;userData&#39;)  }  return config})</code></pre><p>路由钩子函数做拦截处理</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; ...let router = new Router({  routes})router.beforeEach((to, from, next) =&gt; {  let userData = Getitem(&#39;userData&#39;)  if (userData) {    userData = JSON.parse(userData )  } else {    &#x2F;&#x2F; 登录后没有userData跳回到登录页    localStorage.clear()    next(&#39;&#x2F;login&#39;)    return  }  if (userData.token) {    &#x2F;&#x2F; 登录后输入非登录页面或者&#39;&#x2F;&#39;的导航到对应用户首页    if (to.path === &#39;&#x2F;login&#39; || to.path === &#39;&#x2F;forgetpass&#39; || to.path === &#39;&#x2F;&#39;) {      next(&#39;&#x2F;home&#39;)    } else {      &#x2F;&#x2F; 如果是注册页退出登录进入注册页      if (to.path === &#39;&#x2F;register&#39;) {        localStorage.clear()        next()      }    }  } else {    &#x2F;&#x2F; 没有token进入登陆注册忘记密码页正常，否则拦截到登录页    if (to.path === &#39;&#x2F;forgetpass&#39; || to.path === &#39;&#x2F;login&#39; || to.path === &#39;&#x2F;register&#39;) {      next()    } else {      next(&#39;&#x2F;login&#39;)    }  }})</code></pre><p>当然登录成功用户信息（token）也可以通过 <code>localStorage</code> 存储到vuex中，像这样</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript"> state: {   &#x2F;&#x2F; 存储token   token: GetItem(&#39;userData&#39;) ? JSON.parse(GetItem(&#39;userData&#39;)).token : &#39;&#39; },</code></pre><p>在需要的地方便可通过vuex方法获取</p><ul><li>附： <a href="https://juejin.im/post/5b55c118f265da0f6f1aa354" target="_blank" rel="noopener">Axios的封装和API接口的管理</a> </li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 登录 </tag>
+            
+            <tag> token </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>正则表达式中的前瞻,后顾,负前瞻,负后顾</title>
+      <link href="/zhengzebiaod/"/>
+      <url>/zhengzebiaod/</url>
+      
+        <content type="html"><![CDATA[<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; 前瞻：exp1(?=exp2) 查找exp2前面的exp1&#x2F;&#x2F; 后顾：(?&lt;=exp2)exp1 查找exp2后面的exp1&#x2F;&#x2F; 负前瞻：exp1(?!exp2) 查找后面不是exp2的exp1&#x2F;&#x2F; 负后顾：(?&lt;!exp2)exp1 查找前面不是exp2的exp1</code></pre><p>举个例子：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&quot;2019年&quot;.replace(&#x2F;(?&lt;=\d+)年&#x2F;, &quot;year&quot;)  &#x2F;&#x2F;  2019year</code></pre><p>从例子就可以看出，如果要替换字符串中的某个值，无论是前瞻后顾、负前瞻还是负后顾，括号里的为要匹配的内容，括号外面即为匹配内容紧挨着要替换的内容</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 正则 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue中分割线的实现</title>
+      <link href="/vuezhongfen/"/>
+      <url>/vuezhongfen/</url>
+      
+        <content type="html"><![CDATA[<ul><li>项目中，需要实现分割线的效果，如图：<br><img src="https://img-blog.csdnimg.cn/20190802145338366.png" alt="在这里插入图片描述"><br>  奈何 <code>element</code> 中的分割线用起来报错，无奈只好自己写，很简单，先说下原理：<blockquote><p>给一个高为1像素的盒子，盒子宽度根据要求设定，再设置盒子颜色，排列方式为相对定位，盒子里设置文字给左右padding，并进行绝对定位到中间即可实现</p></blockquote></li><li>看代码：<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;div class=&quot;tableTitle&quot;&gt;&lt;span class=&quot;midText&quot;&gt;费用说明&lt;&#x2F;span&gt;&lt;&#x2F;div&gt;</code></pre></li></ul><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-css">.tableTitle {    position: relative;    margin: 0 auto;    width: 600px;    height: 1px;    background-color: #d4d4d4;    text-align: center;    font-size: 16px;    color: rgba(101, 101, 101, 1);  } .midText {    position: absolute;    left: 50%;    background-color: #ffffff;    padding: 0 15px;    transform: translateX(-50%) translateY(-50%);  }</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 分割线 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>element 日期选择器 date-picker 设置默认时间</title>
+      <link href="/elementriqix/"/>
+      <url>/elementriqix/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p>element 日期选择器结构，两个日期选择器定义开始和结束</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html"> &lt;el-date-picker    v-model=&quot;startTime&quot;    type=&quot;date&quot;    :editable=&quot;false&quot;    prefix-icon=&quot;el-icon-caret-bottom&quot;    value-format=&quot;yyyy-MM-dd&quot;    :clearable=&#39;false&#39;&gt; &lt;&#x2F;el-date-picker&gt; &lt;span style=&quot;padding: 0 3px&quot;&gt;--&lt;&#x2F;span&gt; &lt;el-date-picker    v-model=&quot;endTime&quot;    type=&quot;date&quot;    :editable=&quot;false&quot;    prefix-icon=&quot;el-icon-caret-bottom&quot;    value-format=&quot;yyyy-MM-dd&quot;    :clearable=&#39;false&#39;&gt; &lt;&#x2F;el-date-picker&gt;</code></pre></li><li><p>定义开始时间和结束时间</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript"> data () { return {   startTime: &#39;&#39;,   endTime: &#39;&#39; } }</code></pre></li><li><p>计算开始时间和结束时间：开始时间为每个月第一天，结束时间为每月的当前日期</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">methods: {  getCurrentMonthFirst () {      var date = new Date()      date.setDate(1)      var month = parseInt(date.getMonth() + 1)      var day = date.getDate()      if (month &lt; 10)  month = &#39;0&#39; + month      if (day &lt; 10)  day = &#39;0&#39; + day      this.startTime = date.getFullYear() + &#39;-&#39; + month + &#39;-&#39; + day    },    getCurrentMonthLast () {      var date = new Date()      var month = parseInt(date.getMonth() + 1)      var day = lastTime.getDate()      if (month &lt; 10)  month = &#39;0&#39; + month      if (day &lt; 10)  day = &#39;0&#39; + day      this.endTime = date.getFullYear() + &#39;-&#39; + month + &#39;-&#39; + day    },}</code></pre></li><li><p>初始化时间到日期中</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">created () {  this.getCurrentMonthFirst()  this.getCurrentMonthLast()}</code></pre></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> element </tag>
+            
+            <tag> 日期 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue中实现倒计时功能（刷新页面不清除）</title>
+      <link href="/vuezhongshixiand/"/>
+      <url>/vuezhongshixiand/</url>
+      
+        <content type="html"><![CDATA[<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p><strong>本教程采用本地存储 <code>localStoryge</code> 缓存结束时间实现倒计时效果。</strong></p><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>以验证码为例：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;template&gt;&lt;el-button type=&quot;primary&quot; @click=&quot;GetCode&quot; :disabled=&quot;!BtnStatus&quot;&gt;        {{BtnStatus?&#39;获取验证码&#39;:`${countDownTime}秒后获取`}}    &lt;&#x2F;el-button&gt;&lt;&#x2F;template&gt;</code></pre><p>点击验证码，切换状态，按钮变为倒计时，并开始计时</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F;...data () {return {BtnStatus: true,countDownTime: 60}}&#x2F;&#x2F;...</code></pre><p>点击获取验证码按钮，存储点击时刻时间（毫秒）到本地存储。传入时间，执行倒计时函数<br>倒计时前更改按钮状态，计算倒计时时间（用传递的结束时间减去当前时间）<br>当时间小于1的时候，清除倒计时，更改按钮状态为验证码按钮，初始化倒计时，否则回调倒计时</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F;...methods: {GetCode () {let endMsRes = (new Date()).getTime() + 60000;&#x2F;&#x2F;Setitem 为封装 localStoryge 方法Setitem(&#39;myEndTime&#39;, JSON.stringify(endMsRes))；this.codeCountDown(endMsRes)},codeCountDown ( endMsRes) {        this.BtnStatus = false;        this.countDownTime= Math.ceil((endMsRes - (new Date()).getTime()) &#x2F; 1000)        let time = setTimeout(() =&gt; {        this.countDownTime--          if (this.countDownTime&lt; 1) {            this.BtnStatus = true           this.countDownTime= 60            clearTimeout(time)          } else {            this.codeCountDown(endMsRes)          }        }, 1000)    }}&#x2F;&#x2F;...</code></pre><p>页面刷新的时候，利用本地存储的时间进行初始化<br>重新计算 <code>countDownTime</code> 并倒计时</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F;...created () {let myEndTime= Getitem(&#39;myEndTime&#39;)this.codeCountDown(myEndTime)}&#x2F;&#x2F;...</code></pre><p>这样就完整的实现了倒计时功能</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> 倒计时 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>在vue项目中使用svg，并能根据需要修改svg大小颜色等样式</title>
+      <link href="/zaivuexiangmu/"/>
+      <url>/zaivuexiangmu/</url>
+      
+        <content type="html"><![CDATA[<p><strong>1、介绍</strong></p><p>考虑到一部分人还在用<code>vue-cli 2.x</code>，故本教程既包含<code>2.x</code>版本，也包含<code>3.x</code>版本</p><p><strong>2、安装依赖</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-shell">npm install --save-dev svg-sprite-loader</code></pre><p><strong>3、把<code>svg</code>文件放入项目中</strong></p><p>如图所示：<br><img src="https://img-blog.csdnimg.cn/20190626165152207.png" alt="在这里插入图片描述"><br>我把<code>svg</code>文件放入到了<code>assets</code>目录下的<code>icons</code>目录里面了</p><p><strong>4.1、<code>vue-cli 2.x</code> 配置</strong></p><p>在<code>webpack.base.conf.js</code>中配置允许svg依赖</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript"> module: {    rules: [      {        test: &#x2F;\.svg$&#x2F;,        loader: &#39;svg-sprite-loader&#39;,        include: [resolve(&#39;src&#x2F;assets&#x2F;icons&#39;)],        options: {          symbolId: &#39;icon-[name]&#39;        }      },      {        test: &#x2F;\.(png|jpe?g|gif|svg)(\?.*)?$&#x2F;,        loader: &#39;url-loader&#39;,        exclude: [resolve(&#39;src&#x2F;assets&#x2F;icons&#39;)],        options: {          limit: 10000,          name: utils.assetsPath(&#39;img&#x2F;[name].[hash:7].[ext]&#39;)        }      }    ]  },</code></pre><p><strong>4.2、<code>vue-cli 3.x</code> 配置</strong></p><p>在根目录新建<code>vue.config.js</code>文件中配置<code>loader</code></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">module.exports = {  chainWebpack: config =&gt; {    &#x2F;&#x2F; svg rule loader    const svgRule = config.module.rule(&#39;svg&#39;) &#x2F;&#x2F; 找到svg-loader    svgRule.uses.clear() &#x2F;&#x2F; 清除已有的loader, 如果不这样做会添加在此loader之后    svgRule.exclude.add(&#x2F;node_modules&#x2F;) &#x2F;&#x2F; 正则匹配排除node_modules目录    svgRule &#x2F;&#x2F; 添加svg新的loader处理      .test(&#x2F;\.svg$&#x2F;)      .use(&#39;svg-sprite-loader&#39;)      .loader(&#39;svg-sprite-loader&#39;)      .options({        symbolId: &#39;icon-[name]&#39;,      })    &#x2F;&#x2F; 修改images loader 添加svg处理    const imagesRule = config.module.rule(&#39;images&#39;)    imagesRule.exclude.add(resolve(&#39;src&#x2F;assets&#x2F;icons&#39;))    config.module      .rule(&#39;images&#39;)      .test(&#x2F;\.(png|jpe?g|gif|svg)(\?.*)?$&#x2F;)  }}</code></pre><p><strong>5、在<code>src/compoments/</code>下创建<code>SvgIcon.vue</code></strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;template&gt;  &lt;svg :class=&quot;svgClass&quot; aria-hidden=&quot;true&quot;&gt;    &lt;use :xlink:href=&quot;iconName&quot;&gt;&lt;&#x2F;use&gt;  &lt;&#x2F;svg&gt;&lt;&#x2F;template&gt;&lt;script&gt;export default {  name: &#39;svg-icon&#39;,  props: {    iconClass: {      type: String,      required: true    },    className: {      type: String    }  },  computed: {    iconName () {      return `#icon-${this.iconClass}`    },    svgClass () {      if (this.className) {        return &#39;svg-icon &#39; + this.className      } else {        return &#39;svg-icon&#39;      }    }  }}&lt;&#x2F;script&gt;&lt;style scoped&gt;.svg-icon {  width: 1em;  height: 1em;  vertical-align: -0.15em;  fill: currentColor;&#x2F;&#x2F;此属性为更改svg颜色属性设置  overflow: hidden;}&lt;&#x2F;style&gt;</code></pre><p><strong>6、在<code>assets/icons/</code>下创建<code>index.js</code></strong></p><p>相信大家也看到上面传svg文件到项目那张图的时候，看到了里面有个index.js，这个文件就是包含将组件注册到全局的逻辑</p><p><code>下面的@即为src，是事先在配置中配置过的</code></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">import Vue from &#39;vue&#39;import SvgIcon from &#39;@&#x2F;components&#x2F;SvgIcon&#39;&#x2F;&#x2F; 全局注册组件Vue.component(&#39;svg-icon&#39;, SvgIcon)&#x2F;&#x2F; 定义一个加载目录的函数const requireAll = requireContext =&gt; requireContext.keys().map(requireContext)const req = require.context(&#39;@&#x2F;assets&#x2F;icons&#39;, false, &#x2F;\.svg$&#x2F;)&#x2F;&#x2F; 加载目录下的所有 svg 文件requireAll(req)</code></pre><p><strong>7、在<code>main.js</code>中引入执行</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">import &#39;.&#x2F;assets&#x2F;icons&#39;</code></pre><p><strong>8、使用<code>svg</code>组件</strong><br>在需要的组件中直接可以使用，<code>iconClass</code>的值就是<code>svg</code>文件的文件名，<code>className</code>的值就是对于<code>svg</code>图标的样式类名</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;template&gt;  &lt;svg-icon iconClass=&#39;qyf_sy_tx&#39; className=&#39;icon&#39;&gt;&lt;&#x2F;svg-icon&gt;&lt;&#x2F;template&gt;...&lt;style scoped&gt;.icon {  width: 100px;  height: 100px;  color: red;}&lt;&#x2F;style&gt;</code></pre><p>在类名<code>icon</code>中设置需要的样式，包括颜色，<code>svg</code>的样式就会随之改变</p><p><code>注意：</code>有时会出现改变颜色图标颜色不会发生改变的情况，这时打开svg文件，看下图：<br><img src="https://img-blog.csdnimg.cn/20190626173736704.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>删除<code>style</code>标签里的每一项<code>fill</code>样式设置，这样就可以实现颜色自由切换了</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术点 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> svg </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vue+node(express)+mysql部署阿里云服务器</title>
       <link href="/deploy/"/>
       <url>/deploy/</url>
       
-        <content type="html"><![CDATA[<p>@[toc]</p><h2 id="一、购买服务器"><a href="#一、购买服务器" class="headerlink" title="一、购买服务器"></a>一、购买服务器</h2><ul><li>1 、进入阿里云官网，选择服务器ECS，我买的是学生的，当然你要是学生，可以通过身份购买学生专用优惠服务器，9.5一个月<br><img src="https://img-blog.csdnimg.cn/20190621161723782.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li><li>2、接下来会有个密码设置，这个密码会从始至终会用到哦<br><img src="https://img-blog.csdnimg.cn/20190621161941708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li><li>3、购买成功后，实例就创建成功了，也就会有自己的服务器了<br><img src="https://img-blog.csdnimg.cn/20190621162535950.png" alt="在这里插入图片描述"></li><li>4、在控制台中可以查看自己的实例，里面会有你所买的服务器的ip地址，且显示运行中，到此，就可以开始部署准备工作了</li></ul><h2 id="二、下载安装putty和Xftp"><a href="#二、下载安装putty和Xftp" class="headerlink" title="二、下载安装putty和Xftp"></a>二、下载安装putty和Xftp</h2><p><strong><code>注意：此教程针对windows系统，mac可根据如下参考本教程</code></strong></p><ul><li><strong>连接服务器方面：</strong><code>windows</code> 通过 <code>putty</code> ，<code>mac</code> 中 不用 <code>putty</code>，命令行直接通过<code>ssh root@xxx.xx.xxx.xx -p 22</code>连接服务器，因为后面都是在 <code>linux</code> 中执行命令，所以命令同 <code>windows</code> 相同</li><li><strong>传输文件方面：</strong><code>mac</code> 下下载 <code>FileZilla</code>，<code>FileZilla</code> 同 <code>Xftp</code> ，设置好 ip 和端口连接即可，使用方式基本相同</li></ul><hr><p><strong><code>putty</code>和<code>Xftp</code>可在网上自行下载安装</strong></p><h3 id="putty连接服务器"><a href="#putty连接服务器" class="headerlink" title="putty连接服务器"></a>putty连接服务器</h3><p>1、打开putty<br><img src="https://img-blog.csdnimg.cn/2019062116323943.png" alt="在这里插入图片描述"><br>2、根据图中设置ip<br><img src="https://img-blog.csdnimg.cn/20190621163620697.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>3、出现下面界面，设置登录名，为root，登录密码为注册服务时设置的密码（输入密码不会出现字符，放心输入完了按回车就是了）<br><img src="https://img-blog.csdnimg.cn/20190621163855163.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、登录成功后，就进入到<code>Linux</code>系统了<br><img src="https://img-blog.csdnimg.cn/2019062116411241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><h3 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h3><p>1、先把yum更新到最新版本</p><pre><code class="Shell">yum -y update</code></pre><p>2、我们将使用最新源代码构建Node.js，要进行软件的安装，需要一组用来编译源代码的开发工具</p><pre><code class="Shell">yum -y groupinstall &quot;Development Tools&quot;</code></pre><p>3、进入/usr/src文件夹，这个文件夹通常用来存放软件源代码</p><pre><code class="Shell">cd /usr/src</code></pre><p>4、从 <code>Node.js</code>的站点 中获取压缩档源代码, 我选择的版本为<code>v10.13.0</code></p><pre><code class="Shell">wget http://nodejs.org/dist/v10.13.0/node-v10.13.0.tar.gz </code></pre><p>5、解压文件，并进入文件夹</p><pre><code class="Shell">tar zxf node-v10.13.0.tar.gzcd node-v6.9.1</code></pre><p>6、设置全局环境变量，为了能够在全局使用node命令</p><pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/node /usr/local/bin/nodeln -s /usr/src/node-v10.13.0/bin/npm /usr/local/bin/npm</code></pre><p>7、查看是否成功设置</p><pre><code class="Shell">node -vnpm -v</code></pre><p>8、 安装pm2<br><strong><code>pm2</code>用于启动程序并在需要时重启非常有用的模块，可以随时查看服务的运行状态</strong></p><pre><code class="Shell">npm -g install pm2 </code></pre><p>9、设置全局变量</p><pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/pm2 /usr/local/bin/</code></pre><p>接下来就可以用<code>pm2</code>命令了</p><h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>1、寻找社区源安装到<code>tmp</code>中</p><pre><code class="Shell">cd /tmpwget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm  rpm -ivh mysql-community-release-el7-5.noarch.rpm  </code></pre><p>2、通过yum安装</p><pre><code class="Shell">yum install mysql mysql-server mysql-devel -y</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621181031112.png" alt="在这里插入图片描述"><br>3、启动mysql</p><pre><code class="Shell">systemctl start mysql.service</code></pre><p>4、设置用户和密码<br><code>通过yum安装的是没有用户名和密码的，所以得设置</code></p><pre><code class="Shell">mysqladmin -u root password admin</code></pre><p>用户名为<code>root</code>，密码为<code>admin</code><br>5、设置好后就可以登录了</p><pre><code class="Shell">mysql -uroot -padmin</code></pre><p>查看数据库</p><pre><code class="Shell">show databases;</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621181945585.png" alt="在这里插入图片描述"><br>自此，数据库配置完毕</p><h3 id="Xftp上传代码"><a href="#Xftp上传代码" class="headerlink" title="Xftp上传代码"></a>Xftp上传代码</h3><p>1、打开下载的<code>Xftp</code><br><img src="https://img-blog.csdnimg.cn/20190621182402956.png" alt="在这里插入图片描述"><br>2、点击新建<br><img src="https://img-blog.csdnimg.cn/20190621182637762.png" alt="在这里插入图片描述"><br>出现<br><img src="https://img-blog.csdnimg.cn/20190621182723796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>名称自己取一个项目名称。主机，填写阿里云服务器的公网<code>IP</code>，协议选择<code>SFTP</code>，端口使用<code>22</code>，用户名<code>root</code>，密码为购买阿里云的时候要你记住的密码。最后点击确定。</strong><br>3、双击下面图标，进入 <code>root</code>文件夹<br><img src="https://img-blog.csdnimg.cn/20190621182945604.png" alt="在这里插入图片描述"><br>如图：左边为本地电脑，右边为服务端文件夹<br><img src="https://img-blog.csdnimg.cn/201906211832036.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们把自己的<code>node项目</code>通过右键传输传进<code>home/自定义文件夹/</code>里,当然数据库文件也要一同传上去以便初始化<br><img src="https://img-blog.csdnimg.cn/20190621183423798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、<strong><code>服务代码传到服务器上后要进入服务器 node 根目录通过 putty 进行 npm install 安装相关依赖</code></strong></p><h3 id="启动node应用"><a href="#启动node应用" class="headerlink" title="启动node应用"></a>启动node应用</h3><p><strong>上传完代码后，再回到putty，进入项目目录，利用pm2启动应用</strong></p><pre><code class="Shell">cd /home/jqqpm2 start server.js --name test</code></pre><p>后面<code>--name</code>可以不写，重命名的意思<br>当出现下面表格说明成功启动了<br><img src="https://img-blog.csdnimg.cn/20190621184108984.png" alt="在这里插入图片描述"></p><ul><li>通过<code>pm2 list</code>检视运行中的应用</li><li>通过<code>pm2 stop test</code>停止应用</li><li>通过<code>pm2 delete test</code>删除应用</li><li>通过<code>pm2 log app</code>查看应用日志</li></ul><p>到这里node启动就完成了</p><h3 id="配置mysql"><a href="#配置mysql" class="headerlink" title="配置mysql"></a>配置mysql</h3><p>为避免大小写识别失败，对大小写进行配置<br>1、打开配置文件</p><pre><code class="Shell">vi /etc/my.cnf</code></pre><p>按 <code>i</code> 键进行编辑，如图在<code>[mysqld]</code>后添加<code>lower_case_table_names=1</code>，按 <code>esc</code> 键，再输入 <code>:wq</code> 保存退出<br><img src="https://img-blog.csdnimg.cn/20190621185154866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2、重启<code>mysql</code></p><pre><code class="Shell">systemctl restart mysqld.service</code></pre><p>3、连接数据库</p><pre><code class="Shell">mysql -uroot -padmin</code></pre><p>4、创建test数据库</p><pre><code class="Shell">CREATE DATABASE test DEFAULT CHARACTER SET utf8;</code></pre><p>通过<code>show databases;</code>查看数据库已经存在了<br>4、导入数据</p><ul><li><p>接着上个步骤，先用组合键 ctrl+c退出mysql控制台，然后在linux的环境下输入如下命令导入数据</p><pre><code class="Shell">mysql -u root -padmin --default-character-set=utf8 test &lt; /home/jqq/web.sql</code></pre><p>5、验证数据</p><pre><code class="Shell">mysql -uroot -padminuse test;show tables;select count(*) from product;</code></pre><p>6、配置登录权限</p><pre><code class="Shell">grant all privileges on `test`.* to &#39;root&#39;@&#39;%&#39; identified by &#39;admin&#39; with grant option;mysql&gt; FLUSH PRIVILEGES;</code></pre><p><code>test为数据库，root为用户，admin为密码，下面命令为让配置生效</code><br>这样数据就设置完成可以启动了</p><h2 id="三、安装配置tomcat"><a href="#三、安装配置tomcat" class="headerlink" title="三、安装配置tomcat"></a>三、安装配置tomcat</h2><p>1、安装<br><code>yum</code>上没有<code>tomcat</code>的源，可以到官网去下载最新的通过<code>Xftp</code>传到<code>tmp</code>里，并使用如下方式下载解压，通过<code>mv</code>命令移动文件夹</p><pre><code class="Shell">cd /tmpwget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.92/bin/apache-tomcat-7.0.92.tar.gztar xzf apache-tomcat-7.0.92.tar.gzmv apache-tomcat-7.0.92 /usr/local/tomcat7</code></pre><p>2、启动tomcat</p><pre><code class="Shell">/usr/local/tomcat7/bin/startup.sh</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621192706921.png" alt="在这里插入图片描述"><br>3、验证</p><pre><code class="Shell">netstat -anp|grep 8080</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621192822610.png" alt="在这里插入图片描述"><br>4、安全组开放端口<br><img src="https://img-blog.csdnimg.cn/20190621192930313.png" alt="在这里插入图片描述"><br>5、再vue的router中如下配置，完了打包上传<br><img src="https://img-blog.csdnimg.cn/20190621193405506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>6、通过Xftp把vue打包好的文件传送到tomcat中，如图：我在webapps中新建了个文件夹，这样将来访问路径就会多出二级路径jqqzz，当然大家都可以放到根目录不必创建二级路径<br><img src="https://img-blog.csdnimg.cn/20190621193109445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>7、在<code>jqqzz</code>项目中新建文件夹<code>WEB-INF</code>，再里面新建文件<code>web.xml</code><br>编辑文件，把如下插入到文件中，处理<code>404</code>返回<code>index.html</code>页面,并且处理<code>history</code>模式</p><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee                   http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;version=&quot;3.0&quot;metadata-complete=&quot;true&quot;&gt;&lt;display-name&gt;webapp&lt;/display-name&gt;&lt;description&gt;  webapp&lt;/description&gt;&lt;error-page&gt;  &lt;error-code&gt;404&lt;/error-code&gt;  &lt;location&gt;/index.html&lt;/location&gt;  &lt;/error-page&gt;  &lt;/web-app&gt;</code></pre><p>这样访问 <code>ip:8080/jqqzz</code>就可以进到自己的项目啦</p></li></ul><p><strong><code>注意：在某些时候，一些命令操作文件的时候会没有权限导致失败，这时使用一下命令给予文件或文件夹权限，777为所有用户拥有最高权限，R表示允许其目录下的子目录的文件及文件夹</code></strong></p><pre><code class="Shell">chmod 777 文件夹或文件名chmod 777 *.文件类型</code></pre><p>这样所有工作就都大功告成了</p>]]></content>
+        <content type="html"><![CDATA[<p>@[toc]</p><h2 id="一、购买服务器"><a href="#一、购买服务器" class="headerlink" title="一、购买服务器"></a>一、购买服务器</h2><ul><li>1 、进入阿里云官网，选择服务器ECS，我买的是学生的，当然你要是学生，可以通过身份购买学生专用优惠服务器，9.5一个月<br><img src="https://img-blog.csdnimg.cn/20190621161723782.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li><li>2、接下来会有个密码设置，这个密码会从始至终会用到哦<br><img src="https://img-blog.csdnimg.cn/20190621161941708.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li><li>3、购买成功后，实例就创建成功了，也就会有自己的服务器了<br><img src="https://img-blog.csdnimg.cn/20190621162535950.png" alt="在这里插入图片描述"></li><li>4、在控制台中可以查看自己的实例，里面会有你所买的服务器的ip地址，且显示运行中，到此，就可以开始部署准备工作了</li></ul><h2 id="二、下载安装putty和Xftp"><a href="#二、下载安装putty和Xftp" class="headerlink" title="二、下载安装putty和Xftp"></a>二、下载安装putty和Xftp</h2><p><strong><code>注意：此教程针对windows系统，mac可根据如下参考本教程</code></strong></p><ul><li><strong>连接服务器方面：</strong><code>windows</code> 通过 <code>putty</code> ，<code>mac</code> 中 不用 <code>putty</code>，命令行直接通过<code>ssh root@xxx.xx.xxx.xx -p 22</code>连接服务器，因为后面都是在 <code>linux</code> 中执行命令，所以命令同 <code>windows</code> 相同</li><li><strong>传输文件方面：</strong><code>mac</code> 下下载 <code>FileZilla</code>，<code>FileZilla</code> 同 <code>Xftp</code> ，设置好 ip 和端口连接即可，使用方式基本相同</li></ul><hr><p><strong><code>putty</code>和<code>Xftp</code>可在网上自行下载安装</strong></p><h3 id="putty连接服务器"><a href="#putty连接服务器" class="headerlink" title="putty连接服务器"></a>putty连接服务器</h3><p>1、打开putty<br><img src="https://img-blog.csdnimg.cn/2019062116323943.png" alt="在这里插入图片描述"><br>2、根据图中设置ip<br><img src="https://img-blog.csdnimg.cn/20190621163620697.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>3、出现下面界面，设置登录名，为root，登录密码为注册服务时设置的密码（输入密码不会出现字符，放心输入完了按回车就是了）<br><img src="https://img-blog.csdnimg.cn/20190621163855163.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、登录成功后，就进入到<code>Linux</code>系统了<br><img src="https://img-blog.csdnimg.cn/2019062116411241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><h3 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h3><p>1、先把yum更新到最新版本</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">yum -y update</code></pre><p>2、我们将使用最新源代码构建Node.js，要进行软件的安装，需要一组用来编译源代码的开发工具</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">yum -y groupinstall &quot;Development Tools&quot;</code></pre><p>3、进入/usr/src文件夹，这个文件夹通常用来存放软件源代码</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;usr&#x2F;src</code></pre><p>4、从 <code>Node.js</code>的站点 中获取压缩档源代码, 我选择的版本为<code>v10.13.0</code></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">wget http:&#x2F;&#x2F;nodejs.org&#x2F;dist&#x2F;v10.13.0&#x2F;node-v10.13.0.tar.gz </code></pre><p>5、解压文件，并进入文件夹</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">tar zxf node-v10.13.0.tar.gzcd node-v6.9.1</code></pre><p>6、设置全局环境变量，为了能够在全局使用node命令</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">ln -s &#x2F;usr&#x2F;src&#x2F;node-v10.13.0&#x2F;bin&#x2F;node &#x2F;usr&#x2F;local&#x2F;bin&#x2F;nodeln -s &#x2F;usr&#x2F;src&#x2F;node-v10.13.0&#x2F;bin&#x2F;npm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;npm</code></pre><p>7、查看是否成功设置</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">node -vnpm -v</code></pre><p>8、 安装pm2<br><strong><code>pm2</code>用于启动程序并在需要时重启非常有用的模块，可以随时查看服务的运行状态</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">npm -g install pm2 </code></pre><p>9、设置全局变量</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">ln -s &#x2F;usr&#x2F;src&#x2F;node-v10.13.0&#x2F;bin&#x2F;pm2 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;</code></pre><p>接下来就可以用<code>pm2</code>命令了</p><h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>1、寻找社区源安装到<code>tmp</code>中</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;tmpwget http:&#x2F;&#x2F;repo.mysql.com&#x2F;mysql-community-release-el7-5.noarch.rpm  rpm -ivh mysql-community-release-el7-5.noarch.rpm  </code></pre><p>2、通过yum安装</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">yum install mysql mysql-server mysql-devel -y</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621181031112.png" alt="在这里插入图片描述"><br>3、启动mysql</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">systemctl start mysql.service</code></pre><p>4、设置用户和密码<br><code>通过yum安装的是没有用户名和密码的，所以得设置</code></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">mysqladmin -u root password admin</code></pre><p>用户名为<code>root</code>，密码为<code>admin</code><br>5、设置好后就可以登录了</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">mysql -uroot -padmin</code></pre><p>查看数据库</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">show databases;</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621181945585.png" alt="在这里插入图片描述"><br>自此，数据库配置完毕</p><h3 id="Xftp上传代码"><a href="#Xftp上传代码" class="headerlink" title="Xftp上传代码"></a>Xftp上传代码</h3><p>1、打开下载的<code>Xftp</code><br><img src="https://img-blog.csdnimg.cn/20190621182402956.png" alt="在这里插入图片描述"><br>2、点击新建<br><img src="https://img-blog.csdnimg.cn/20190621182637762.png" alt="在这里插入图片描述"><br>出现<br><img src="https://img-blog.csdnimg.cn/20190621182723796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>名称自己取一个项目名称。主机，填写阿里云服务器的公网<code>IP</code>，协议选择<code>SFTP</code>，端口使用<code>22</code>，用户名<code>root</code>，密码为购买阿里云的时候要你记住的密码。最后点击确定。</strong><br>3、双击下面图标，进入 <code>root</code>文件夹<br><img src="https://img-blog.csdnimg.cn/20190621182945604.png" alt="在这里插入图片描述"><br>如图：左边为本地电脑，右边为服务端文件夹<br><img src="https://img-blog.csdnimg.cn/201906211832036.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们把自己的<code>node项目</code>通过右键传输传进<code>home/自定义文件夹/</code>里,当然数据库文件也要一同传上去以便初始化<br><img src="https://img-blog.csdnimg.cn/20190621183423798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、<strong><code>服务代码传到服务器上后要进入服务器 node 根目录通过 putty 进行 npm install 安装相关依赖</code></strong></p><h3 id="启动node应用"><a href="#启动node应用" class="headerlink" title="启动node应用"></a>启动node应用</h3><p><strong>上传完代码后，再回到putty，进入项目目录，利用pm2启动应用</strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;home&#x2F;jqqpm2 start server.js --name test</code></pre><p>后面<code>--name</code>可以不写，重命名的意思<br>当出现下面表格说明成功启动了<br><img src="https://img-blog.csdnimg.cn/20190621184108984.png" alt="在这里插入图片描述"></p><ul><li>通过<code>pm2 list</code>检视运行中的应用</li><li>通过<code>pm2 stop test</code>停止应用</li><li>通过<code>pm2 delete test</code>删除应用</li><li>通过<code>pm2 log app</code>查看应用日志</li></ul><p>到这里node启动就完成了</p><h3 id="配置mysql"><a href="#配置mysql" class="headerlink" title="配置mysql"></a>配置mysql</h3><p>为避免大小写识别失败，对大小写进行配置<br>1、打开配置文件</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">vi &#x2F;etc&#x2F;my.cnf</code></pre><p>按 <code>i</code> 键进行编辑，如图在<code>[mysqld]</code>后添加<code>lower_case_table_names=1</code>，按 <code>esc</code> 键，再输入 <code>:wq</code> 保存退出<br><img src="https://img-blog.csdnimg.cn/20190621185154866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2、重启<code>mysql</code></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">systemctl restart mysqld.service</code></pre><p>3、连接数据库</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">mysql -uroot -padmin</code></pre><p>4、创建test数据库</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">CREATE DATABASE test DEFAULT CHARACTER SET utf8;</code></pre><p>通过<code>show databases;</code>查看数据库已经存在了<br>4、导入数据</p><ul><li>接着上个步骤，先用组合键 ctrl+c退出mysql控制台，然后在linux的环境下输入如下命令导入数据<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">mysql -u root -padmin --default-character-set=utf8 test &lt; &#x2F;home&#x2F;jqq&#x2F;web.sql</code></pre></li></ul><p>5、验证数据</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">mysql -uroot -padminuse test;show tables;select count(*) from product;</code></pre><p>6、配置登录权限</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">grant all privileges on `test`.* to &#39;root&#39;@&#39;%&#39; identified by &#39;admin&#39; with grant option;mysql&gt; FLUSH PRIVILEGES;</code></pre><p><code>test为数据库，root为用户，admin为密码，下面命令为让配置生效</code><br>这样数据就设置完成可以启动了</p><h2 id="三、安装配置tomcat"><a href="#三、安装配置tomcat" class="headerlink" title="三、安装配置tomcat"></a>三、安装配置tomcat</h2><p>1、安装<br><code>yum</code>上没有<code>tomcat</code>的源，可以到官网去下载最新的通过<code>Xftp</code>传到<code>tmp</code>里，并使用如下方式下载解压，通过<code>mv</code>命令移动文件夹</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;tmpwget http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;apache&#x2F;tomcat&#x2F;tomcat-7&#x2F;v7.0.92&#x2F;bin&#x2F;apache-tomcat-7.0.92.tar.gztar xzf apache-tomcat-7.0.92.tar.gzmv apache-tomcat-7.0.92 &#x2F;usr&#x2F;local&#x2F;tomcat7</code></pre><p>2、启动tomcat</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">&#x2F;usr&#x2F;local&#x2F;tomcat7&#x2F;bin&#x2F;startup.sh</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621192706921.png" alt="在这里插入图片描述"><br>3、验证</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">netstat -anp|grep 8080</code></pre><p><img src="https://img-blog.csdnimg.cn/20190621192822610.png" alt="在这里插入图片描述"><br>4、安全组开放端口<br><img src="https://img-blog.csdnimg.cn/20190621192930313.png" alt="在这里插入图片描述"><br>5、再vue的router中如下配置，完了打包上传<br><img src="https://img-blog.csdnimg.cn/20190621193405506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>6、通过Xftp把vue打包好的文件传送到tomcat中，如图：我在webapps中新建了个文件夹，这样将来访问路径就会多出二级路径jqqzz，当然大家都可以放到根目录不必创建二级路径<br><img src="https://img-blog.csdnimg.cn/20190621193109445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>7、在<code>jqqzz</code>项目中新建文件夹<code>WEB-INF</code>，再里面新建文件<code>web.xml</code><br>编辑文件，把如下插入到文件中，处理<code>404</code>返回<code>index.html</code>页面,并且处理<code>history</code>模式</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;&lt;web-app xmlns=&quot;http:&#x2F;&#x2F;java.sun.com&#x2F;xml&#x2F;ns&#x2F;javaee&quot;  xmlns:xsi=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;  xsi:schemaLocation=&quot;http:&#x2F;&#x2F;java.sun.com&#x2F;xml&#x2F;ns&#x2F;javaee                      http:&#x2F;&#x2F;java.sun.com&#x2F;xml&#x2F;ns&#x2F;javaee&#x2F;web-app_3_0.xsd&quot;  version=&quot;3.0&quot;  metadata-complete=&quot;true&quot;&gt;  &lt;display-name&gt;webapp&lt;&#x2F;display-name&gt;  &lt;description&gt;     webapp  &lt;&#x2F;description&gt;  &lt;error-page&gt;     &lt;error-code&gt;404&lt;&#x2F;error-code&gt;     &lt;location&gt;&#x2F;index.html&lt;&#x2F;location&gt;  &lt;&#x2F;error-page&gt;  &lt;&#x2F;web-app&gt;</code></pre><p>这样访问 <code>ip:8080/jqqzz</code>就可以进到自己的项目啦<br><strong><code>注意：在某些时候，一些命令操作文件的时候会没有权限导致失败，这时使用一下命令给予文件或文件夹权限，777为所有用户拥有最高权限，R表示允许其目录下的子目录的文件及文件夹</code></strong></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-Shell">chmod 777 文件夹或文件名chmod 777 *.文件类型</code></pre><p>这样所有工作就都大功告成了</p>]]></content>
       
       
       <categories>
@@ -96,6 +705,205 @@
     </entry>
     
     
+    
+    <entry>
+      <title>npm时报错解决EPERM: operation not permitted, lstat</title>
+      <link href="/npmshibaoc/"/>
+      <url>/npmshibaoc/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p>在使用<code>vue-cli</code>做项目时，曾遇到过<code>npm run build</code>打包时报错的问题，如下图<br><img src="https://img-blog.csdnimg.cn/20190621151430262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><blockquote><p>当时遇到问题后试了好多方法都不行，dist文件夹也删除不了，然后各种搜索，有的让清除缓存，有的说是无权限访问，要用管理员身份访问，可能这样能解决一部分问题，但是我的问题却一直没有解决，因为我用的<code>ide</code>是<code>VS code</code>，当时开的本地<code>server</code>服务，索性就把VS code关了重新试了试，还成功了</p></blockquote></li><li><p>这次又遇到问题，也就仿照上次关掉编辑器，但是这次却怎么都不成功，还是抛出同样的错误，各种命令方式也都重新试了一遍，包括命令强制删除，都宣告失败</p></li></ul><blockquote><p>还是多试试就能找到问题的根本，因为我要往服务器传文件，当时用到dist文件夹，即使现在不用，它也一直产生着关联关系，所以当我把xftp关掉以后再去试就成功了</p></blockquote><ul><li>总结：发生错误的原因有很多，当你用命令等方式都失败的时候就得尝试换种途径了，比如程序占用，一个文件夹，只要和另一个程序有关联，它就会禁止去操作这个文件夹或文件，导致错误的发生，所以无论何时，都要保证操作文件夹不被占用</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 权限报错 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>原生js文件上传，input如何实现文件（图片）上传与预览</title>
+      <link href="/yuanshengjsw/"/>
+      <url>/yuanshengjsw/</url>
+      
+        <content type="html"><![CDATA[<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="https://img-blog.csdnimg.cn/20190531142022174.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="上传与展示"></p><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><ul><li>首先文件上传得需要后台支持，我这里用的node写的后端服务，篇幅有限，这里就不贴后端代码了，有需要的留言联系</li></ul><h3 id="dom部分"><a href="#dom部分" class="headerlink" title="dom部分"></a>dom部分</h3><ul><li>由于form表单自动关联input文件上传按钮，故点击上传文件按钮时会自动往 <code>action</code> 路径提交文件<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;h3&gt;文件上传：&lt;&#x2F;h3&gt;    选择一个文件上传: &lt;br &#x2F;&gt;    &lt;form action=&quot;http:&#x2F;&#x2F;localhost:8090&#x2F;upToImg1&quot; method=&quot;post&quot; enctype=&quot;multipart&#x2F;form-data&quot; id=&quot;formData2&quot;&gt;        名字 &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;&#x2F;input&gt;        &lt;br &#x2F;&gt;        描述 &lt;input type=&quot;text&quot; name=&quot;content&quot;&gt;&lt;&#x2F;input&gt;        &lt;br &#x2F;&gt;        &lt;input type=&quot;file&quot; name=&quot;image&quot; size=&quot;50&quot; onchange=&quot;fileChange(this)&quot; &#x2F;&gt;        &lt;br &#x2F;&gt;        &lt;input type=&quot;submit&quot; value=&quot;上传文件&quot; id=&quot;submitButton&quot; &#x2F;&gt;    &lt;&#x2F;form&gt;    &lt;button id=&quot;mybutton&quot;&gt;获取&lt;&#x2F;button&gt;    &lt;ul id=&quot;myul&quot;&gt;&lt;&#x2F;ul&gt;</code></pre></li></ul><h3 id="js部分"><a href="#js部分" class="headerlink" title="js部分"></a>js部分</h3><ul><li><p>如果需要手动点击按钮上传，只需对其进行点击事件并禁止默认行为即可</p></li><li><p>我这里用 <code>jquery</code> 做的请求，如果项目需要，请求时 <strong>需要携带其它参数</strong> ，比如像我上面的名字和描述数据，可以把需要传递的数据用input框传递进去</p></li><li><p>如果想对文件做限制，可根据<code>onchange</code>事件处理，函数返回false或promise的reject失败，即会阻止submit提交</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">var submitButton = document.getElementById(&#39;submitButton&#39;);    var myul = document.getElementById(&#39;myul&#39;);    var mybutton = document.getElementById(&#39;mybutton&#39;);    submitButton.onclick = function (e) {        if (e.preventDefault) e.preventDefault();        else e.returnValue = false;        var formData = new FormData($(&quot;#formData2&quot;)[0]);        $.ajax({            url: &#39;http:&#x2F;&#x2F;localhost:8090&#x2F;upToImg1&#39;,            type: &#39;POST&#39;,            data: formData,            async: false,            cache: false,            contentType: false,            processData: false,            success: function (returndata) {                console.log(returndata);            },            error: function (returndata) {                console.log(returndata);            }        });    }    function fileChange(target) {        var fileSize = 0;        fileSize = target.files[0].size;        var size = fileSize &#x2F; 1024;        if (size &gt; 1000) {            alert(&quot;附件不能大于1M&quot;);            target.value = &quot;&quot;;            return false;   &#x2F;&#x2F;阻止submit提交        }        var name = target.value;        var fileName = name.substring(name.lastIndexOf(&quot;.&quot;) + 1).toLowerCase();        if (fileName != &quot;jpg&quot; &amp;&amp; fileName != &quot;jpeg&quot; &amp;&amp; fileName != &quot;png&quot; &amp;&amp; fileName != &quot;gif&quot;) {            alert(&quot;请选择图片格式文件上传(jpg,png,gif,gif等)！&quot;);            target.value = &quot;&quot;;            return false;   &#x2F;&#x2F;阻止submit提交        }    }    mybutton.onclick = function () {        $.ajax({            url: &#39;http:&#x2F;&#x2F;localhost:8090&#x2F;upToImg1&#39;,            type: &#39;get&#39;,            success: function (returndata) {                console.log(returndata);                var str=&#39;&#39;;                returndata.data.forEach(ele =&gt; {                    str+=`&lt;li&gt;&lt;img src=&quot;http:&#x2F;&#x2F;localhost:8090&#x2F;upload&#x2F;${ele.src}&quot; alt=&quot;${ele.content}&quot;&gt;${ele.name}&lt;&#x2F;li&gt;`                });                $(&quot;#myul&quot;).append(str)            },            error: function (returndata) {                console.log(returndata);            }        });    }</code></pre></li><li><p>上传成功后对相应数据做需要操作即可，我这里上传成功后通过点击<code>获取</code>按钮得到上传文件的列表，并通过 <strong>字符串拼接</strong> 的方式动态添加图片到 <code>ul</code> 上</p></li></ul><p><strong><code>注意</code></strong></p><blockquote><p>由于图片是在服务端存储，返回的图片只是图片的文件名，要想通过 <code>img</code> 标签展示图片，需拼接正确路径以匹配到后端存储代码</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+            <tag> 上传 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>node+express+mysql实现服务端文件上传功能</title>
+      <link href="/nodeexpress/"/>
+      <url>/nodeexpress/</url>
+      
+        <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote><p>由于是新手，花费了不少时间，现在走通没有问题，所以要是大佬路过，请多多指导，本文主要对初入node不久的新手准备的，如有问题，欢迎留言互相学习</p></blockquote><p>首先通过 <code>express</code> 起服务</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F;server.jsconst express=require(&#39;express&#39;);const static=require(&#39;express-static&#39;);const bodyParser=require(&#39;body-parser&#39;);const multer=require(&#39;multer&#39;);const multerObj=multer({dest: &#39;.&#x2F;static&#x2F;upload&#39;});const cookieParser=require(&#39;cookie-parser&#39;);const cookieSession=require(&#39;cookie-session&#39;);const consolidate=require(&#39;consolidate&#39;);var server=express();server.listen(8090);&#x2F;&#x2F;1.获取请求数据&#x2F;&#x2F;get自带server.use(bodyParser.urlencoded());server.use(multerObj.any());&#x2F;&#x2F;cors跨域设置server.all(&#39;*&#39;,function (req, res, next) {  res.header(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;);  res.header(&#39;Access-Control-Allow-Headers&#39;, &#39;Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild&#39;);  res.header(&#39;Access-Control-Allow-Methods&#39;, &#39;PUT, POST, GET, DELETE, OPTIONS&#39;);  if (req.method == &#39;OPTIONS&#39;) {    res.send(200); &#x2F;&#x2F;让options请求快速返回&#x2F;  }  else {    next();  }});&#x2F;&#x2F;2.routeserver.use(&#39;&#x2F;upToImg1&#x2F;&#39;, require(&#39;.&#x2F;route&#x2F;upToImg1&#39;)());&#x2F;&#x2F;3.default：staticserver.use(&#39;&#x2F;&#39;,static(&#39;.&#x2F;static&#39;));server.use(&#39;&#x2F;files&#39;,static(&#39;.&#x2F;static&#39;));</code></pre><p>安装需要的插件或三方中间件，本文是结合 <code>mysql</code> 数据库实现文件上传，所以得提前配好mysql并通过 <code>npm install mysql</code> 进行安装</p><p><code>注意：大家看到上面的multer插件了吧，这个插件就是控制文件上传的，dest配置上传路径，我这里图方便就在全局使用上传功能（.any()）了，这样会导致有恶意传送文件到其它路由的情况，所以建议大家最好把此插件写到特定路由以使用</code><br>这里贴一张multer的使用方法：<br><img src="https://img-blog.csdnimg.cn/20190612115305403.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-json">&#x2F;&#x2F;package.json{  &quot;devDependencies&quot;: {    &quot;body-parser&quot;: &quot;^1.17.1&quot;,    &quot;consolidate&quot;: &quot;^0.14.5&quot;,    &quot;cookie-parser&quot;: &quot;^1.4.3&quot;,    &quot;cookie-session&quot;: &quot;^2.0.0-beta.1&quot;,    &quot;debug&quot;: &quot;^2.6.6&quot;,    &quot;ejs&quot;: &quot;^2.5.6&quot;,    &quot;express&quot;: &quot;^4.15.2&quot;,    &quot;express-route&quot;: &quot;^0.1.4&quot;,    &quot;express-static&quot;: &quot;^1.1.0&quot;,    &quot;multer&quot;: &quot;^1.3.0&quot;,    &quot;mysql&quot;: &quot;^2.13.0&quot;  }}</code></pre><p>接下来就是业务逻辑部分了，配置路由，结合上面路由的注册，新建路由js文件<br><img src="https://img-blog.csdnimg.cn/20190531152127551.png" alt="路由文件"></p><ul><li><code>sql</code> 文件如下<br><img src="https://img-blog.csdnimg.cn/20190531153723514.png" alt="sql文件"></li><li><code>index.js</code> 所有代码如下<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">const express = require(&quot;express&quot;);const mysql = require(&quot;mysql&quot;);&#x2F;&#x2F;mysql数据库配置，必须同后台数据库配置相同，包括密码数据库名等var db = mysql.createPool({  host: &quot;localhost&quot;,  user: &quot;root&quot;,  password: &quot;password&quot;,  database: &quot;test&quot;});const pathLib = require(&quot;path&quot;);const fs = require(&quot;fs&quot;);module.exports = function() {  var router = express.Router();  &#x2F;&#x2F;get请求获取数据库数据 获取参数，如果是传递的是del和id，则根据id删除数据库相应id的数据，并通过文件名和路径删除存到upload文件夹下面的对应文件  &#x2F;&#x2F;如果传递mod和id，则根据id返回相应id的数据  &#x2F;&#x2F;如果不传递，则为默认default，返回所有数据  router.get(&quot;&#x2F;&quot;, function(req, res) {    switch (req.query.act) {      case &quot;del&quot;:        db.query(          `SELECT * FROM uptoimg_table WHERE ID=${req.query.id}`,          (err, data) =&gt; {            if (err) {              console.error(err);              res.status(500).send(&quot;database error&quot;).end();            } else {              if (data.length == 0) {                res.status(404).send(&quot;no this uptoimg&quot;).end();              } else {                fs.unlink(&quot;static&#x2F;upload&#x2F;&quot; + data[0].src, err =&gt; {                  if (err) {                    console.error(err);                    res.status(500).send(&quot;file opration error&quot;).end();                  } else {                    db.query(                      `DELETE FROM uptoimg_table WHERE ID=${req.query.id}`,                      (err, data) =&gt; {                        if (err) {                          console.error(err);                          res.status(500).send(&quot;database error&quot;).end();                        } else {                          res.send({ data: data, type: &quot;del&quot; });                        }                      }                    );                  }                });              }            }          }        );        break;      case &quot;mod&quot;:        db.query(          `SELECT * FROM uptoimg_table WHERE ID=${req.query.id}`,          (err, data) =&gt; {            if (err) {              console.error(err);              res.status(500).send(&quot;database error&quot;).end();            } else if (data.length == 0) {              res.status(404).send(&quot;no this evaluation&quot;).end();            } else {              db.query(`SELECT * FROM uptoimg_table`, (err, evaluations) =&gt; {                if (err) {                  console.error(err);                  req.status(500).send(&quot;database error&quot;).end();                } else {                  res.send({ data: evaluations, type: &quot;mode&quot; });                }              });            }          }        );        break;      default:        db.query(`SELECT * FROM uptoimg_table`, (err, evaluations) =&gt; {          if (err) {            console.error(err);            req.status(500).send(&quot;database error&quot;).end();          } else {            res.send({ data: evaluations, type: &quot;default&quot; });          }        });    }  });  &#x2F;&#x2F;*******************************分割线*****************************************  &#x2F;&#x2F;以下为post请求，包含增删改等操作  router.post(&quot;&#x2F;&quot;, function(req, res) {    var name = req.body.name;    var content = req.body.content;    &#x2F;&#x2F;如果有文件上传，则对文件名进行处理，如果没有文件上传，也就是newFileName为null，则只允许    &#x2F;&#x2F;对除了图片的数据进行操作    if (req.files.length &gt; 0) {      var ext = pathLib.parse(req.files[0].originalname).ext;      var oldPath = req.files[0].path;      var newPath = req.files[0].path + ext;      var newFileName = req.files[0].filename + ext;    } else {      var newFileName = null;    }    if (newFileName) {      fs.rename(oldPath, newPath, err =&gt; {        if (err) {          console.error(err);          res.status(500).send(&quot;file opration error&quot;).end();        } else {          if (req.body.mod_id) {            &#x2F;&#x2F;修改            &#x2F;&#x2F;先删除老的，再添加新的            db.query(              `SELECT * FROM uptoimg_table WHERE ID=${req.body.mod_id}`,              (err, data) =&gt; {                if (err) {                  console.error(err);                  res.status(500).send(&quot;database error&quot;).end();                } else if (data.length == 0) {                  res.status(404).send(&quot;old file not found&quot;).end();                } else {                  fs.unlink(&quot;static&#x2F;upload&#x2F;&quot; + data[0].src, err =&gt; {                    if (err) {                      console.error(err);                      res.status(500).send(&quot;file opration error&quot;).end();                    } else {                      db.query(                        `UPDATE uptoimg_table SET \                      name=&#39;${name}&#39;, content=&#39;${content}&#39;, \                      src=&#39;${newFileName}&#39; \                      WHERE ID=${req.body.mod_id}`,                        err =&gt; {                          if (err) {                            console.error(err);                            res.status(500).send(&quot;database error&quot;).end();                          } else {                            res.send({ type: &quot;changeSuccess&quot; });                          }                        }                      );                    }                  });                }              }            );          } else {            &#x2F;&#x2F;添加            db.query(              `INSERT INTO uptoimg_table \            (name, content, src)            VALUES(&#39;${name}&#39;, &#39;${content}&#39;, &#39;${newFileName}&#39;)`,              (err, data) =&gt; {                if (err) {                  console.error(err);                  res.status(500).send(&quot;database error&quot;).end();                } else {                  res.send({ data: data, type: &quot;add&quot; });                }              }            );          }        }      });    } else {      if (req.body.mod_id) {        &#x2F;&#x2F;修改        &#x2F;&#x2F;直接改        db.query(          `UPDATE uptoimg_table SET \          name=&#39;${name}&#39;, content=&#39;${content}&#39; \          WHERE ID=${req.body.mod_id}`,          err =&gt; {            if (err) {              console.error(err);              res.status(500).send(&quot;database error&quot;).end();            } else {              res.send({ data: &quot;data修改成功&quot;, type: &quot;change&quot; });            }          }        );      } else {        &#x2F;&#x2F;添加        db.query(          `INSERT INTO uptoimg_table \        (name, content, src)        VALUES(&#39;${name}&#39;, &#39;${content}&#39;, &#39;${newFileName}&#39;)`,          (err, data) =&gt; {            if (err) {              console.error(err);              res.status(500).send(&quot;database error&quot;).end();            } else {              res.send({ data: data, type: &quot;add&quot; });            }          }        );      }    }  });  return router;};</code></pre></li></ul><p>到这里就基本大功告成了，启动 <code>server.js</code> 文件，关联数据库，就可以操作文件了，前端相关代码我用原生js写的，在我博客的另一篇，如有需要可进行查看</p><ul><li>上传成功的图片会在upload文件夹更新<br><img src="https://img-blog.csdnimg.cn/20190531155034964.png" alt="在这里插入图片描述"></li><li>数据库数据也会得到更新<br><img src="https://img-blog.csdnimg.cn/20190531155330817.png" alt="在这里插入图片描述"></li></ul><p><strong>新手笔记，如有疑问欢迎交流</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> node </tag>
+            
+            <tag> mysql </tag>
+            
+            <tag> express </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vs-code中用liveServer打开vue-cli打包后的html，模拟查看线上路径问题</title>
+      <link href="/vscodezhongy/"/>
+      <url>/vscodezhongy/</url>
+      
+        <content type="html"><![CDATA[<p>首先在扩展搜索liveServer下载安装<br><img src="https://img-blog.csdnimg.cn/20190513143201624.png" alt="在这里插入图片描述"><br>之后右键html就会出现liveServer命令<br><img src="https://img-blog.csdnimg.cn/20190513143332917.png" alt="在这里插入图片描述"><br>我用的vue-cli版本是3.2，为防止路径问题，在vue.config.js中修改publicPath为</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">module.exports = {publicPath: &quot;.&#x2F;&quot;}</code></pre><p>完成重新打包<br>在vscode 配置 setting.json 中配置liveServer</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript"> {  &quot;liveServer.settings.port&quot;: 8080, &#x2F;&#x2F;设置本地服务的端口号     &quot;liveServer.settings.root&quot;: &quot;.&#x2F;dist&quot;, &#x2F;&#x2F;设置根目录，也就是打开的文件会在该目录下找,所以vue-cli打包后路径为dist就这样写     &quot;liveServer.settings.CustomBrowser&quot;: &quot;chrome&quot;, &#x2F;&#x2F;设置默认打开的浏览器     &quot;liveServer.settings.AdvanceCustomBrowserCmdLine&quot;: &quot;chrome --incognito --remote-debugging-port=9222&quot;,     &quot;liveServer.settings.NoBrowser&quot;: false,     &quot;liveServer.settings.ignoredFiles&quot;: [&#x2F;&#x2F;设置忽略的文件         &quot;.vscode&#x2F;**&quot;,         &quot;**&#x2F;*.scss&quot;,         &quot;**&#x2F;*.sass&quot;     ]}</code></pre><p>配置完成后右键dist目录下的index.html，并用liveServer打开，这样就大功告成了<br><code>但是这样往往会出现目录路径问题，搞不清来龙去脉很难解决问题，这里推荐使用git bash实现模拟线上</code></p><ul><li>首先全局安装<code>npm install -g live-server</code></li><li>然后就可以直接使用了：<ul><li>打包好自己的项目</li><li>使用 <code>git bash</code> 进入打包好的文件夹 dist</li><li>直接使用命令 <code>live-server</code> 便可打开项目，这里打开后的项目即使打包的项目</li></ul></li></ul><p>附：<code>live-server</code> 参数说明：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-text">--port=NUMBER - select port to use, default: PORT env var or 8080--host=ADDRESS - select host address to bind to, default: IP env var or 0.0.0.0 (&quot;any address&quot;)--no-browser - suppress automatic web browser launching--browser=BROWSER - specify browser to use instead of system default--quiet | -q - suppress logging--verbose | -V - more logging (logs all requests, shows all listening IPv4 interfaces, etc.)--open=PATH - launch browser to PATH instead of server root--watch=PATH - comma-separated string of paths to exclusively watch for changes (default: watch everything)--ignore=PATH - comma-separated string of paths to ignore (anymatch-compatible definition)--ignorePattern=RGXP - Regular expression of files to ignore (ie .*\.jade) (DEPRECATED in favor of --ignore)--no-css-inject - reload page on CSS change, rather than injecting changed CSS--middleware=PATH - path to .js file exporting a middleware function to add; can be a name without path nor extension to reference bundled middlewares in middleware folder--entry-file=PATH - serve this file (server root relative) in place of missing files (useful for single page apps)--mount=ROUTE:PATH - serve the paths contents under the defined route (multiple definitions possible)--spa - translate requests from &#x2F;abc to &#x2F;#&#x2F;abc (handy for Single Page Apps)--wait=MILLISECONDS - (default 100ms) wait for all changes, before reloading--htpasswd=PATH - Enables http-auth expecting htpasswd file located at PATH--cors - Enables CORS for any origin (reflects request origin, requests with credentials are supported)--https=PATH - PATH to a HTTPS configuration module--https-module=MODULE_NAME - Custom HTTPS module (e.g. spdy)--proxy=ROUTE:URL - proxy all requests for ROUTE to URL--help | -h - display terse usage hint and exit--version | -v - display version and exit</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 模拟线上 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vuex中遇到的坑，vuex数据改变，组件中页面不渲染</title>
+      <link href="/vuexzhongy/"/>
+      <url>/vuexzhongy/</url>
+      
+        <content type="html"><![CDATA[<p>@<a href="vuex数据改变，组件中页面不渲染">TOC</a><br><strong>相信许多vuex新手都会遇到这样的问题：</strong></p><ul><li>vuex数据更新后，插件中使用数据的地方没有更新</li></ul><p>这样的代码</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data() {    return {      tableData: this.$store.state.AdminInfo    };  }</code></pre><p>然后在 template 中使用 tableData</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;el-table :data=&quot;tableData&quot; class=&quot;tablePst&quot;&gt;   &lt;el-table-column label=&quot;登录名&quot; prop=&quot;loginname&quot;&gt;&lt;&#x2F;el-table-column&gt;   &lt;el-table-column label=&quot;真实姓名&quot; prop=&quot;realname&quot;&gt;&lt;&#x2F;el-table-column&gt;&lt;&#x2F;el-table&gt;</code></pre><p>这样的话，就会出现数据改变不渲染的问题</p><p><strong>问题</strong></p><p><code>要解决问题，就得理解vue生命周期，页面加载前 tableData 获取 store 里的值赋给自己，这样 tableData 只有一初始值，后续vuex中状态发生改变，并不会再次赋值给 tableData ，除非页面刷新重新加载，组件生命周期重新开始，才能拿到最新的值</code></p><p><strong>解决</strong></p><blockquote><p>1.去掉组件中 tableData 的状态，在模板中直接使用 $store.state.AdminInfo 这样就能随时拿到最新的状态值了</p></blockquote><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-html">&lt;el-table :data=&quot;$store.state.AdminInfo&quot; class=&quot;tablePst&quot;&gt;   &lt;el-table-column label=&quot;登录名&quot; prop=&quot;loginname&quot;&gt;&lt;&#x2F;el-table-column&gt;   &lt;el-table-column label=&quot;真实姓名&quot; prop=&quot;realname&quot;&gt;&lt;&#x2F;el-table-column&gt;&lt;&#x2F;el-table&gt;</code></pre><blockquote><p>2.使用mapState,把vuex中的状态暴露给组件，再使用，具体见文档  <a href="https://vuex.vuejs.org/zh/guide/state.html#mapstate-%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">vuex mapState官方文档</a>.</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vuex </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
+  
+    
+    
+    <entry>
+      <title>404</title>
+      <link href="/404.html"/>
+      <url>/404.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>contact</title>
+      <link href="/contact/index.html"/>
+      <url>/contact/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>about</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>categories</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>friends</title>
+      <link href="/friends/index.html"/>
+      <url>/friends/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>tags</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
   
 </search>

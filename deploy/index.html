@@ -3,7 +3,7 @@
 
 
 <head>
-    <meta charset="utf-8">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="vue+node(express)+mysql部署阿里云服务器, 我的博客">
     <meta name="description" content="@[toc]
 一、购买服务器
@@ -30,11 +30,11 @@
     
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<meta name="generator" content="Hexo 4.1.0"></head>
+<meta name="generator" content="Hexo 4.1.0"><!-- hexo-inject:begin --><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css'><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css'><!-- hexo-inject:end --></head>
 
 
 <body>
-    <header class="navbar-fixed">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper head-container">
             <div class="brand-logo">
@@ -475,7 +475,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    8 分
                 </div>
                 
 				
@@ -507,46 +507,110 @@
 <p><strong><code>putty</code>和<code>Xftp</code>可在网上自行下载安装</strong></p>
 <h3 id="putty连接服务器"><a href="#putty连接服务器" class="headerlink" title="putty连接服务器"></a>putty连接服务器</h3><p>1、打开putty<br><img src="https://img-blog.csdnimg.cn/2019062116323943.png" alt="在这里插入图片描述"><br>2、根据图中设置ip<br><img src="https://img-blog.csdnimg.cn/20190621163620697.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>3、出现下面界面，设置登录名，为root，登录密码为注册服务时设置的密码（输入密码不会出现字符，放心输入完了按回车就是了）<br><img src="https://img-blog.csdnimg.cn/20190621163855163.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、登录成功后，就进入到<code>Linux</code>系统了<br><img src="https://img-blog.csdnimg.cn/2019062116411241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h3 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h3><p>1、先把yum更新到最新版本</p>
-<pre><code class="Shell">yum -y update</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">yum -y update
+</code></pre>
+
 <p>2、我们将使用最新源代码构建Node.js，要进行软件的安装，需要一组用来编译源代码的开发工具</p>
-<pre><code class="Shell">yum -y groupinstall &quot;Development Tools&quot;</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">yum -y groupinstall &quot;Development Tools&quot;
+</code></pre>
+
 <p>3、进入/usr/src文件夹，这个文件夹通常用来存放软件源代码</p>
-<pre><code class="Shell">cd /usr/src</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;usr&#x2F;src
+</code></pre>
+
 <p>4、从 <code>Node.js</code>的站点 中获取压缩档源代码, 我选择的版本为<code>v10.13.0</code></p>
-<pre><code class="Shell">wget http://nodejs.org/dist/v10.13.0/node-v10.13.0.tar.gz </code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">wget http:&#x2F;&#x2F;nodejs.org&#x2F;dist&#x2F;v10.13.0&#x2F;node-v10.13.0.tar.gz 
+</code></pre>
+
 <p>5、解压文件，并进入文件夹</p>
-<pre><code class="Shell">tar zxf node-v10.13.0.tar.gz
-cd node-v6.9.1</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">tar zxf node-v10.13.0.tar.gz
+cd node-v6.9.1
+</code></pre>
+
 <p>6、设置全局环境变量，为了能够在全局使用node命令</p>
-<pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/node /usr/local/bin/node
-ln -s /usr/src/node-v10.13.0/bin/npm /usr/local/bin/npm</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">ln -s &#x2F;usr&#x2F;src&#x2F;node-v10.13.0&#x2F;bin&#x2F;node &#x2F;usr&#x2F;local&#x2F;bin&#x2F;node
+ln -s &#x2F;usr&#x2F;src&#x2F;node-v10.13.0&#x2F;bin&#x2F;npm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;npm
+</code></pre>
+
 <p>7、查看是否成功设置</p>
-<pre><code class="Shell">node -v
-npm -v</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">node -v
+npm -v
+</code></pre>
+
 <p>8、 安装pm2<br><strong><code>pm2</code>用于启动程序并在需要时重启非常有用的模块，可以随时查看服务的运行状态</strong></p>
-<pre><code class="Shell">npm -g install pm2 </code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">npm -g install pm2 
+</code></pre>
+
 <p>9、设置全局变量</p>
-<pre><code class="Shell">ln -s /usr/src/node-v10.13.0/bin/pm2 /usr/local/bin/</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">ln -s &#x2F;usr&#x2F;src&#x2F;node-v10.13.0&#x2F;bin&#x2F;pm2 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;
+</code></pre>
+
 <p>接下来就可以用<code>pm2</code>命令了</p>
 <h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>1、寻找社区源安装到<code>tmp</code>中</p>
-<pre><code class="Shell">cd /tmp
-wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm  
-rpm -ivh mysql-community-release-el7-5.noarch.rpm  </code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;tmp
+wget http:&#x2F;&#x2F;repo.mysql.com&#x2F;mysql-community-release-el7-5.noarch.rpm  
+rpm -ivh mysql-community-release-el7-5.noarch.rpm  
+</code></pre>
+
 <p>2、通过yum安装</p>
-<pre><code class="Shell">yum install mysql mysql-server mysql-devel -y</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">yum install mysql mysql-server mysql-devel -y
+</code></pre>
+
 <p><img src="https://img-blog.csdnimg.cn/20190621181031112.png" alt="在这里插入图片描述"><br>3、启动mysql</p>
-<pre><code class="Shell">systemctl start mysql.service</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">systemctl start mysql.service
+</code></pre>
+
 <p>4、设置用户和密码<br><code>通过yum安装的是没有用户名和密码的，所以得设置</code></p>
-<pre><code class="Shell">mysqladmin -u root password admin</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">mysqladmin -u root password admin
+</code></pre>
+
 <p>用户名为<code>root</code>，密码为<code>admin</code><br>5、设置好后就可以登录了</p>
-<pre><code class="Shell">mysql -uroot -padmin</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">mysql -uroot -padmin
+</code></pre>
+
 <p>查看数据库</p>
-<pre><code class="Shell">show databases;</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">show databases;
+</code></pre>
+
 <p><img src="https://img-blog.csdnimg.cn/20190621181945585.png" alt="在这里插入图片描述"><br>自此，数据库配置完毕</p>
 <h3 id="Xftp上传代码"><a href="#Xftp上传代码" class="headerlink" title="Xftp上传代码"></a>Xftp上传代码</h3><p>1、打开下载的<code>Xftp</code><br><img src="https://img-blog.csdnimg.cn/20190621182402956.png" alt="在这里插入图片描述"><br>2、点击新建<br><img src="https://img-blog.csdnimg.cn/20190621182637762.png" alt="在这里插入图片描述"><br>出现<br><img src="https://img-blog.csdnimg.cn/20190621182723796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>名称自己取一个项目名称。主机，填写阿里云服务器的公网<code>IP</code>，协议选择<code>SFTP</code>，端口使用<code>22</code>，用户名<code>root</code>，密码为购买阿里云的时候要你记住的密码。最后点击确定。</strong><br>3、双击下面图标，进入 <code>root</code>文件夹<br><img src="https://img-blog.csdnimg.cn/20190621182945604.png" alt="在这里插入图片描述"><br>如图：左边为本地电脑，右边为服务端文件夹<br><img src="https://img-blog.csdnimg.cn/201906211832036.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们把自己的<code>node项目</code>通过右键传输传进<code>home/自定义文件夹/</code>里,当然数据库文件也要一同传上去以便初始化<br><img src="https://img-blog.csdnimg.cn/20190621183423798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4、<strong><code>服务代码传到服务器上后要进入服务器 node 根目录通过 putty 进行 npm install 安装相关依赖</code></strong></p>
 <h3 id="启动node应用"><a href="#启动node应用" class="headerlink" title="启动node应用"></a>启动node应用</h3><p><strong>上传完代码后，再回到putty，进入项目目录，利用pm2启动应用</strong></p>
-<pre><code class="Shell">cd /home/jqq
-pm2 start server.js --name test</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;home&#x2F;jqq
+pm2 start server.js --name test
+</code></pre>
+
 <p>后面<code>--name</code>可以不写，重命名的意思<br>当出现下面表格说明成功启动了<br><img src="https://img-blog.csdnimg.cn/20190621184108984.png" alt="在这里插入图片描述"></p>
 <ul>
 <li>通过<code>pm2 list</code>检视运行中的应用</li>
@@ -556,59 +620,105 @@ pm2 start server.js --name test</code></pre>
 </ul>
 <p>到这里node启动就完成了</p>
 <h3 id="配置mysql"><a href="#配置mysql" class="headerlink" title="配置mysql"></a>配置mysql</h3><p>为避免大小写识别失败，对大小写进行配置<br>1、打开配置文件</p>
-<pre><code class="Shell">vi /etc/my.cnf</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">vi &#x2F;etc&#x2F;my.cnf
+</code></pre>
+
 <p>按 <code>i</code> 键进行编辑，如图在<code>[mysqld]</code>后添加<code>lower_case_table_names=1</code>，按 <code>esc</code> 键，再输入 <code>:wq</code> 保存退出<br><img src="https://img-blog.csdnimg.cn/20190621185154866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2、重启<code>mysql</code></p>
-<pre><code class="Shell">systemctl restart mysqld.service</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">systemctl restart mysqld.service
+</code></pre>
+
 <p>3、连接数据库</p>
-<pre><code class="Shell">mysql -uroot -padmin</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">mysql -uroot -padmin
+</code></pre>
+
 <p>4、创建test数据库</p>
-<pre><code class="Shell">CREATE DATABASE test DEFAULT CHARACTER SET utf8;</code></pre>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">CREATE DATABASE test DEFAULT CHARACTER SET utf8;
+</code></pre>
+
 <p>通过<code>show databases;</code>查看数据库已经存在了<br>4、导入数据</p>
 <ul>
-<li><p>接着上个步骤，先用组合键 ctrl+c退出mysql控制台，然后在linux的环境下输入如下命令导入数据</p>
-<pre><code class="Shell">mysql -u root -padmin --default-character-set=utf8 test &lt; /home/jqq/web.sql</code></pre>
-<p>5、验证数据</p>
-<pre><code class="Shell">mysql -uroot -padmin
-use test;
-show tables;
-select count(*) from product;</code></pre>
-<p>6、配置登录权限</p>
-<pre><code class="Shell">grant all privileges on `test`.* to &#39;root&#39;@&#39;%&#39; identified by &#39;admin&#39; with grant option;
-mysql&gt; FLUSH PRIVILEGES;</code></pre>
-<p><code>test为数据库，root为用户，admin为密码，下面命令为让配置生效</code><br>这样数据就设置完成可以启动了</p>
-<h2 id="三、安装配置tomcat"><a href="#三、安装配置tomcat" class="headerlink" title="三、安装配置tomcat"></a>三、安装配置tomcat</h2><p>1、安装<br><code>yum</code>上没有<code>tomcat</code>的源，可以到官网去下载最新的通过<code>Xftp</code>传到<code>tmp</code>里，并使用如下方式下载解压，通过<code>mv</code>命令移动文件夹</p>
-<pre><code class="Shell">cd /tmp
-wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.92/bin/apache-tomcat-7.0.92.tar.gz
-tar xzf apache-tomcat-7.0.92.tar.gz
-mv apache-tomcat-7.0.92 /usr/local/tomcat7</code></pre>
-<p>2、启动tomcat</p>
-<pre><code class="Shell">/usr/local/tomcat7/bin/startup.sh</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621192706921.png" alt="在这里插入图片描述"><br>3、验证</p>
-<pre><code class="Shell">netstat -anp|grep 8080</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20190621192822610.png" alt="在这里插入图片描述"><br>4、安全组开放端口<br><img src="https://img-blog.csdnimg.cn/20190621192930313.png" alt="在这里插入图片描述"><br>5、再vue的router中如下配置，完了打包上传<br><img src="https://img-blog.csdnimg.cn/20190621193405506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>6、通过Xftp把vue打包好的文件传送到tomcat中，如图：我在webapps中新建了个文件夹，这样将来访问路径就会多出二级路径jqqzz，当然大家都可以放到根目录不必创建二级路径<br><img src="https://img-blog.csdnimg.cn/20190621193109445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>7、在<code>jqqzz</code>项目中新建文件夹<code>WEB-INF</code>，再里面新建文件<code>web.xml</code><br>编辑文件，把如下插入到文件中，处理<code>404</code>返回<code>index.html</code>页面,并且处理<code>history</code>模式</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
-&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;
-xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee
-                   http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;
-version=&quot;3.0&quot;
-metadata-complete=&quot;true&quot;&gt;
+<li>接着上个步骤，先用组合键 ctrl+c退出mysql控制台，然后在linux的环境下输入如下命令导入数据
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">mysql -u root -padmin --default-character-set=utf8 test &lt; &#x2F;home&#x2F;jqq&#x2F;web.sql
+</code></pre>
 
-&lt;display-name&gt;webapp&lt;/display-name&gt;
-&lt;description&gt;
-  webapp
-&lt;/description&gt;
-&lt;error-page&gt;  
-&lt;error-code&gt;404&lt;/error-code&gt;  
-&lt;location&gt;/index.html&lt;/location&gt;  
-&lt;/error-page&gt;  
-&lt;/web-app&gt;</code></pre>
-<p>这样访问 <code>ip:8080/jqqzz</code>就可以进到自己的项目啦</p>
 </li>
 </ul>
-<p><strong><code>注意：在某些时候，一些命令操作文件的时候会没有权限导致失败，这时使用一下命令给予文件或文件夹权限，777为所有用户拥有最高权限，R表示允许其目录下的子目录的文件及文件夹</code></strong></p>
-<pre><code class="Shell">chmod 777 文件夹或文件名
-chmod 777 *.文件类型</code></pre>
+<p>5、验证数据</p>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">mysql -uroot -padmin
+use test;
+show tables;
+select count(*) from product;
+</code></pre>
+
+<p>6、配置登录权限</p>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">grant all privileges on `test`.* to &#39;root&#39;@&#39;%&#39; identified by &#39;admin&#39; with grant option;
+mysql&gt; FLUSH PRIVILEGES;
+</code></pre>
+
+<p><code>test为数据库，root为用户，admin为密码，下面命令为让配置生效</code><br>这样数据就设置完成可以启动了</p>
+<h2 id="三、安装配置tomcat"><a href="#三、安装配置tomcat" class="headerlink" title="三、安装配置tomcat"></a>三、安装配置tomcat</h2><p>1、安装<br><code>yum</code>上没有<code>tomcat</code>的源，可以到官网去下载最新的通过<code>Xftp</code>传到<code>tmp</code>里，并使用如下方式下载解压，通过<code>mv</code>命令移动文件夹</p>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">cd &#x2F;tmp
+wget http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;apache&#x2F;tomcat&#x2F;tomcat-7&#x2F;v7.0.92&#x2F;bin&#x2F;apache-tomcat-7.0.92.tar.gz
+tar xzf apache-tomcat-7.0.92.tar.gz
+mv apache-tomcat-7.0.92 &#x2F;usr&#x2F;local&#x2F;tomcat7
+</code></pre>
+
+<p>2、启动tomcat</p>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">&#x2F;usr&#x2F;local&#x2F;tomcat7&#x2F;bin&#x2F;startup.sh
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190621192706921.png" alt="在这里插入图片描述"><br>3、验证</p>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">netstat -anp|grep 8080
+</code></pre>
+
+<p><img src="https://img-blog.csdnimg.cn/20190621192822610.png" alt="在这里插入图片描述"><br>4、安全组开放端口<br><img src="https://img-blog.csdnimg.cn/20190621192930313.png" alt="在这里插入图片描述"><br>5、再vue的router中如下配置，完了打包上传<br><img src="https://img-blog.csdnimg.cn/20190621193405506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>6、通过Xftp把vue打包好的文件传送到tomcat中，如图：我在webapps中新建了个文件夹，这样将来访问路径就会多出二级路径jqqzz，当然大家都可以放到根目录不必创建二级路径<br><img src="https://img-blog.csdnimg.cn/20190621193109445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjIwNDY5OA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>7、在<code>jqqzz</code>项目中新建文件夹<code>WEB-INF</code>，再里面新建文件<code>web.xml</code><br>编辑文件，把如下插入到文件中，处理<code>404</code>返回<code>index.html</code>页面,并且处理<code>history</code>模式</p>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;
+&lt;web-app xmlns=&quot;http:&#x2F;&#x2F;java.sun.com&#x2F;xml&#x2F;ns&#x2F;javaee&quot;
+  xmlns:xsi=&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http:&#x2F;&#x2F;java.sun.com&#x2F;xml&#x2F;ns&#x2F;javaee
+                      http:&#x2F;&#x2F;java.sun.com&#x2F;xml&#x2F;ns&#x2F;javaee&#x2F;web-app_3_0.xsd&quot;
+  version=&quot;3.0&quot;
+  metadata-complete=&quot;true&quot;&gt;
+
+  &lt;display-name&gt;webapp&lt;&#x2F;display-name&gt;
+  &lt;description&gt;
+     webapp
+  &lt;&#x2F;description&gt;
+  &lt;error-page&gt;  
+   &lt;error-code&gt;404&lt;&#x2F;error-code&gt;  
+   &lt;location&gt;&#x2F;index.html&lt;&#x2F;location&gt;  
+&lt;&#x2F;error-page&gt;  
+&lt;&#x2F;web-app&gt;
+</code></pre>
+
+<p>这样访问 <code>ip:8080/jqqzz</code>就可以进到自己的项目啦<br><strong><code>注意：在某些时候，一些命令操作文件的时候会没有权限导致失败，这时使用一下命令给予文件或文件夹权限，777为所有用户拥有最高权限，R表示允许其目录下的子目录的文件及文件夹</code></strong></p>
+
+<!-- Has Prism -->
+<pre class="line-numbers" style="" ><code class="language-Shell">chmod 777 文件夹或文件名
+chmod 777 *.文件类型
+</code></pre>
+
 <p>这样所有工作就都大功告成了</p>
 
             </div>
@@ -878,33 +988,40 @@ chmod 777 *.文件类型</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/loginissure/">
+                <a href="/zaivuexiangmu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="前端多角色权限页面（同浏览器同时登录）权限互串">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="在vue项目中使用svg，并能根据需要修改svg大小颜色等样式">
                         
-                        <span class="card-title">前端多角色权限页面（同浏览器同时登录）权限互串</span>
+                        <span class="card-title">在vue项目中使用svg，并能根据需要修改svg大小颜色等样式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            问题说明由于不同角色权限不同，显示的界面也就不同（功能与主题等），同浏览器同时登录不同角色会出现角色互串的问题，以下分析与解决均为同浏览器所在环境
-分析1、登录逻辑
-用户输入登录信息，点击登录向服务端发起请求，服务端根据前端发送的登录信息返
+                            1、介绍
+考虑到一部分人还在用vue-cli 2.x，故本教程既包含2.x版本，也包含3.x版本
+2、安装依赖
+
+
+npm install --save-dev svg-sprite-loader
+
+
+3、把svg文件放入项目中
+如图所示：
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-12
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-26
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%8A%9F%E8%83%BD%E7%B1%BB/" class="post-category">
-                                    功能类
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E7%82%B9/" class="post-category">
+                                    技术点
                                 </a>
                             
                             
@@ -914,12 +1031,12 @@ chmod 777 *.文件类型</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%99%BB%E5%BD%95%E4%BA%92%E4%B8%B2/">
-                        <span class="chip bg-color">登录互串</span>
+                    <a href="/tags/vue/">
+                        <span class="chip bg-color">vue</span>
                     </a>
                     
-                    <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%99%BB%E5%BD%95/">
-                        <span class="chip bg-color">浏览器登录</span>
+                    <a href="/tags/svg/">
+                        <span class="chip bg-color">svg</span>
                     </a>
                     
                 </div>
@@ -930,26 +1047,25 @@ chmod 777 *.文件类型</code></pre>
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/deploy/">
+                <a href="/npmshibaoc/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="vue+node(express)+mysql部署阿里云服务器">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="npm时报错解决EPERM: operation not permitted, lstat">
                         
-                        <span class="card-title">vue+node(express)+mysql部署阿里云服务器</span>
+                        <span class="card-title">npm时报错解决EPERM: operation not permitted, lstat</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            @[toc]
-一、购买服务器
-1 、进入阿里云官网，选择服务器ECS，我买的是学生的，当然你要是学生，可以通过身份购买学生专用优惠服务器，9.5一个月
-2、接下来会有个密码设置，这个密码会从始至终会用到哦
-3、购买成功后，实例就创建成功了，
+                            
+在使用vue-cli做项目时，曾遇到过npm run build打包时报错的问题，如下图
+
+当时遇到问题后试了好多方法都不行，dist文件夹也删除不了，然后各种搜索，有的让清除缓存，有的说是无权限访问，要用管理员身份访问，可能这样能解决一
                         
                     </div>
                     <div class="publish-info">
@@ -960,28 +1076,19 @@ chmod 777 *.文件类型</code></pre>
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E9%83%A8%E7%BD%B2/" class="post-category">
-                                    部署
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E9%97%AE%E9%A2%98/" class="post-category">
+                                    技术问题
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/vue/">
-                        <span class="chip bg-color">vue</span>
-                    </a>
-                    
-                    <a href="/tags/node/">
-                        <span class="chip bg-color">node</span>
-                    </a>
-                    
-                    <a href="/tags/mysql/">
-                        <span class="chip bg-color">mysql</span>
+                    <a href="/tags/%E6%9D%83%E9%99%90%E6%8A%A5%E9%94%99/">
+                        <span class="chip bg-color">权限报错</span>
                     </a>
                     
                 </div>
@@ -1325,6 +1432,6 @@ $(function () {
     
     <script type="text/javascript"> var OriginTitile = document.title, st; 
     document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) }) </script>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script><!-- hexo-inject:begin --><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js'></script><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js'></script><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js'></script><!-- hexo-inject:end --></body>
 
 </html>
