@@ -803,34 +803,36 @@ let isExist=!!~fullname.indexOf(firstname); &#x2F;&#x2F; true
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/zititubiao/">
+                <a href="/elementlianji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="字体图标在ie兼容问题（element低版本icon）（图标在ie浏览器不显示）">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="element联级选择器（获取省市地区）后台动态获取">
                         
-                        <span class="card-title">字体图标在ie兼容问题（element低版本icon）（图标在ie浏览器不显示）</span>
+                        <span class="card-title">element联级选择器（获取省市地区）后台动态获取</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             
-在项目开发过程中，项目用到的是element组件，版本号是2.4.7，遇到了图标字体在ie浏览器不显示的问题，这是在同事电脑出现的bug，我电脑同样是ie，11版本和10版本都没有问题，但是在同事电脑哪个版本都显示不出来，纠结了半天
+如何根据后台接口数据动态展示联级选择器，本文章以获取省市地区为例进行说明
+通过点击省地区动态获取市地区
+首先，看一下element联级选择器长啥样：
 
-看
+&lt;el-cascader :options=&quot;options&quot
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-18
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-14
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8A%80%E6%9C%AF%E9%97%AE%E9%A2%98/" class="post-category">
-                                    技术问题
+                            <a href="/categories/%E5%8A%9F%E8%83%BD%E7%B1%BB/" class="post-category">
+                                    功能类
                                 </a>
                             
                             
@@ -840,8 +842,12 @@ let isExist=!!~fullname.indexOf(firstname); &#x2F;&#x2F; true
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AD%97%E4%BD%93%E5%9B%BE%E6%A0%87/">
-                        <span class="chip bg-color">字体图标</span>
+                    <a href="/tags/element/">
+                        <span class="chip bg-color">element</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%81%94%E7%BA%A7%E9%80%89%E6%8B%A9%E5%99%A8/">
+                        <span class="chip bg-color">联级选择器</span>
                     </a>
                     
                 </div>
@@ -1239,7 +1245,7 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
     <script type="text/javascript"> var OriginTitile = document.title, st; 
-    document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) }) </script>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script><!-- hexo-inject:begin --><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js'></script><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js'></script><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js'></script><!-- hexo-inject:end --></body>
+    document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) }) </script><!-- hexo-inject:begin --><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js'></script><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js'></script><script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js'></script><!-- hexo-inject:end -->
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
 
 </html>

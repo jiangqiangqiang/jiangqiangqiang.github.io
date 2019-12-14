@@ -4,33 +4,6 @@
   
     
     <entry>
-      <title>element联级选择器（获取省市地区）后台动态获取</title>
-      <link href="/elementlianji/"/>
-      <url>/elementlianji/</url>
-      
-        <content type="html"><![CDATA[<ul><li>如何根据后台接口数据动态展示联级选择器，本文章以获取省市地区为例进行说明</li><li><strong>通过点击省地区动态获取市地区</strong></li><li>首先，看一下<code>element</code>联级选择器长啥样：<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&lt;el-cascader :options=&quot;options&quot; v-model=&quot;value&quot; clearable&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  export default {    data() {      return {        value: &#39;&#39;,        options: [{          value: &#39;zhinan&#39;,          label: &#39;指南&#39;,          children: [{            value: &#39;shejiyuanze&#39;,            label: &#39;设计原则&#39;,            children: [{              value: &#39;yizhi&#39;,              label: &#39;一致&#39;            }, {              value: &#39;fankui&#39;,              label: &#39;反馈&#39;            }, {              value: &#39;xiaolv&#39;,              label: &#39;效率&#39;            }, {              value: &#39;kekong&#39;,              label: &#39;可控&#39;            }]          }]        }]      }    }  }&lt;&#x2F;script&gt;</code></pre></li></ul><p><strong>可以清楚的看到，<code>value</code>为选择后的动态结果，<code>options</code>属性控制着联级菜单的内容，每一级都有<code>value</code> 和 <code>lable</code>属性，控制着展示的内容，<code>children</code>属性控制着是否含有子集菜单</strong></p><ul><li>了解到结构后我们就可以动态获取了：</li></ul><ol><li><p>根据<code>props</code>属性设置后台对应参数</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&lt;el-cascader v-model=&quot;adress&quot; :options=&quot;optionsAdress&quot; :props=&quot;props&quot; clearable placeholder=&quot;请选择地区&quot;&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  data () {    &#x2F;&#x2F; 选择结果以数组方式展示    adress: [],    &#x2F;&#x2F; 选择器结果数据长下面这样    optionsAdress: [{ code: &#39;111&#39;, name: &#39;北京&#39;, cities: [{ code: &#39;112&#39;, name: &#39;海淀区&#39; }]}],    &#x2F;&#x2F; props设置参数对应属性    props: {      value: &#39;code&#39;,      label: &#39;name&#39;,      children: &#39;cities&#39;    },  }&lt;&#x2F;script&gt;</code></pre></li><li><p>在初始化获取省列表数据赋值给<code>optionsAdress</code>进行展示</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data () {  optionsAdress: [],  &#x2F;&#x2F; ...},created () {  this.getProvice()},methods: {  getProvice () {    this.axios.get(&#39;proviceUrl&#39;).then(data =&gt; {      this.optionsAdress = data.data      &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},{ code: &#39;222&#39;, name: &#39;河北省&#39; }]并能在联级菜单进行显示    }).catch(err =&gt; {      console.log(err.msg)    })  }}</code></pre></li><li><p>我们通过点击省获取对应省的市地区，所以就得动态的给<code>optionsAdress</code>的对应项加<code>cities</code>子属性，看代码：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; 用active-item-change监听省地区的变化&lt;el-cascader v-model=&quot;adress&quot; :options=&quot;optionsAdress&quot; :props=&quot;props&quot; clearable placeholder=&quot;请选择地区&quot;  @active-item-change=&quot;handleItemChange&quot;&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  data () {    adress: [],    optionsAdress: [],    props: {      value: &#39;code&#39;,      label: &#39;name&#39;,      children: &#39;cities&#39;    },  }  created () {    this.getProvice()  },  methods: {    getProvice () {      this.axios.get(&#39;proviceUrl&#39;).then(data =&gt; {        this.optionsAdress = data.data        &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},{ code: &#39;222&#39;, name: &#39;河北省&#39; }]并能在联级菜单进行显示      }).catch(err =&gt; {        console.log(err.msg)      })    },    handleItemChange (val) {      &#x2F;&#x2F; 根据省的code获取市的列表并添加到对应省的数据里      const that = this      that.optionsAdress.forEach(item =&gt; {        if (item.code === val[0]) {          that.axios.get(&#39;cityUrl&#39; + &#39;?proviceCode=&#39; + val[0]).then(data =&gt; {            item.cities = data.data            &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},            &#x2F;&#x2F; { code: &#39;222&#39;, name: &#39;河北省&#39;, cities: [{ code: &#39;223&#39;, name: &#39;石家庄&#39; }]}]          }).catch(data =&gt; {            console.log(err.msg)          })        }      })    },  }&lt;&#x2F;script&gt;</code></pre></li></ol><p>以上即为获取省市的全部代码，<code>adress</code>的值即为最后选取的省市信息，也可以通过<code>change</code>事件监听值的变化，希望能帮到 大家</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 功能类 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> element </tag>
-            
-            <tag> 联级选择器 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>vue 下载pdf文件</title>
       <link href="/vuexiazai/"/>
       <url>/vuexiazai/</url>
@@ -352,6 +325,33 @@
         <tags>
             
             <tag> 字体图标 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>element联级选择器（获取省市地区）后台动态获取</title>
+      <link href="/elementlianji/"/>
+      <url>/elementlianji/</url>
+      
+        <content type="html"><![CDATA[<ul><li>如何根据后台接口数据动态展示联级选择器，本文章以获取省市地区为例进行说明</li><li><strong>通过点击省地区动态获取市地区</strong></li><li>首先，看一下<code>element</code>联级选择器长啥样：<!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&lt;el-cascader :options=&quot;options&quot; v-model=&quot;value&quot; clearable&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  export default {    data() {      return {        value: &#39;&#39;,        options: [{          value: &#39;zhinan&#39;,          label: &#39;指南&#39;,          children: [{            value: &#39;shejiyuanze&#39;,            label: &#39;设计原则&#39;,            children: [{              value: &#39;yizhi&#39;,              label: &#39;一致&#39;            }, {              value: &#39;fankui&#39;,              label: &#39;反馈&#39;            }, {              value: &#39;xiaolv&#39;,              label: &#39;效率&#39;            }, {              value: &#39;kekong&#39;,              label: &#39;可控&#39;            }]          }]        }]      }    }  }&lt;&#x2F;script&gt;</code></pre></li></ul><p><strong>可以清楚的看到，<code>value</code>为选择后的动态结果，<code>options</code>属性控制着联级菜单的内容，每一级都有<code>value</code> 和 <code>lable</code>属性，控制着展示的内容，<code>children</code>属性控制着是否含有子集菜单</strong></p><ul><li>了解到结构后我们就可以动态获取了：</li></ul><ol><li><p>根据<code>props</code>属性设置后台对应参数</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&lt;el-cascader v-model=&quot;adress&quot; :options=&quot;optionsAdress&quot; :props=&quot;props&quot; clearable placeholder=&quot;请选择地区&quot;&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  data () {    &#x2F;&#x2F; 选择结果以数组方式展示    adress: [],    &#x2F;&#x2F; 选择器结果数据长下面这样    optionsAdress: [{ code: &#39;111&#39;, name: &#39;北京&#39;, cities: [{ code: &#39;112&#39;, name: &#39;海淀区&#39; }]}],    &#x2F;&#x2F; props设置参数对应属性    props: {      value: &#39;code&#39;,      label: &#39;name&#39;,      children: &#39;cities&#39;    },  }&lt;&#x2F;script&gt;</code></pre></li><li><p>在初始化获取省列表数据赋值给<code>optionsAdress</code>进行展示</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">data () {  optionsAdress: [],  &#x2F;&#x2F; ...},created () {  this.getProvice()},methods: {  getProvice () {    this.axios.get(&#39;proviceUrl&#39;).then(data =&gt; {      this.optionsAdress = data.data      &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},{ code: &#39;222&#39;, name: &#39;河北省&#39; }]并能在联级菜单进行显示    }).catch(err =&gt; {      console.log(err.msg)    })  }}</code></pre></li><li><p>我们通过点击省获取对应省的市地区，所以就得动态的给<code>optionsAdress</code>的对应项加<code>cities</code>子属性，看代码：</p><!-- Has Prism --><pre class="line-numbers" style="" ><code class="language-javascript">&#x2F;&#x2F; 用active-item-change监听省地区的变化&lt;el-cascader v-model=&quot;adress&quot; :options=&quot;optionsAdress&quot; :props=&quot;props&quot; clearable placeholder=&quot;请选择地区&quot;  @active-item-change=&quot;handleItemChange&quot;&gt;&lt;&#x2F;el-cascader&gt;&lt;script&gt;  data () {    adress: [],    optionsAdress: [],    props: {      value: &#39;code&#39;,      label: &#39;name&#39;,      children: &#39;cities&#39;    },  }  created () {    this.getProvice()  },  methods: {    getProvice () {      this.axios.get(&#39;proviceUrl&#39;).then(data =&gt; {        this.optionsAdress = data.data        &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},{ code: &#39;222&#39;, name: &#39;河北省&#39; }]并能在联级菜单进行显示      }).catch(err =&gt; {        console.log(err.msg)      })    },    handleItemChange (val) {      &#x2F;&#x2F; 根据省的code获取市的列表并添加到对应省的数据里      const that = this      that.optionsAdress.forEach(item =&gt; {        if (item.code === val[0]) {          that.axios.get(&#39;cityUrl&#39; + &#39;?proviceCode=&#39; + val[0]).then(data =&gt; {            item.cities = data.data            &#x2F;&#x2F; 现在，数据长这样：[{ code: &#39;111&#39;, name: &#39;北京&#39;},            &#x2F;&#x2F; { code: &#39;222&#39;, name: &#39;河北省&#39;, cities: [{ code: &#39;223&#39;, name: &#39;石家庄&#39; }]}]          }).catch(data =&gt; {            console.log(err.msg)          })        }      })    },  }&lt;&#x2F;script&gt;</code></pre></li></ol><p>以上即为获取省市的全部代码，<code>adress</code>的值即为最后选取的省市信息，也可以通过<code>change</code>事件监听值的变化，希望能帮到 大家</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 功能类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> element </tag>
+            
+            <tag> 联级选择器 </tag>
             
         </tags>
       
