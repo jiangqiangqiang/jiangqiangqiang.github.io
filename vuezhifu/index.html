@@ -421,7 +421,39 @@
     <div id="main-content" class="col s12 m12 l9">
         <!-- 文章内容详情 -->
 <div id="artDetail">
-    <div class="card">
+        <div style="position: absolute;right:10px;top:55px;width: 381px">
+            
+
+<link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<div class="music-player">
+    
+    <div class="row">
+        <div class="col l8 offset-l2 m10 offset-m1 s12">
+            <div id="aplayer" class="music"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script>
+$(function () {
+    new APlayer({
+        container: document.getElementById('aplayer'),
+        fixed: 'false' === 'true',
+        autoplay: 'false' === 'true',
+        theme: '#42b983',
+        loop: 'all',
+        order: 'list',
+        preload: 'auto',
+        volume: Number('0.7'),
+        listFolded: 'false' === 'true',
+        listMaxHeight: '',
+        audio: eval([{"name":"麻雀","artist":"李荣浩","url":"http://music.163.com/song/media/outer/url?id=1407551413.mp3","cover":"/medias/music/maque.jpg"},{"name":"世间美好与你环环相扣","artist":"柏松","url":"http://music.163.com/song/media/outer/url?id=1363948882.mp3","cover":"/medias/music/shijianmeihao.jpg"},{"name":"你的答案","artist":"阿冗","url":"http://music.163.com/song/media/outer/url?id=1400256289.mp3","cover":"/medias/music/daan.jpg"},{"name":"嚣张","artist":"en","url":"http://music.163.com/song/media/outer/url?id=1382596189.mp3","cover":"/medias/music/xiaozhang.jpg"},{"name":"那女孩对我说","artist":"Uu","url":"http://music.163.com/song/media/outer/url?id=1372796676.mp3","cover":"/medias/music/nanvhai.jpg"}])
+    });
+});
+</script>
+        </div>
+        <div class="card">
         <div class="card-content article-info">
             <div class="row tag-cate">
                 <div class="col s7">
@@ -452,7 +484,6 @@
                     
                 </div>
             </div>
-
             <div class="post-info">
                 
                 <div class="post-date info-break-policy">
